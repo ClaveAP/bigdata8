@@ -1,0 +1,49 @@
+preferred_payment_method,product_category_preference,total_transactions,avg_checkout_abandon,avg_cart_abandonment_rate,avg_order_value,avg_return_rate
+PayPal,Groceries,20862,5.0,40.23,255.77,50.0
+PayPal,Beauty,20998,5.01,40.04,257.05,50.23
+Apple Pay,Books,20982,4.97,40.38,253.92,49.89
+Credit Card,Toys,20517,5.0,40.05,256.45,50.22
+PayPal,Fashion,20556,5.0,40.15,254.6,50.28
+Google Pay,Groceries,20808,5.01,40.47,253.35,49.69
+Credit Card,Groceries,20689,4.98,40.03,255.5,50.01
+Google Pay,Fashion,20656,4.99,40.48,255.68,50.28
+Debit Card,Books,21014,5.02,40.08,255.27,49.47
+Credit Card,Electronics,20846,5.02,40.35,255.89,49.68
+Apple Pay,Beauty,20895,5.04,40.34,255.46,49.73
+Bank Transfer,Electronics,20758,4.99,40.05,254.36,50.02
+Bank Transfer,Sports,20585,5.03,40.49,256.44,49.88
+Debit Card,Fashion,20907,5.0,40.18,255.84,49.76
+Apple Pay,Home & Kitchen,20652,5.01,40.14,254.72,50.21
+Debit Card,Beauty,20902,5.01,40.09,255.51,50.01
+Credit Card,Beauty,20937,5.0,40.18,253.81,49.93
+Debit Card,Groceries,20571,4.99,40.07,256.58,50.02
+Bank Transfer,Toys,20990,4.99,40.1,253.98,49.82
+Bank Transfer,Beauty,20883,4.96,40.16,256.23,50.15
+Bank Transfer,Books,20642,4.97,40.24,254.62,50.22
+Apple Pay,Toys,20797,4.98,40.36,253.48,49.81
+Credit Card,Home & Kitchen,20545,4.98,39.98,254.54,49.93
+Debit Card,Home & Kitchen,20876,5.01,40.51,255.93,50.05
+PayPal,Books,20761,4.98,40.01,254.39,50.09
+Google Pay,Beauty,20794,5.01,39.99,256.55,50.13
+Google Pay,Toys,21157,5.01,40.27,253.93,49.93
+Apple Pay,Fashion,20986,4.99,40.4,255.02,50.19
+PayPal,Sports,20952,4.97,40.31,254.73,50.0
+Apple Pay,Sports,20830,5.01,39.82,254.21,49.92
+Debit Card,Toys,20634,4.99,40.56,254.15,50.05
+PayPal,Toys,20640,5.02,40.2,255.05,49.81
+Credit Card,Fashion,20851,4.99,39.67,254.14,49.84
+Apple Pay,Groceries,20999,4.98,40.38,254.95,50.17
+Google Pay,Books,20750,4.99,39.89,255.3,50.28
+Bank Transfer,Fashion,20948,4.96,40.36,256.24,50.01
+Apple Pay,Electronics,20842,5.0,40.4,254.56,49.89
+Bank Transfer,Groceries,21059,4.99,40.13,252.99,49.98
+Google Pay,Sports,20891,4.97,40.28,256.06,49.96
+Google Pay,Home & Kitchen,20970,5.02,40.2,252.41,49.93
+Debit Card,Electronics,21101,5.0,40.28,255.81,49.8
+PayPal,Electronics,20848,4.98,40.02,253.83,50.47
+Credit Card,Sports,20994,4.98,40.59,255.98,50.23
+Google Pay,Electronics,20679,5.05,40.32,253.39,50.08
+PayPal,Home & Kitchen,20723,4.97,40.39,255.37,50.02
+Bank Transfer,Home & Kitchen,20843,5.03,40.18,256.39,50.11
+Debit Card,Sports,20975,5.05,40.3,254.97,49.92
+Credit Card,Books,20905,5.01,40.04,256.16,50.15
