@@ -81,3 +81,55 @@ python src/export_looker_data.py
 - `reports/`: Hasil visualisasi grafik feature importance, diagram EDA, teks aturan IF-THEN, dan dashboard interaktif (`dashboard_visualisasi.html`).
 - `data/`: Folder penyimpanan lokal data mentah dan data Parquet (dilindungi `.gitkeep` dan `.gitignore`).
 - `models/`: Folder penyimpanan lokal artefak model Decision Tree PySpark MLlib.
+
+---
+
+## 📋 Task List & Status Pengerjaan (Tracking Delegasi Tim)
+
+Berikut adalah status aktivitas proyek mengacu pada timeline resmi perkuliahan. Bagian yang berstatus **[BELUM SELESAI]** dapat didelegasikan untuk pembagian tugas anggota tim:
+
+### ✅ Tugas yang Sudah Selesai (Completed - 55,6%)
+- [x] **Aktivitas 1**: Penyusunan Desain Teknis & Alur Data (Worksheet 4)
+- [x] **Aktivitas 2**: Setup Lingkungan & Ingestion Dataset E-Commerce (1M baris, PySpark 4.3)
+- [x] **Aktivitas 3**: Eksplorasi Data Awal (EDA) Sesi vs Abandonment & Visualisasi Korelasi
+- [x] **Aktivitas 4**: Pembersihan Data Skala Besar & Ekspor Apache Parquet (Kompresi 84.3%)
+- [x] **Aktivitas 5**: Feature Engineering: Binerisasi Label Risiko Abandonment
+- [x] **Aktivitas 6**: Encoding Variabel Kategorikal (StringIndexer 14 kolom & VectorAssembler)
+- [x] **Aktivitas 7**: Pembagian Dataset Terdistribusi (Train 80% / Test 20%)
+- [x] **Aktivitas 8**: Pelatihan Baseline Decision Tree Classifier
+- [x] **Aktivitas 9**: Hyperparameter Tuning & Pruning Decision Tree (Champion Model: Depth=7)
+- [x] **Aktivitas 10**: Evaluasi Kinerja Model (Akurasi, F1-Score, Model Comparison)
+
+---
+
+### ⏳ Tugas yang Belum Selesai & Next Steps (Siap Didelegasikan)
+
+#### 1. Perumusan Rekomendasi Strategis Bisnis & UI/UX (Aktivitas 12)
+- **Status**: Siap Dikerjakan
+- **Fokus Pekerjaan**:
+  - Menyusun dokumen rekomendasi intervensi bisnis di `docs/04_BUSINESS_RECOMMENDATIONS.md`.
+  - Menerjemahkan temuan *Top-10 Feature Importance* dan aturan *IF-THEN Rules* (dari file `reports/decision_tree_rules.txt`) menjadi solusi nyata untuk tim UI/UX, pemasaran, dan manajemen checkout e-commerce.
+
+#### 2. Finalisasi Dashboard Visualisasi Interaktif Looker Studio (Aktivitas 13)
+- **Status**: Siap Dikerjakan
+- **Fokus Pekerjaan**:
+  - Mengunggah 4 file CSV data mart dari folder `reports/looker_data/` ke Looker Studio / Google Sheets.
+  - Merangkai grafik: Scorecard KPI, Diagram Donut (Perangkat), Diagram Batang (Negara & Metode Pembayaran), serta Grafik Garis (Stres Finansial).
+  - Mengikuti blueprint tata letak yang sudah disusun di `docs/06_LOOKER_STUDIO_GUIDE.md`.
+
+#### 3. Penulisan Draft Jurnal Ilmiah / Manuskrip Publikasi (Aktivitas 14 & 16)
+- **Status**: Siap Dikerjakan (Target W8 - W12)
+- **Fokus Pekerjaan**:
+  - Menyusun struktur artikel ilmiah: Abstrak, Pendahuluan, Tinjauan Pustaka, Metodologi Big Data (PySpark & Decision Tree), Hasil & Pembahasan, serta Kesimpulan.
+  - Memasukkan tabel perbandingan model dan grafik feature importance ke dalam manuskrip.
+
+#### 4. Penyusunan Laporan Akhir & Dokumentasi Sistem (Aktivitas 15)
+- **Status**: Siap Dikerjakan (Target W10 - W12)
+- **Fokus Pekerjaan**:
+  - Mengompilasi seluruh dokumen teknis di folder `docs/` (`00_PROJECT_CHARTER`, `01_DATA_DICTIONARY`, `02_DATA_PIPELINE_LOG`, `03_MODEL_EXPERIMENTS`) menjadi satu dokumen Laporan Akhir Praktikum/Proyek.
+
+#### 5. Persiapan Slide Presentasi & Skenario Demo Showcase (Aktivitas 17 & 18)
+- **Status**: Menjelang Minggu 11 - 12
+- **Fokus Pekerjaan**:
+  - Membuat slide presentasi showcase (latar belakang, metodologi Big Data, demo dashboard Looker Studio, dan temuan IF-THEN rules).
+  - Menyusun pembagian sesi bicara untuk demo akhir produk di depan dosen penguji.
