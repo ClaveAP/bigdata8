@@ -1,14 +1,20 @@
-# Data files
+# Data files (Big Data 1M rows)
 data/raw/*
 data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
-# Model artifacts
+# Model weights and artifacts
 models/*
 !models/.gitkeep
 
-# Python cache & env
+# Credentials & API Keys (Crucial for collaboration security)
+kaggle.json
+*.env
+.env
+.env.*
+
+# Python environment & cache
 __pycache__/
 *.py[cod]
 *$py.class
@@ -17,15 +23,21 @@ __pycache__/
 env/
 venv/
 ENV/
-.env
+.venv/
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
 
+# IDE configurations
+.vscode/
+.idea/
+
 # Mac OS metadata
 .DS_Store
 
-# PySpark / Spark temp logs
+# PySpark / Spark temp files & logs
 derby.log
 metastore_db/
 spark-warehouse/
+*.parquet.crc
+._SUCCESS.crc
