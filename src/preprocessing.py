@@ -1,7 +1,8 @@
 """
 Modul Pembersihan Data Skala Besar & Rekayasa Fitur Awal (PySpark)
 Membaca CSV mentah 1.000.000 baris, memvalidasi missing values,
-membuat label target biner (is_high_abandonment), dan mengekspor ke format Apache Parquet.
+membuat label target biner (is_high_abandonment) berbasis cart_abandonment_rate (>= 40.0%),
+dan mengekspor ke format Apache Parquet.
 """
 
 import os
@@ -22,23 +23,23 @@ def run_preprocessing():
     initial_count = df.count()
     print(f"[SUCCESS] Data termuat: {initial_count:,} baris x {len(df.columns)} kolom")
     
-    # 1. Handling Missing Values (Drop baris yang memiliki nilai null pada kolom krusial)
+    # 1. Handling Missing Values pada kolom krusial
     print("\n[STEP 1] Validasi & Pembersihan Missing Values...")
     crucial_cols = [
-        "user_id", "checkout_abandonments_per_month", "cart_abandonment_rate",
-        "daily_session_time_minutes", "cart_items_average", "device_type",
-        "stress_from_financial_decisions", "monthly_spend"
+        "user_id", "cart_abandonment_rate", "stress_from_financial_decisions",
+        "impulse_buying_score", "monthly_spend", "daily_session_time_minutes", "device_type"
     ]
     df_clean = df.dropna(subset=crucial_cols)
     clean_count = df_clean.count()
-    print(f"[INFO] Baris setelah validasi null: {clean_count:,} baris (Dihapus: {initial_count - clean_count})")
+    print(f"[INFO] Baris setelah validasi: {clean_count:,} baris")
     
     # 2. Pembuatan Fitur Target Biner (is_high_abandonment)
-    # Threshold: >= 5 checkout abandonments/month = 1 (Tinggi), < 5 = 0 (Rendah)
-    print("\n[STEP 2] Rekayasa Variabel Target (is_high_abandonment)...")
+    # Rata-rata cart_abandonment_rate di dataset adalah 40.21%.
+    # Threshold: >= 40.0% = 1 (High Abandonment Risk), < 40.0% = 0 (Low Abandonment Risk)
+    print("\n[STEP 2] Rekayasa Variabel Target (is_high_abandonment berbasis cart_abandonment_rate >= 40%)...")
     df_transformed = df_clean.withColumn(
         "is_high_abandonment",
-        F.when(F.col("checkout_abandonments_per_month") >= 5, 1).otherwise(0)
+        F.when(F.col("cart_abandonment_rate") >= 40.0, 1).otherwise(0)
     )
     
     # Cek distribusi kelas target
@@ -48,7 +49,7 @@ def run_preprocessing():
         F.round(F.count("user_id") / clean_count * 100, 2).alias("percentage")
     ).show()
     
-    # 3. Ekspor ke Apache Parquet (Standar Industri Big Data dengan Kompresi Snappy)
+    # 3. Ekspor ke Apache Parquet (Snappy Compressed)
     print(f"\n[STEP 3] Menyimpan data terproses ke format Apache Parquet di: {PROCESSED_DATA_DIR}")
     if PROCESSED_DATA_DIR.exists():
         shutil.rmtree(PROCESSED_DATA_DIR)
@@ -60,7 +61,6 @@ def run_preprocessing():
         .parquet(str(PROCESSED_DATA_DIR))
     )
     
-    # Hitung ukuran storage Parquet vs CSV mentah
     raw_size_mb = RAW_DATA_PATH.stat().st_size / (1024 * 1024)
     parquet_size_mb = sum(f.stat().st_size for f in PROCESSED_DATA_DIR.glob("**/*.parquet")) / (1024 * 1024)
     compression_ratio = (1 - (parquet_size_mb / raw_size_mb)) * 100

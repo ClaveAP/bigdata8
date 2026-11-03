@@ -1,8 +1,8 @@
 """
 Modul Feature Engineering & ML Preparation (PySpark)
 Membaca dataset Parquet, melakukan encoding variabel kategorikal via StringIndexer,
-menggabungkan fitur dengan VectorAssembler, membagi data (Train 80% / Test 20%),
-dan menyimpan fitur siap latih ke Parquet.
+menggabungkan fitur dengan VectorAssembler (tanpa kebocoran target),
+membagi data (Train 80% / Test 20%), dan menyimpan ke Parquet.
 """
 
 from pathlib import Path
@@ -23,7 +23,7 @@ def run_feature_engineering():
     total_records = df.count()
     print(f"[SUCCESS] Data termuat: {total_records:,} baris")
 
-    # 1. Identifikasi Fitur Kategorikal untuk StringIndexer
+    # 1. Kolom Kategorikal untuk StringIndexer
     categorical_cols = [
         "gender", "country", "urban_rural", "employment_status",
         "education_level", "relationship_status", "occupation",
@@ -32,7 +32,7 @@ def run_feature_engineering():
         "shopping_time_of_day", "budgeting_style"
     ]
     
-    # Fitur Numerik Utama (Demografi, Perilaku, Finansial, Sesi)
+    # 2. Fitur Numerik Independen (HAPUS cart_abandonment_rate & checkout_abandonments agar tidak bocor)
     numeric_cols = [
         "age", "income_level", "household_size", "has_children",
         "weekly_purchases", "monthly_spend", "average_order_value",
@@ -55,7 +55,6 @@ def run_feature_engineering():
         for col_name in categorical_cols
     ]
     
-    # 2. VectorAssembler: Menggabungkan seluruh fitur ke dalam 1 vektor fitur 'features'
     indexed_categorical_cols = [f"{col_name}_idx" for col_name in categorical_cols]
     feature_columns = numeric_cols + indexed_categorical_cols
     assembler = VectorAssembler(inputCols=feature_columns, outputCol="features")
@@ -74,7 +73,7 @@ def run_feature_engineering():
     print(f"[INFO] Train Set : {train_count:,} baris")
     print(f"[INFO] Test Set  : {test_count:,} baris")
 
-    # 4. Simpan Train & Test ke Parquet agar siap dilatih oleh Decision Tree
+    # 4. Simpan Train & Test ke Parquet
     print("\n[STEP 3] Menyimpan Train & Test data ke Parquet...")
     train_df.select("features", "is_high_abandonment").write.mode("overwrite").parquet(str(TRAIN_PARQUET_DIR))
     test_df.select("features", "is_high_abandonment").write.mode("overwrite").parquet(str(TEST_PARQUET_DIR))
