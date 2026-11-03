@@ -1,0 +1,31 @@
+# Data files
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Model artifacts
+models/*
+!models/.gitkeep
+
+# Python cache & env
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Mac OS metadata
+.DS_Store
+
+# PySpark / Spark temp logs
+derby.log
+metastore_db/
+spark-warehouse/
