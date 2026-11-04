@@ -1,0 +1,11 @@
+feature_name,importance_score,percentage_contribution
+impulse_buying_score,0.949871,94.99
+stress_from_financial_decisions,0.047223,4.72
+product_category_preference,0.000195,0.02
+country,0.000174,0.02
+occupation,0.000173,0.02
+preferred_payment_method,0.000139,0.01
+notification_response_rate,0.000120,0.01
+ad_views_per_day,0.000107,0.01
+referral_count,0.000098,0.01
+daily_session_time_minutes,0.000091,0.01
