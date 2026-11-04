@@ -41,3 +41,7 @@ metastore_db/
 spark-warehouse/
 *.parquet.crc
 ._SUCCESS.crc
+
+# Documents & raw college assignments
+*.docx
+*.pdf
