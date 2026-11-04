@@ -2,9 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Executive Dashboard - Big Data Analytics</title>
+  <title>Executive Dashboard - Big Data Analytics (1.000.000 Baris)</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: #0f172a; color: #f8fafc; padding: 24px; }
@@ -23,119 +23,185 @@
     .chart-box { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; }
     .chart-box h3 { font-size: 15px; font-weight: 700; color: #f1f5f9; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
     .chart-box h3 span { font-size: 11px; font-weight: 400; color: #94a3b8; }
-    
-    .filter-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; background: #1e293b; padding: 12px 16px; border-radius: 8px; border: 1px solid #334155; }
-    .filter-bar label { font-size: 13px; font-weight: 600; color: #cbd5e1; }
-    .filter-bar select { background: #0f172a; color: #f8fafc; border: 1px solid #475569; padding: 6px 12px; border-radius: 6px; font-size: 13px; outline: none; }
+
+    .business-banner { background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%); border: 1px solid #38bdf8; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .business-banner h4 { font-size: 15px; color: #38bdf8; font-weight: 700; margin-bottom: 8px; }
+    .business-banner p { font-size: 13px; color: #cbd5e1; line-height: 1.6; }
   </style>
 </head>
 <body>
 
   <div class="header">
     <div>
-      <h1>EXECUTIVE DASHBOARD: CHECKOUT ABANDONMENT ANALYSIS</h1>
+      <h1>EXECUTIVE DASHBOARD: E-COMMERCE CART ABANDONMENT ANALYTICS</h1>
       <p>Kelompok 8: Anggrek Mekar Cilibende | Big Data Processing via Apache Spark (1.000.000 Profil Pengguna)</p>
     </div>
-    <div class="badge">Apache Spark MLlib Engine</div>
-  </div>
-
-  <div class="filter-bar">
-    <label for="deviceFilter">⚡ Filter Interaktif Device:</label>
-    <select id="deviceFilter" onchange="updateDashboard(this.value)">
-      <option value="ALL">Semua Perangkat (1.000.000 User)</option>
-      <option value="Mobile">Mobile App Shoppers (600.247 User)</option>
-      <option value="Desktop">Desktop Shoppers (299.845 User)</option>
-      <option value="Tablet">Tablet Shoppers (99.908 User)</option>
-    </select>
-    <span style="font-size: 12px; color: #94a3b8; margin-left: auto;">Status Pipeline: Data Mart Parquet Connected</span>
+    <div class="badge">Apache Spark MLlib & Decision Tree Engine</div>
   </div>
 
   <div class="scorecards">
     <div class="card">
       <div class="title">Total Data Pengguna</div>
-      <div class="value" id="kpi-users">1.000.000</div>
-      <div class="subtext">Skala Big Data Terdistribusi</div>
+      <div class="value">1.000.000</div>
+      <div class="subtext">Skala Big Data Terdistribusi (Parquet)</div>
     </div>
     <div class="card">
-      <div class="title">Rata-rata Batal / User / Bulan</div>
-      <div class="value" id="kpi-abandon">5,00</div>
-      <div class="subtext">Rentang: 0 s.d. 10 Kali / Bulan</div>
-    </div>
-    <div class="card">
-      <div class="title">Cart Abandonment Rate</div>
-      <div class="value" id="kpi-rate">40,21%</div>
-      <div class="subtext">Potensi Omzet Belanja Tertahan</div>
+      <div class="title">Rata-rata Cart Abandonment</div>
+      <div class="value">40,21%</div>
+      <div class="subtext">Ambang Batas Risiko Tinggi &ge; 40.0%</div>
     </div>
     <div class="card">
       <div class="title">Model Akurasi (Decision Tree)</div>
-      <div class="value" style="color: #4ade80;">54,52%</div>
-      <div class="subtext">Champion Depth=7, Pruning=20</div>
+      <div class="value" style="color: #4ade80;">93,95%</div>
+      <div class="subtext">Champion Tuned Model (200.277 Test Data)</div>
     </div>
+    <div class="card">
+      <div class="title">Model ROC-AUC Score</div>
+      <div class="value" style="color: #38bdf8;">0,9832</div>
+      <div class="subtext">Separasi Kelas Nyaris Sempurna</div>
+    </div>
+  </div>
+
+  <div class="business-banner">
+    <h4>💡 Kesimpulan Strategis Eksekutif (Key Business Takeaway):</h4>
+    <p>
+      Pembatalan transaksi bukan disebabkan oleh keterbatasan daya beli konsumen (anggaran belanja kelompok pembatal dan kelompok loyal sama-sama <b>$2.500/bulan</b> dengan durasi browsing <b>60 menit</b>). 
+      Pemicu utama murni adalah <b>friksi psikologis sesaat (Buyer's Remorse)</b>: dorongan belanja impulsif tinggi (skor 7.68) bertabrakan dengan kepanikan stres finansial (skor 7.59) saat melihat akumulasi total tagihan. 
+      Rekomendasi intervensi: <b>Integrasi opsi Buy Now Pay Later (BNPL) 0% di keranjang</b> dan tombol <b>"Beli 1 Sekarang, Simpan Sisanya untuk Nanti"</b>.
+    </p>
   </div>
 
   <div class="grid-charts">
     <div class="chart-box">
-      <h3>1. Sebaran Pengguna Berdasarkan Perangkat <span>(Dominasi Mobile)</span></h3>
-      <div style="height: 260px; display: flex; justify-content: center;">
-        <canvas id="deviceChart"></canvas>
-      </div>
-    </div>
-    <div class="chart-box">
-      <h3>2. Rata-rata Pembatalan per Negara Pasar Utama <span>(Geografis)</span></h3>
-      <div style="height: 260px;">
-        <canvas id="countryChart"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid-charts">
-    <div class="chart-box">
-      <h3>3. Tren Pembatalan vs Tingkat Stres Finansial <span>(Faktor Psikologis)</span></h3>
-      <div style="height: 260px;">
+      <h3>1. Tren Stres Finansial vs Lonjakan Pembatalan <span>(Faktor Psikologis Dominan)</span></h3>
+      <div style="height: 280px;">
         <canvas id="stressChart"></canvas>
       </div>
     </div>
     <div class="chart-box">
-      <h3>4. Top Faktor Pendorong Pembatalan <span>(Feature Importance Decision Tree)</span></h3>
-      <div style="height: 260px;">
+      <h3>2. Top Faktor Pendorong Pembatalan <span>(Feature Importance Decision Tree)</span></h3>
+      <div style="height: 280px;">
         <canvas id="featureChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-charts">
+    <div class="chart-box">
+      <h3>3. Sebaran Pengguna Berdasarkan Perangkat <span>(Pangsa Pasar Mobile-First)</span></h3>
+      <div style="height: 280px; display: flex; justify-content: center;">
+        <canvas id="deviceChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-box">
+      <h3>4. Kontras Persona Pelanggan: High vs Low Abandonment <span>(Daya Beli vs Mental)</span></h3>
+      <div style="height: 280px;">
+        <canvas id="personaChart"></canvas>
       </div>
     </div>
   </div>
 
   <script>
     // Data Ingestion hasil olahan PySpark
-    const rawData = {
-      totalUsers: 1000000,
-      devices: {
-        labels: ['Mobile', 'Desktop', 'Tablet'],
-        users: [600247, 299845, 99908],
-        abandon: [5.00, 5.00, 4.99],
-        rate: ['40.23%', '40.17%', '40.20%']
-      },
-      countries: {
-        labels: ['Germany', 'USA', 'UK', 'Canada', 'Australia', 'Japan', 'India', 'France'],
-        values: [5.02, 5.01, 5.00, 4.99, 5.00, 4.98, 5.01, 4.99]
-      },
+    const dashboardData = {
       stress: {
         scores: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         impulse: [0.6, 1.2, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 8.8, 9.4],
-        abandon: [4.98, 4.99, 5.00, 5.00, 5.01, 5.02, 5.00, 5.01, 5.00, 5.02, 5.03]
+        abandonRate: [4.71, 9.55, 16.09, 24.00, 32.02, 39.98, 47.99, 56.03, 64.06, 70.98, 77.03]
       },
       features: {
-        names: ['Country', 'Occupation', 'Income Level', 'Ad Views / Day', 'Notification Rate', 'Payment Method', 'Activity Level', 'Return Rate'],
-        scores: [0.1123, 0.0654, 0.0579, 0.0441, 0.0414, 0.0408, 0.0356, 0.0342]
+        names: [
+          'Impulse Buying Score (94.99%)',
+          'Financial Decision Stress (4.72%)',
+          'Product Category (0.02%)',
+          'Country (0.02%)',
+          'Occupation (0.02%)',
+          'Payment Method (0.01%)',
+          'Notification Response (0.01%)',
+          'Ad Views / Day (0.01%)'
+        ],
+        scores: [94.99, 4.72, 0.02, 0.02, 0.02, 0.01, 0.01, 0.01]
+      },
+      devices: {
+        labels: ['Mobile (60.0%)', 'Desktop (30.0%)', 'Tablet (10.0%)'],
+        users: [600247, 299845, 99908]
+      },
+      persona: {
+        metrics: ['Skor Impulsif (0-10)', 'Stres Finansial (0-10)'],
+        highRisk: [7.68, 7.59],
+        lowRisk: [2.26, 2.35]
       }
     };
 
-    // Chart 1: Donut Device
+    // Chart 1: Line Chart Stres vs Pembatalan
+    const ctxStress = document.getElementById('stressChart').getContext('2d');
+    new Chart(ctxStress, {
+      type: 'line',
+      data: {
+        labels: dashboardData.stress.scores,
+        datasets: [
+          {
+            label: 'Tingkat Pembatalan Keranjang (%)',
+            data: dashboardData.stress.abandonRate,
+            borderColor: '#f87171',
+            backgroundColor: 'rgba(248, 113, 113, 0.15)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.3
+          },
+          {
+            label: 'Skor Belanja Impulsif (x8 Skala)',
+            data: dashboardData.stress.impulse.map(v => v * 8),
+            borderColor: '#38bdf8',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#cbd5e1' } } },
+        scales: {
+          x: { title: { display: true, text: 'Tingkat Stres Finansial Konsumen (Skor 0-10)', color: '#94a3b8' }, ticks: { color: '#94a3b8' } },
+          y: { title: { display: true, text: 'Persentase (%) / Skor Disesuaikan', color: '#94a3b8' }, ticks: { color: '#94a3b8' } }
+        }
+      }
+    });
+
+    // Chart 2: Feature Importance Horizontal Bar
+    const ctxFeature = document.getElementById('featureChart').getContext('2d');
+    new Chart(ctxFeature, {
+      type: 'bar',
+      data: {
+        labels: dashboardData.features.names,
+        datasets: [{
+          label: 'Kontribusi Keputusan (%)',
+          data: dashboardData.features.scores,
+          backgroundColor: '#38bdf8'
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { max: 100, ticks: { color: '#94a3b8' } },
+          y: { ticks: { color: '#cbd5e1', font: { size: 11 } } }
+        }
+      }
+    });
+
+    // Chart 3: Doughnut Device
     const ctxDevice = document.getElementById('deviceChart').getContext('2d');
-    const deviceChart = new Chart(ctxDevice, {
+    new Chart(ctxDevice, {
       type: 'doughnut',
       data: {
-        labels: rawData.devices.labels,
+        labels: dashboardData.devices.labels,
         datasets: [{
-          data: rawData.devices.users,
+          data: dashboardData.devices.users,
           backgroundColor: ['#38bdf8', '#818cf8', '#c084fc'],
           borderWidth: 0
         }]
@@ -143,114 +209,39 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { size: 12 } } }
-        }
+        plugins: { legend: { position: 'bottom', labels: { color: '#cbd5e1' } } }
       }
     });
 
-    // Chart 2: Bar Country
-    const ctxCountry = document.getElementById('countryChart').getContext('2d');
-    const countryChart = new Chart(ctxCountry, {
+    // Chart 4: Persona Head-to-Head
+    const ctxPersona = document.getElementById('personaChart').getContext('2d');
+    new Chart(ctxPersona, {
       type: 'bar',
       data: {
-        labels: rawData.countries.labels,
-        datasets: [{
-          label: 'Rata-rata Batal / Bulan',
-          data: rawData.countries.values,
-          backgroundColor: '#38bdf8',
-          borderRadius: 4
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: { min: 4.8, max: 5.2, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
-          x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-        },
-        plugins: { legend: { display: false } }
-      }
-    });
-
-    // Chart 3: Line Stress vs Impulse
-    const ctxStress = document.getElementById('stressChart').getContext('2d');
-    new Chart(ctxStress, {
-      type: 'line',
-      data: {
-        labels: rawData.stress.scores,
+        labels: dashboardData.persona.metrics,
         datasets: [
           {
-            label: 'Skor Belanja Impulsif',
-            data: rawData.stress.impulse,
-            borderColor: '#f43f5e',
-            backgroundColor: 'rgba(244, 63, 94, 0.1)',
-            fill: true,
-            tension: 0.3,
-            yAxisID: 'y'
+            label: 'High Abandonment User (Class 1)',
+            data: dashboardData.persona.highRisk,
+            backgroundColor: '#f87171'
+          },
+          {
+            label: 'Low Abandonment User (Class 0)',
+            data: dashboardData.persona.lowRisk,
+            backgroundColor: '#4ade80'
           }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#cbd5e1' } } },
         scales: {
-          y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' }, title: { display: true, text: 'Skor Impulsif (0-10)', color: '#94a3b8' } },
-          x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' }, title: { display: true, text: 'Tingkat Stres Finansial', color: '#94a3b8' } }
-        },
-        plugins: { legend: { labels: { color: '#cbd5e1' } } }
+          y: { max: 10, ticks: { color: '#94a3b8' } },
+          x: { ticks: { color: '#cbd5e1' } }
+        }
       }
     });
-
-    // Chart 4: Horizontal Bar Feature Importance
-    const ctxFeature = document.getElementById('featureChart').getContext('2d');
-    new Chart(ctxFeature, {
-      type: 'bar',
-      data: {
-        labels: rawData.features.names,
-        datasets: [{
-          label: 'Tingkat Kepentingan (Weight)',
-          data: rawData.features.scores,
-          backgroundColor: '#34d399',
-          borderRadius: 4
-        }]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
-          y: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-        },
-        plugins: { legend: { display: false } }
-      }
-    });
-
-    // Interactivity Filter Function
-    function updateDashboard(val) {
-      const kpiUsers = document.getElementById('kpi-users');
-      const kpiAbandon = document.getElementById('kpi-abandon');
-      const kpiRate = document.getElementById('kpi-rate');
-      
-      if (val === 'Mobile') {
-        kpiUsers.innerText = '600.247';
-        kpiAbandon.innerText = '5,00';
-        kpiRate.innerText = '40,23%';
-      } else if (val === 'Desktop') {
-        kpiUsers.innerText = '299.845';
-        kpiAbandon.innerText = '5,00';
-        kpiRate.innerText = '40,17%';
-      } else if (val === 'Tablet') {
-        kpiUsers.innerText = '99.908';
-        kpiAbandon.innerText = '4,99';
-        kpiRate.innerText = '40,20%';
-      } else {
-        kpiUsers.innerText = '1.000.000';
-        kpiAbandon.innerText = '5,00';
-        kpiRate.innerText = '40,21%';
-      }
-    }
   </script>
 </body>
 </html>

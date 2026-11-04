@@ -9,6 +9,8 @@ data/processed/train_data_parquet/*
 # CRC metadata files
 *.parquet.crc
 ._SUCCESS.crc
+.*.crc
+*.crc
 
 # Credentials & API Keys (Crucial for collaboration security)
 kaggle.json
