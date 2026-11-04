@@ -19,7 +19,14 @@ Untuk presentasi ke dosen atau uji coba langsung tanpa instalasi lingkungan loka
 
 - **Auto-Detection Multi-Platform**: Dapat langsung dijalankan di **VS Code lokal** maupun diunggah ke **[Google Colab](https://colab.research.google.com)**.
 - **Auto-Cloning di Colab**: Saat dibuka di Colab, sel pertama secara cerdas mendeteksi lingkungan cloud, otomatis mengklon repositori, dan langsung membaca data Parquet serta model terlatih tanpa error *Path does not exist*.
-- **Semua Fitur Tersedia**: Menampilkan pembacaan 1 juta baris data Parquet, grafik tren psikologis belanja, evaluasi akurasi 93.95% & ROC-AUC 0.9832, hingga **Simulator Prediksi Risiko Pelanggan Baru** interaktif.
+- **6 Visualisasi Analitis Lengkap**:
+  1. *Tren Korelasi Garis*: Stres Finansial vs Lonjakan Pembatalan Keranjang (4.7% ke 77.0%).
+  2. *Matriks Korelasi Heatmap*: Hubungan Pearson 7 fitur perilaku belanja kunci.
+  3. *Pangsa Pasar & Perangkat*: Donut Chart dominasi Mobile (60%) dan Bar Chart Metode Pembayaran.
+  4. *Evaluasi Rapor Model*: Heatmap Confusion Matrix pada 200.277 data uji (Akurasi 93.95%).
+  5. *Explainable AI (XAI)*: Horizontal Bar Chart Top 10 Feature Importance & Aturan IF-THEN.
+  6. *Customer Persona Profiling*: Komparasi head-to-head persona High vs Low Abandonment (Skor Impulsif 7.68 vs 2.26).
+- **Simulator Prediksi Interaktif**: Uji coba profil pelanggan baru secara real-time dengan rekomendasi aksi bisnis (BNPL / 1-Click Checkout / Exit-Intent Voucher).
 
 ---
 

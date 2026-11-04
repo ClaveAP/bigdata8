@@ -49,3 +49,23 @@ Konsumen e-commerce sangat mudah terpicu dorongan emosional saat melihat iklan a
 | **Fitur Save-for-Later Satu Klik** | Pengguna Impulsif $\ge 6$ | Turun 10 - 15% | Peningkatan *Completed Checkout Rate* |
 | **Exit-Intent Micro-Discount (Gratis Ongkir)** | Pengguna Idle di Checkout | Turun 5 - 7% | *Redemption Rate* voucher checkout darurat |
 | **Transparansi Biaya & Estimasi Ongkir** | Seluruh Segmen Pengguna | Turun 6 - 9% | Penurunan rasio *bounce rate* di halaman checkout |
+
+---
+
+## 4. Profil Persona Pelanggan Berbasis Data Skala Besar (1.000.000 Baris)
+
+Berdasarkan komparasi data statistik riil antara dua segmen pengguna, ditemukan profil perilaku kontras:
+
+| Karakteristik Metrik | Persona 1: Konsumen Risiko Batal (Class 1) | Persona 2: Konsumen Loyal / Stabil (Class 0) | Analisis Kontras Perilaku |
+| :--- | :---: | :---: | :--- |
+| **Skor Belanja Impulsif** | **7,68 / 10** | **2,26 / 10** | **3,4x Lebih Tinggi** pada kelompok pembatal |
+| **Stres Keputusan Finansial** | **7,59 / 10** | **2,35 / 10** | **3,2x Lebih Tinggi** pada kelompok pembatal |
+| **Rata-rata Belanja Bulanan** | \$2.496,58 | \$2.501,02 | **Hampir Identik** (Bukan masalah daya beli) |
+| **Average Order Value (AOV)** | \$255,01 | \$255,05 | **Identik** (Besar belanjaan per transaksi sama) |
+| **Rata-rata Isi Keranjang** | 5,50 item | 5,49 item | **Identik** (Jumlah barang per transaksi sama) |
+| **Durasi Sesi Aplikasi** | 60,01 menit | 60,02 menit | **Identik** (Waktu browsing sama-sama 1 jam) |
+
+### 💡 Temuan Kunci untuk Manajemen E-Commerce:
+1. **Bukan Masalah Kemampuan Finansial (Daya Beli)**: Kedua kelompok memiliki anggaran belanja bulanan yang sama persis (\$2.500) dan nilai keranjang yang sama (\$255).
+2. **Bukan Masalah Desain Katalog atau Waktu Browsing**: Keduanya sama-sama meluangkan waktu 1 jam menjelajahi platform.
+3. **Penyebab Utama Murni adalah Friksi Mental (*Buyer's Remorse Friction*)**: Konsumen impulsif mengalami lonjakan kecemasan di halaman pembayaran. Strategi intervensi harus difokuskan pada **reassurance (menenangkan kecemasan pembeli)** melalui fasilitas cicilan ringan dan pemecahan keranjang belanja (*Split Cart*).

@@ -71,3 +71,19 @@ Meskipun Logistic Regression dan Random Forest memiliki metrik ROC-AUC yang bers
    - Decision Tree melatih 800.000 data hanya dalam **22.67 detik**, hampir **3x lebih cepat** daripada Random Forest (63.68 detik) dan 2x lebih cepat dibanding Logistic Regression (45.05 detik).
 3. **Kesesuaian dengan Dokumen Praktikum 2 & Worksheet 4**:
    - Target pembelajaran mata kuliah Teknologi Big Data adalah menghasilkan model interpretable yang dapat diekstrak menjadi logika bisnis terapan.
+
+---
+
+## 5. Rincian Confusion Matrix pada Data Uji (200.277 Pengguna)
+
+Evaluasi mendalam dilakukan untuk melihat tingkat kesalahan klasifikasi (*misclassification rate*) model Champion Decision Tree:
+
+| Kategori Evaluasi | Definisi Prediksi | Jumlah Pengguna | Persentase Data Uji | Keterangan |
+| :--- | :--- | :---: | :---: | :--- |
+| **True Negative (TN)** | Aktual: Low Risk (0) $\rightarrow$ Diprediksi: Low Risk (0) | **92.994** | 46,43% | Tebakan tepat: Pembeli loyal |
+| **True Positive (TP)** | Aktual: High Risk (1) $\rightarrow$ Diprediksi: High Risk (1) | **95.162** | 47,52% | Tebakan tepat: Pembeli batal |
+| **False Negative (FN)** | Aktual: High Risk (1) $\rightarrow$ Diprediksi: Low Risk (0) | 6.192 | 3,09% | Error Tipe II: Lolos deteksi |
+| **False Positive (FP)** | Aktual: Low Risk (0) $\rightarrow$ Diprediksi: High Risk (1) | 5.929 | 2,96% | Error Tipe I: Salah duga |
+| **TOTAL DATA UJI** | Seluruh data uji (*unseen test set*) | **200.277** | 100,00% | **Akurasi Total: 93,95%** |
+
+- **Insight Evaluasi**: Kedua tingkat kesalahan (FN 3.09% dan FP 2.96%) sangat rendah dan simetris, membuktikan model memiliki nilai **F1-Score 0.9395** yang sangat stabil tanpa bias terhadap salah satu kelas.

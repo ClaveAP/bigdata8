@@ -11,8 +11,8 @@
 
 ## Ringkasan Progres Proyek
 - **Total Tugas**: 18 Aktivitas
-- **Selesai**: 12 (66,7%)
-- **Dalam Proses**: 1 (Pengembangan Dashboard Visualisasi Interaktif & Data Marts)
+- **Selesai**: 13 (72,2%)
+- **Dalam Proses**: 1 (Penyusunan Draft Jurnal Ilmiah / Worksheet 5)
 - **Target Milestone Akhir**: Minggu 12 (Final Showcase, Demo Produk, Laporan Akhir, & Draft Jurnal)
 
 ---
@@ -33,8 +33,8 @@
 | **10** | Evaluasi Kinerja Model (Akurasi, F1, Matrix) | Model Evaluation | Tinggi | **Selesai** | W10 | Komparasi 3 Model (LR vs DT vs RF) |
 | **11** | Ekstraksi Feature Importance & IF-THEN Rules | Business Insights | Tinggi | **Selesai** | W10 | Impulse Score (94.99%) & Stress Finansial (4.72%) |
 | **12** | Perumusan Rekomendasi Tim UI/UX & Pemasaran | Business Insights | Sedang | **Selesai** | W10 - W11 | Strategi BNPL, Save-for-Later, dan Anti-Idle Discount |
-| **13** | Pengembangan Dashboard Visualisasi Interaktif | BI & Visualisasi | Tinggi | **Sedang Berjalan** | W10 - W11 | Looker Studio Data Marts siap (4 file CSV di reports/) |
-| **14** | Draft Jurnal Ilmiah (Metodologi & Analisis) | Publikasi Ilmiah | Tinggi | Belum Dimulai | W8 - W10 | Penulisan artikel ilmiah |
+| **13** | Pengembangan Dashboard Visualisasi Interaktif | BI & Visualisasi | Tinggi | **Selesai** | W10 - W11 | 5 Data Marts Looker Studio & Notebook Showcase 6 Visualisasi Selesai |
+| **14** | Draft Jurnal Ilmiah (Metodologi & Analisis) | Publikasi Ilmiah | Tinggi | **Sedang Berjalan** | W8 - W10 | Penulisan naskah artikel ilmiah |
 | **15** | Penyusunan Laporan Akhir & Dokumentasi Sistem | Laporan Akhir | Tinggi | Belum Dimulai | W10 - W12 | Laporan komprehensif kuliah |
 | **16** | Review Manuskrip Jurnal & Finalisasi Publikasi | Publikasi Ilmiah | Sedang | Belum Dimulai | W11 - W12 | Peer review & finishing draft jurnal |
 | **17** | Persiapan Slide Presentasi & Skenario Demo | Presentasi & Demo | Tinggi | Belum Dimulai | W11 - W12 | Deck presentasi & video demo |

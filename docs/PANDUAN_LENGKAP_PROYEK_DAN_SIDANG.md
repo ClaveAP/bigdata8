@@ -334,3 +334,39 @@ Banyak dosen atau penguji yang meminta demo langsung via **Google Colab**. Noteb
    - Script akan otomatis mengeksekusi `git clone https://github.com/ClaveAP/bigdata8.git /content/bigdata8` dan memindahkan direktori kerja ke folder repositori tersebut.
    - Semua path data Parquet dan model langsung terdeteksi (**Exists: Tersedia ✅**).
 3. **Hasilnya**: Dosen atau rekan tim tinggal mengunggah file notebook atau membuka link Colab dan klik **"Run All"**, seluruh sel (baca data, plot grafik, evaluasi akurasi 94%, hingga simulasi interaktif) langsung berjalan sukses dengan tanda centang hijau!
+
+---
+
+# 12. Panduan 6 Visualisasi Showcase & Cara Menjelaskannya ke Dosen
+
+Pada notebook `notebooks/01_e_commerce_abandonment_showcase.ipynb`, terdapat **6 visualisasi kunci**. Hafalkan cara menjelaskan masing-masing grafik berikut:
+
+### 📈 Visualisasi 1: Tren Stres Finansial vs Lonjakan Pembatalan
+- **Apa yang Ditampilkan**: Garis merah (pembatalan) dan garis biru (skor impulsif) yang naik serentak seiring bertambahnya stres finansial (skor 0 sampai 10).
+- **Cara Menjelaskan ke Dosen**:
+  > *"Pak/Bu, grafik ini membuktikan hipotesis utama kami: saat stres finansial naik dari 0 ke 10, tingkat pembatalan keranjang melonjak drastis dari **4.71% ke 77.03%**. Hal ini membuktikan korelasi kuat sebesar +0.94."*
+
+### 🌡️ Visualisasi 2: Heatmap Matriks Korelasi Pearson
+- **Apa yang Ditampilkan**: Matriks korelasi 7 fitur perilaku belanja kunci dengan kode warna.
+- **Cara Menjelaskan ke Dosen**:
+  > *"Melalui heatmap ini terlihat jelas hanya ada dua kotak merah tua (+0.96 dan +0.94), yaitu belanja impulsif dan stres finansial. Sebaliknya, durasi sesi dan pengeluaran bernilai mendekati nol. Artinya pembatalan bukan masalah waktu browsing, tapi murni friksi psikologis."*
+
+### 📱 Visualisasi 3: Pangsa Perangkat (Donut Chart) & Metode Bayar (Bar Chart)
+- **Apa yang Ditampilkan**: Donut chart menunjukkan **Mobile Shopper mendominasi 60% (600.247 user)**, Desktop 30%, Tablet 10%. Bar chart menunjukkan sebaran seimbang antar metode pembayaran.
+- **Cara Menjelaskan ke Dosen**:
+  > *"Karena 60% pengguna berbelanja lewat smartphone, seluruh rekomendasi retensi checkout kami wajib berprinsip Mobile-First: ringkas, minim formulir, dan tombol pembayaran satu klik."*
+
+### 🎯 Visualisasi 4: Confusion Matrix Heatmap (Data Uji 200.277 Pengguna)
+- **Apa yang Ditampilkan**: Kotak hijau gelap pada diagonal utama (92.994 True Negatives dan 95.162 True Positives).
+- **Cara Menjelaskan ke Dosen**:
+  > *"Ini adalah bukti evaluasi objektif kami pada 200.277 data uji. Model berhasil menebak tepat sebanyak 188.156 pengguna (Akurasi 93.95%), dengan tingkat kesalahan sangat rendah: False Negative hanya 3.09% dan False Positive hanya 2.96%."*
+
+### 🌲 Visualisasi 5: Feature Importance Decision Tree
+- **Apa yang Ditampilkan**: Diagram batang mendatar di mana `impulse_buying_score` (94.99%) dan `stress_from_financial_decisions` (4.72%) mendominasi mutlak.
+- **Cara Menjelaskan ke Dosen**:
+  > *"Model Decision Tree membuktikan secara matematis bahwa 99.71% keputusan pembatalan keranjang dikontrol oleh dua faktor psikologis ini, melahirkan aturan IF-THEN operasional."*
+
+### 👥 Visualisasi 6: Kontras Persona Pelanggan (High vs Low Abandonment)
+- **Apa yang Ditampilkan**: Komparasi head-to-head di mana skor impulsif (7.68 vs 2.26) dan stres (7.59 vs 2.35) berbeda hingga 3.4 kali lipat, sementara anggaran belanja (\$2.500) dan waktu sesi (60 menit) sama persis.
+- **Cara Menjelaskan ke Dosen**:
+  > *"Grafik ini adalah kesimpulan bisnis terpenting kami: pembeli yang membatalkan transaksi sebenarnya memiliki daya beli yang sama dengan pembeli loyal. Mereka batal hanya karena kepanikan sesaat di halaman pembayaran (Buyer's Remorse), sehingga dapat diselamatkan dengan opsi BNPL dan cicilan 0%."*
