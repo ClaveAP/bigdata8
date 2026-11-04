@@ -1,12 +1,14 @@
-# Data files (Big Data 1M rows)
+# Raw Data (233.6 MB CSV - kept local)
 data/raw/*
-data/processed/*
 !data/raw/.gitkeep
-!data/processed/.gitkeep
 
-# Model weights and artifacts
-models/*
-!models/.gitkeep
+# Train Parquet Data (63 MB - kept local since model is already trained)
+data/processed/train_data_parquet/*
+!data/processed/train_data_parquet/.gitkeep
+
+# CRC metadata files
+*.parquet.crc
+._SUCCESS.crc
 
 # Credentials & API Keys (Crucial for collaboration security)
 kaggle.json
@@ -39,8 +41,6 @@ ENV/
 derby.log
 metastore_db/
 spark-warehouse/
-*.parquet.crc
-._SUCCESS.crc
 
 # Documents & raw college assignments
 *.docx

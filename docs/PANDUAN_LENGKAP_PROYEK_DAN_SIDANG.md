@@ -315,3 +315,22 @@ Hafalkan istilah-istilah ini agar kamu terdengar sangat menguasai materi saat pr
 > **Tips Presentasi Kelompok Anggrek Mekar Cilibende**:
 > - Tampil percaya diri, bagi peran secara jelas (pembuka latar belakang, penjelasan teknis PySpark & data engineering, pembahasan model & tuning, serta presentasi rekomendasi bisnis).
 > - Selalu tekankan bahwa proyek kalian **berorientasi pada dampak bisnis nyata (*Business-Driven Data Science*)**, bukan sekadar melatih algoritma tanpa arah.
+
+---
+
+# 11. Panduan Menjalankan di Google Colab (*Plug & Play*)
+
+Banyak dosen atau penguji yang meminta demo langsung via **Google Colab**. Notebook `notebooks/01_e_commerce_abandonment_showcase.ipynb` telah dirancang khusus agar **langsung jalan di Google Colab tanpa error**:
+
+### Mengapa Sebelumnya Terjadi Error `Path does not exist` di Colab?
+- Google Colab berjalan di mesin virtual cloud yang awalnya kosong di direktori `/content`.
+- Jika hanya mengunggah file notebook `.ipynb`, Colab tidak memiliki folder `data/` maupun `models/`.
+
+### Solusi Otomatis yang Telah Diterapkan:
+1. **Penyimpanan Data Parquet & Model di Repositori**:
+   - `data/processed/ecommerce_processed_parquet/` (37 MB) dan `test_data_parquet/` (15 MB) serta `models/` (72 KB) telah diintegrasikan ke repositori GitHub.
+2. **Auto-Detection di Sel 1 Notebook**:
+   - Saat notebook dibuka di Google Colab, kode akan secara otomatis mengenali modul `google.colab`.
+   - Script akan otomatis mengeksekusi `git clone https://github.com/ClaveAP/bigdata8.git /content/bigdata8` dan memindahkan direktori kerja ke folder repositori tersebut.
+   - Semua path data Parquet dan model langsung terdeteksi (**Exists: Tersedia ✅**).
+3. **Hasilnya**: Dosen atau rekan tim tinggal mengunggah file notebook atau membuka link Colab dan klik **"Run All"**, seluruh sel (baca data, plot grafik, evaluasi akurasi 94%, hingga simulasi interaktif) langsung berjalan sukses dengan tanda centang hijau!

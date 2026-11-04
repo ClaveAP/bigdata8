@@ -12,6 +12,17 @@ Repositori ini memuat implementasi proyek **Teknologi Big Data (Semester 5)** ol
 
 ---
 
+## ⚡ Showcase Interaktif & Demo Google Colab (Plug & Play)
+
+Untuk presentasi ke dosen atau uji coba langsung tanpa instalasi lingkungan lokal, repositori ini telah dilengkapi dengan notebook interaktif:  
+📁 **[`notebooks/01_e_commerce_abandonment_showcase.ipynb`](notebooks/01_e_commerce_abandonment_showcase.ipynb)**
+
+- **Auto-Detection Multi-Platform**: Dapat langsung dijalankan di **VS Code lokal** maupun diunggah ke **[Google Colab](https://colab.research.google.com)**.
+- **Auto-Cloning di Colab**: Saat dibuka di Colab, sel pertama secara cerdas mendeteksi lingkungan cloud, otomatis mengklon repositori, dan langsung membaca data Parquet serta model terlatih tanpa error *Path does not exist*.
+- **Semua Fitur Tersedia**: Menampilkan pembacaan 1 juta baris data Parquet, grafik tren psikologis belanja, evaluasi akurasi 93.95% & ROC-AUC 0.9832, hingga **Simulator Prediksi Risiko Pelanggan Baru** interaktif.
+
+---
+
 ## 🚀 Ringkasan Performa Model & Temuan Kunci
 
 ### 1. Komparasi 3 Model Machine Learning (PySpark MLlib)

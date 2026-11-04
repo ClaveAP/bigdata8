@@ -59,3 +59,15 @@ Dokumen ini mencatat setiap keputusan rekayasa data (*data engineering*), temuan
   - **Train Set**: **799.723 baris** (disimpan di `data/processed/train_data_parquet/`)
   - **Test Set**: **200.277 baris** (disimpan di `data/processed/test_data_parquet/`)
 - **Status Data Siap Latih**: Siap dikonsumsi langsung oleh Spark MLlib (`DecisionTreeClassifier`, `LogisticRegression`, `RandomForestClassifier`).
+
+---
+
+## Log Pembaruan Dukungan Multi-Platform (Google Colab & VS Code)
+- **Kebutuhan**: Memastikan notebook interaktif `notebooks/01_e_commerce_abandonment_showcase.ipynb` dapat dijalankan secara instan (*Plug & Play*) di Google Colab tanpa error *Path does not exist* (`AnalysisException`).
+- **Pembaruan Konfigurasi Git & Data Tracking**:
+  - `data/processed/ecommerce_processed_parquet/` (37.75 MB, 1 juta baris agregasi) dan `data/processed/test_data_parquet/` (15.5 MB, data uji 200.277 baris) diizinkan masuk ke version control Git GitHub.
+  - `models/decision_tree_tuned/` (44 KB) dan `models/decision_tree_baseline/` (28 KB) diizinkan masuk ke version control Git GitHub.
+  - Data mentah `data/raw/` (233.6 MB) dan `train_data_parquet/` (63 MB) tetap diproteksi di `.gitignore` lokal untuk efisiensi transfer data.
+- **Mekanisme Auto-Detection di Notebook**:
+  - Sel inisialisasi mendeteksi `if 'google.colab' in sys.modules:` secara otomatis.
+  - Jika di Colab, sistem otomatis melakukan git clone repositori ke `/content/bigdata8` dan memindahkan direktori kerja (`%cd`), sehingga pembacaan data Parquet dan model langsung sukses tanpa konfigurasi manual.
