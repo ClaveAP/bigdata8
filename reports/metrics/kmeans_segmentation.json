@@ -1,0 +1,121 @@
+{
+  "total_rows": 1000000,
+  "cluster_features": [
+    "impulse_buying_score",
+    "stress_from_financial_decisions",
+    "overall_stress_level",
+    "impulse_purchases_per_month",
+    "monthly_spend",
+    "average_order_value",
+    "daily_session_time_minutes",
+    "purchase_conversion_rate",
+    "coupon_usage_frequency",
+    "return_rate"
+  ],
+  "k_evaluation": [
+    {
+      "k": 2,
+      "silhouette_score": 0.392124,
+      "wssse": 7306470.89,
+      "fit_time_s": 20.245
+    },
+    {
+      "k": 3,
+      "silhouette_score": 0.265317,
+      "wssse": 6911854.61,
+      "fit_time_s": 28.229
+    },
+    {
+      "k": 4,
+      "silhouette_score": 0.172684,
+      "wssse": 6539460.39,
+      "fit_time_s": 33.425
+    },
+    {
+      "k": 5,
+      "silhouette_score": 0.171428,
+      "wssse": 6262166.67,
+      "fit_time_s": 29.389
+    }
+  ],
+  "best_silhouette_k": 2,
+  "best_silhouette_score": 0.392124,
+  "selected_operational_k": 3,
+  "personas_k3": [
+    {
+      "cluster_id": 2,
+      "user_count": 469105,
+      "avg_cart_abandonment_rate": 17.57,
+      "high_abandonment_pct": 5.18,
+      "avg_impulse_score": 2.13,
+      "avg_financial_stress": 2.16,
+      "avg_overall_stress": 2.22,
+      "avg_impulse_purchases": 1.8,
+      "avg_monthly_spend": 2500.58,
+      "avg_order_value": 255.07,
+      "avg_session_minutes": 60.0,
+      "avg_conversion_rate": 49.99,
+      "persona_rank": 1,
+      "persona_name": "Persona A: Mindful & Low-Stress Shoppers (Risiko Rendah)",
+      "share_pct": 46.91
+    },
+    {
+      "cluster_id": 0,
+      "user_count": 264941,
+      "avg_cart_abandonment_rate": 60.08,
+      "high_abandonment_pct": 90.45,
+      "avg_impulse_score": 7.52,
+      "avg_financial_stress": 7.49,
+      "avg_overall_stress": 7.44,
+      "avg_impulse_purchases": 4.6,
+      "avg_monthly_spend": 2506.1,
+      "avg_order_value": 255.42,
+      "avg_session_minutes": 60.09,
+      "avg_conversion_rate": 49.82,
+      "persona_rank": 2,
+      "persona_name": "Persona B: Moderate/Threshold Shoppers (Risiko Moderat)",
+      "share_pct": 26.49
+    },
+    {
+      "cluster_id": 1,
+      "user_count": 265954,
+      "avg_cart_abandonment_rate": 60.36,
+      "high_abandonment_pct": 90.82,
+      "avg_impulse_score": 7.55,
+      "avg_financial_stress": 7.53,
+      "avg_overall_stress": 7.48,
+      "avg_impulse_purchases": 4.62,
+      "avg_monthly_spend": 2488.3,
+      "avg_order_value": 254.58,
+      "avg_session_minutes": 59.97,
+      "avg_conversion_rate": 50.2,
+      "persona_rank": 3,
+      "persona_name": "Persona C: High-Stress Impulsive Browsers (Risiko Kritis)",
+      "share_pct": 26.6
+    }
+  ],
+  "personas_k2": [
+    {
+      "cluster_id": 0,
+      "user_count": 501083,
+      "avg_cart_abandonment_rate": 18.91,
+      "high_abandonment_pct": 7.77,
+      "avg_impulse_score": 2.3,
+      "avg_financial_stress": 2.33,
+      "avg_overall_stress": 2.38,
+      "avg_impulse_purchases": 1.88,
+      "share_pct": 50.11
+    },
+    {
+      "cluster_id": 1,
+      "user_count": 498917,
+      "avg_cart_abandonment_rate": 61.6,
+      "high_abandonment_pct": 93.51,
+      "avg_impulse_score": 7.71,
+      "avg_financial_stress": 7.68,
+      "avg_overall_stress": 7.63,
+      "avg_impulse_purchases": 4.71,
+      "share_pct": 49.89
+    }
+  ]
+}

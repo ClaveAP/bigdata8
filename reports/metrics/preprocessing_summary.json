@@ -1,0 +1,21 @@
+{
+  "raw_rows": 1000000,
+  "clean_rows": 1000000,
+  "raw_columns_count": 60,
+  "processed_columns_count": 62,
+  "total_nulls_across_60_cols": 0,
+  "raw_csv_size_mb": 233.6,
+  "parquet_size_mb": 37.96,
+  "storage_reduction_pct": 83.75,
+  "target_threshold_pct": 40.0,
+  "class_distribution": {
+    "0": {
+      "count": 494531,
+      "percentage": 49.45
+    },
+    "1": {
+      "count": 505469,
+      "percentage": 50.55
+    }
+  }
+}

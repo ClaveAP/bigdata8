@@ -1,0 +1,4 @@
+cores,master,dt_fit_median_s,runs_s,speedup_vs_1core
+1,local[1],20.677,"[25.69, 15.663]",1.0
+2,local[2],9.006,"[8.488, 9.523]",2.296
+4,local[4],9.452,"[8.351, 10.553]",2.188

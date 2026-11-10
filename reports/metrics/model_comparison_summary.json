@@ -1,0 +1,1099 @@
+{
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i5-7267U CPU @ 3.10GHz (2 Physical Cores / 4 Logical Threads)",
+    "ram_gb": 16,
+    "os": "macOS",
+    "spark_version": "4.3.0"
+  },
+  "dataset_split": {
+    "train_rows": 799723,
+    "test_rows": 200277
+  },
+  "lr_validation_grid": [
+    {
+      "regParam": 0.0,
+      "fit_time_s": 36.122,
+      "roc_auc": 0.990505,
+      "pr_auc": 0.99107,
+      "accuracy": 0.940595,
+      "accuracy_pct": 94.06,
+      "f1_weighted": 0.940593,
+      "f1_positive": 0.941307,
+      "precision_weighted": 0.940609,
+      "recall_weighted": 0.940595,
+      "precision_positive": 0.93844,
+      "recall_positive": 0.944192,
+      "tn": 23116,
+      "fp": 1556,
+      "fn": 1402,
+      "tp": 23720,
+      "total_test": 49794
+    },
+    {
+      "regParam": 0.01,
+      "fit_time_s": 8.062,
+      "roc_auc": 0.988748,
+      "pr_auc": 0.989406,
+      "accuracy": 0.935273,
+      "accuracy_pct": 93.53,
+      "f1_weighted": 0.93527,
+      "f1_positive": 0.936098,
+      "precision_weighted": 0.935295,
+      "recall_weighted": 0.935273,
+      "precision_positive": 0.93253,
+      "recall_positive": 0.939694,
+      "tn": 22964,
+      "fp": 1708,
+      "fn": 1515,
+      "tp": 23607,
+      "total_test": 49794
+    },
+    {
+      "regParam": 0.1,
+      "fit_time_s": 4.556,
+      "roc_auc": 0.986392,
+      "pr_auc": 0.98719,
+      "accuracy": 0.932381,
+      "accuracy_pct": 93.24,
+      "f1_weighted": 0.932377,
+      "f1_positive": 0.933291,
+      "precision_weighted": 0.932412,
+      "recall_weighted": 0.932381,
+      "precision_positive": 0.929076,
+      "recall_positive": 0.937545,
+      "tn": 22874,
+      "fp": 1798,
+      "fn": 1569,
+      "tp": 23553,
+      "total_test": 49794
+    }
+  ],
+  "rf_validation_grid": [
+    {
+      "numTrees": 20,
+      "maxDepth": 7,
+      "fit_time_s": 14.02,
+      "roc_auc": 0.987736,
+      "pr_auc": 0.988104,
+      "accuracy": 0.936699,
+      "accuracy_pct": 93.67,
+      "f1_weighted": 0.936695,
+      "f1_positive": 0.937577,
+      "precision_weighted": 0.936738,
+      "recall_weighted": 0.936699,
+      "precision_positive": 0.932958,
+      "recall_positive": 0.942242,
+      "tn": 22971,
+      "fp": 1701,
+      "fn": 1451,
+      "tp": 23671,
+      "total_test": 49794
+    },
+    {
+      "numTrees": 20,
+      "maxDepth": 10,
+      "fit_time_s": 17.265,
+      "roc_auc": 0.989163,
+      "pr_auc": 0.989729,
+      "accuracy": 0.938065,
+      "accuracy_pct": 93.81,
+      "f1_weighted": 0.938064,
+      "f1_positive": 0.9387,
+      "precision_weighted": 0.938066,
+      "recall_weighted": 0.938065,
+      "precision_positive": 0.93747,
+      "recall_positive": 0.939933,
+      "tn": 23097,
+      "fp": 1575,
+      "fn": 1509,
+      "tp": 23613,
+      "total_test": 49794
+    },
+    {
+      "numTrees": 40,
+      "maxDepth": 7,
+      "fit_time_s": 21.283,
+      "roc_auc": 0.988253,
+      "pr_auc": 0.988538,
+      "accuracy": 0.937924,
+      "accuracy_pct": 93.79,
+      "f1_weighted": 0.937924,
+      "f1_positive": 0.938513,
+      "precision_weighted": 0.937924,
+      "recall_weighted": 0.937924,
+      "precision_positive": 0.938009,
+      "recall_positive": 0.939018,
+      "tn": 23113,
+      "fp": 1559,
+      "fn": 1532,
+      "tp": 23590,
+      "total_test": 49794
+    },
+    {
+      "numTrees": 40,
+      "maxDepth": 10,
+      "fit_time_s": 64.127,
+      "roc_auc": 0.989475,
+      "pr_auc": 0.990049,
+      "accuracy": 0.938848,
+      "accuracy_pct": 93.88,
+      "f1_weighted": 0.938849,
+      "f1_positive": 0.939324,
+      "precision_weighted": 0.938852,
+      "recall_weighted": 0.938848,
+      "precision_positive": 0.94043,
+      "recall_positive": 0.938221,
+      "tn": 23179,
+      "fp": 1493,
+      "fn": 1552,
+      "tp": 23570,
+      "total_test": 49794
+    }
+  ],
+  "models": {
+    "LR_Tuned": {
+      "display_name": "Logistic Regression (OHE+Scaled)",
+      "architecture": "Linear (One-Hot + Standardized)",
+      "params": "regParam=0.0, maxIter=50, OHE+StandardScaler (132 dims)",
+      "interpretability": "Moderat (Bobot log-odds aditif global, tanpa aturan ambang bertingkat)",
+      "complexity_desc": "132 Linear Weights",
+      "train_time_s": 18.258,
+      "test_metrics": {
+        "roc_auc": 0.990642,
+        "pr_auc": 0.991206,
+        "accuracy": 0.940957,
+        "accuracy_pct": 94.1,
+        "f1_weighted": 0.940954,
+        "f1_positive": 0.941842,
+        "precision_weighted": 0.940969,
+        "recall_weighted": 0.940957,
+        "precision_positive": 0.938992,
+        "recall_positive": 0.944709,
+        "tn": 92702,
+        "fp": 6221,
+        "fn": 5604,
+        "tp": 95750,
+        "total_test": 200277
+      },
+      "cv5_metrics": {
+        "cv5_roc_auc_mean": 0.990536,
+        "cv5_roc_auc_sd": 0.000409,
+        "cv5_f1_mean": 0.941082,
+        "cv5_f1_sd": 0.000797,
+        "cv5_acc_mean": 0.941082,
+        "cv5_acc_sd": 0.000798,
+        "fold_roc_aucs": [
+          0.990783,
+          0.990456,
+          0.989851,
+          0.990816,
+          0.990772
+        ]
+      },
+      "bootstrap_ci95": {
+        "roc_auc_ci95_low": 0.990211,
+        "roc_auc_ci95_high": 0.991222,
+        "roc_auc_boot_sd": 0.000266,
+        "pr_auc_ci95_low": 0.990713,
+        "pr_auc_ci95_high": 0.991716,
+        "f1_ci95_low": 0.938448,
+        "f1_ci95_high": 0.942989
+      }
+    },
+    "DT_Shallow_d3": {
+      "display_name": "Decision Tree (Shallow d=3)",
+      "architecture": "Tree-based Ultra-Compact (White-Box)",
+      "params": "maxDepth=3, minInstancesPerNode=20, impurity=gini",
+      "interpretability": "Sangat Tinggi (Hanya 15 node / 8 aturan daun, dapat dihafal langsung)",
+      "complexity_desc": "7 Tree Nodes",
+      "train_time_s": 8.798,
+      "test_metrics": {
+        "roc_auc": 0.965127,
+        "pr_auc": 0.952364,
+        "accuracy": 0.940627,
+        "accuracy_pct": 94.06,
+        "f1_weighted": 0.940625,
+        "f1_positive": 0.940454,
+        "precision_weighted": 0.941048,
+        "recall_weighted": 0.940627,
+        "precision_positive": 0.954861,
+        "recall_positive": 0.926476,
+        "tn": 94484,
+        "fp": 4439,
+        "fn": 7452,
+        "tp": 93902,
+        "total_test": 200277
+      },
+      "bootstrap_ci95": {
+        "roc_auc_ci95_low": 0.962917,
+        "roc_auc_ci95_high": 0.966488,
+        "roc_auc_boot_sd": 0.0009,
+        "pr_auc_ci95_low": 0.949024,
+        "pr_auc_ci95_high": 0.954402,
+        "f1_ci95_low": 0.9385,
+        "f1_ci95_high": 0.942948
+      }
+    },
+    "DT_Default_d7": {
+      "display_name": "Decision Tree (Baseline d=7)",
+      "architecture": "Tree-based Medium (White-Box)",
+      "params": "maxDepth=7, minInstancesPerNode=20, impurity=gini",
+      "interpretability": "Tinggi (Pohon menengah)",
+      "complexity_desc": "41 Tree Nodes",
+      "train_time_s": 8.338,
+      "test_metrics": {
+        "roc_auc": 0.977342,
+        "pr_auc": 0.964329,
+        "accuracy": 0.940927,
+        "accuracy_pct": 94.09,
+        "f1_weighted": 0.940926,
+        "f1_positive": 0.941708,
+        "precision_weighted": 0.940928,
+        "recall_weighted": 0.940927,
+        "precision_positive": 0.940536,
+        "recall_positive": 0.942883,
+        "tn": 92881,
+        "fp": 6042,
+        "fn": 5789,
+        "tp": 95565,
+        "total_test": 200277
+      },
+      "bootstrap_ci95": {
+        "roc_auc_ci95_low": 0.976054,
+        "roc_auc_ci95_high": 0.978768,
+        "roc_auc_boot_sd": 0.000709,
+        "pr_auc_ci95_low": 0.961871,
+        "pr_auc_ci95_high": 0.966705,
+        "f1_ci95_low": 0.938308,
+        "f1_ci95_high": 0.942913
+      }
+    },
+    "DT_Champion_d10": {
+      "display_name": "Decision Tree (Champion d=10)",
+      "architecture": "Tree-based Tuned & Pruned (White-Box)",
+      "params": "maxDepth=10, minInstancesPerNode=20, impurity=gini",
+      "interpretability": "Sangat Tinggi (Eksplisit IF-THEN Rules & threshold fitur)",
+      "complexity_desc": "473 Tree Nodes",
+      "train_time_s": 14.416,
+      "test_metrics": {
+        "roc_auc": 0.990413,
+        "pr_auc": 0.990522,
+        "accuracy": 0.939878,
+        "accuracy_pct": 93.99,
+        "f1_weighted": 0.93988,
+        "f1_positive": 0.940456,
+        "precision_weighted": 0.939892,
+        "recall_weighted": 0.939878,
+        "precision_positive": 0.942727,
+        "recall_positive": 0.938197,
+        "tn": 93146,
+        "fp": 5777,
+        "fn": 6264,
+        "tp": 95090,
+        "total_test": 200277
+      },
+      "cv5_metrics": {
+        "cv5_roc_auc_mean": 0.988269,
+        "cv5_roc_auc_sd": 0.000512,
+        "cv5_f1_mean": 0.934555,
+        "cv5_f1_sd": 0.001667,
+        "cv5_acc_mean": 0.934556,
+        "cv5_acc_sd": 0.001664,
+        "fold_roc_aucs": [
+          0.988722,
+          0.987948,
+          0.987527,
+          0.988599,
+          0.988551
+        ]
+      },
+      "bootstrap_ci95": {
+        "roc_auc_ci95_low": 0.989964,
+        "roc_auc_ci95_high": 0.991004,
+        "roc_auc_boot_sd": 0.000272,
+        "pr_auc_ci95_low": 0.990029,
+        "pr_auc_ci95_high": 0.991064,
+        "f1_ci95_low": 0.937813,
+        "f1_ci95_high": 0.942214
+      }
+    },
+    "RF_Tuned": {
+      "display_name": "Random Forest (Tuned Ensemble)",
+      "architecture": "Ensemble Bagging (Black-Box)",
+      "params": "numTrees=40, maxDepth=10, minInstancesPerNode=20",
+      "interpretability": "Rendah (Gabungan puluhan pohon acak, tanpa aturan tunggal)",
+      "complexity_desc": "24944 Tree Nodes",
+      "train_time_s": 354.787,
+      "test_metrics": {
+        "roc_auc": 0.989412,
+        "pr_auc": 0.989974,
+        "accuracy": 0.939219,
+        "accuracy_pct": 93.92,
+        "f1_weighted": 0.939214,
+        "f1_positive": 0.940229,
+        "precision_weighted": 0.939252,
+        "recall_weighted": 0.939219,
+        "precision_positive": 0.935858,
+        "recall_positive": 0.94464,
+        "tn": 92361,
+        "fp": 6562,
+        "fn": 5611,
+        "tp": 95743,
+        "total_test": 200277
+      },
+      "cv5_metrics": {
+        "cv5_roc_auc_mean": 0.989356,
+        "cv5_roc_auc_sd": 0.000515,
+        "cv5_f1_mean": 0.93954,
+        "cv5_f1_sd": 0.00094,
+        "cv5_acc_mean": 0.939542,
+        "cv5_acc_sd": 0.00094,
+        "fold_roc_aucs": [
+          0.989663,
+          0.989277,
+          0.98849,
+          0.989737,
+          0.989613
+        ]
+      },
+      "bootstrap_ci95": {
+        "roc_auc_ci95_low": 0.988818,
+        "roc_auc_ci95_high": 0.990007,
+        "roc_auc_boot_sd": 0.000301,
+        "pr_auc_ci95_low": 0.989343,
+        "pr_auc_ci95_high": 0.990473,
+        "f1_ci95_low": 0.936282,
+        "f1_ci95_high": 0.941001
+      }
+    },
+    "GBT_Tuned": {
+      "display_name": "Gradient-Boosted Trees (GBT)",
+      "architecture": "Ensemble Boosting (Black-Box)",
+      "params": "maxIter=20, maxDepth=5",
+      "interpretability": "Rendah (Sekuens pohon residu aditif)",
+      "complexity_desc": "958 Tree Nodes",
+      "train_time_s": 76.009,
+      "test_metrics": {
+        "roc_auc": 0.990621,
+        "pr_auc": 0.991186,
+        "accuracy": 0.940952,
+        "accuracy_pct": 94.1,
+        "f1_weighted": 0.940949,
+        "f1_positive": 0.941842,
+        "precision_weighted": 0.940965,
+        "recall_weighted": 0.940952,
+        "precision_positive": 0.938906,
+        "recall_positive": 0.944797,
+        "tn": 92692,
+        "fp": 6231,
+        "fn": 5595,
+        "tp": 95759,
+        "total_test": 200277
+      },
+      "cv5_metrics": {
+        "cv5_roc_auc_mean": 0.990539,
+        "cv5_roc_auc_sd": 0.000422,
+        "cv5_f1_mean": 0.940453,
+        "cv5_f1_sd": 0.000665,
+        "cv5_acc_mean": 0.940452,
+        "cv5_acc_sd": 0.000664,
+        "fold_roc_aucs": [
+          0.990798,
+          0.990485,
+          0.989824,
+          0.990802,
+          0.990787
+        ]
+      },
+      "bootstrap_ci95": {
+        "roc_auc_ci95_low": 0.99012,
+        "roc_auc_ci95_high": 0.99115,
+        "roc_auc_boot_sd": 0.000268,
+        "pr_auc_ci95_low": 0.990658,
+        "pr_auc_ci95_high": 0.991649,
+        "f1_ci95_low": 0.938449,
+        "f1_ci95_high": 0.94305
+      }
+    }
+  },
+  "models_comparison": [
+    {
+      "model_key": "LR_Tuned",
+      "model_name": "Logistic Regression (OHE+Scaled)",
+      "architecture": "Linear (One-Hot + Standardized)",
+      "params": "regParam=0.0, maxIter=50, OHE+StandardScaler (132 dims)",
+      "interpretability": "Moderat (Bobot log-odds aditif global, tanpa aturan ambang bertingkat)",
+      "complexity_desc": "132 Linear Weights",
+      "num_nodes_or_weights": 132,
+      "train_time_s": 18.258,
+      "roc_auc": 0.990642,
+      "pr_auc": 0.991206,
+      "accuracy": 0.940957,
+      "accuracy_pct": 94.1,
+      "f1_weighted": 0.940954,
+      "f1_positive": 0.941842,
+      "precision_weighted": 0.940969,
+      "recall_weighted": 0.940957,
+      "precision_positive": 0.938992,
+      "recall_positive": 0.944709,
+      "tn": 92702,
+      "fp": 6221,
+      "fn": 5604,
+      "tp": 95750,
+      "total_test": 200277,
+      "roc_auc_ci95_low": 0.990211,
+      "roc_auc_ci95_high": 0.991222,
+      "roc_auc_boot_sd": 0.000266,
+      "pr_auc_ci95_low": 0.990713,
+      "pr_auc_ci95_high": 0.991716,
+      "f1_ci95_low": 0.938448,
+      "f1_ci95_high": 0.942989,
+      "cv5_roc_auc_mean": 0.990536,
+      "cv5_roc_auc_sd": 0.000409,
+      "cv5_f1_mean": 0.941082,
+      "cv5_f1_sd": 0.000797,
+      "cv5_acc_mean": 0.941082,
+      "cv5_acc_sd": 0.000798,
+      "fold_roc_aucs": [
+        0.990783,
+        0.990456,
+        0.989851,
+        0.990816,
+        0.990772
+      ]
+    },
+    {
+      "model_key": "DT_Shallow_d3",
+      "model_name": "Decision Tree (Shallow d=3)",
+      "architecture": "Tree-based Ultra-Compact (White-Box)",
+      "params": "maxDepth=3, minInstancesPerNode=20, impurity=gini",
+      "interpretability": "Sangat Tinggi (Hanya 15 node / 8 aturan daun, dapat dihafal langsung)",
+      "complexity_desc": "7 Tree Nodes",
+      "num_nodes_or_weights": 7,
+      "train_time_s": 8.798,
+      "roc_auc": 0.965127,
+      "pr_auc": 0.952364,
+      "accuracy": 0.940627,
+      "accuracy_pct": 94.06,
+      "f1_weighted": 0.940625,
+      "f1_positive": 0.940454,
+      "precision_weighted": 0.941048,
+      "recall_weighted": 0.940627,
+      "precision_positive": 0.954861,
+      "recall_positive": 0.926476,
+      "tn": 94484,
+      "fp": 4439,
+      "fn": 7452,
+      "tp": 93902,
+      "total_test": 200277,
+      "roc_auc_ci95_low": 0.962917,
+      "roc_auc_ci95_high": 0.966488,
+      "roc_auc_boot_sd": 0.0009,
+      "pr_auc_ci95_low": 0.949024,
+      "pr_auc_ci95_high": 0.954402,
+      "f1_ci95_low": 0.9385,
+      "f1_ci95_high": 0.942948
+    },
+    {
+      "model_key": "DT_Default_d7",
+      "model_name": "Decision Tree (Baseline d=7)",
+      "architecture": "Tree-based Medium (White-Box)",
+      "params": "maxDepth=7, minInstancesPerNode=20, impurity=gini",
+      "interpretability": "Tinggi (Pohon menengah)",
+      "complexity_desc": "41 Tree Nodes",
+      "num_nodes_or_weights": 41,
+      "train_time_s": 8.338,
+      "roc_auc": 0.977342,
+      "pr_auc": 0.964329,
+      "accuracy": 0.940927,
+      "accuracy_pct": 94.09,
+      "f1_weighted": 0.940926,
+      "f1_positive": 0.941708,
+      "precision_weighted": 0.940928,
+      "recall_weighted": 0.940927,
+      "precision_positive": 0.940536,
+      "recall_positive": 0.942883,
+      "tn": 92881,
+      "fp": 6042,
+      "fn": 5789,
+      "tp": 95565,
+      "total_test": 200277,
+      "roc_auc_ci95_low": 0.976054,
+      "roc_auc_ci95_high": 0.978768,
+      "roc_auc_boot_sd": 0.000709,
+      "pr_auc_ci95_low": 0.961871,
+      "pr_auc_ci95_high": 0.966705,
+      "f1_ci95_low": 0.938308,
+      "f1_ci95_high": 0.942913
+    },
+    {
+      "model_key": "DT_Champion_d10",
+      "model_name": "Decision Tree (Champion d=10)",
+      "architecture": "Tree-based Tuned & Pruned (White-Box)",
+      "params": "maxDepth=10, minInstancesPerNode=20, impurity=gini",
+      "interpretability": "Sangat Tinggi (Eksplisit IF-THEN Rules & threshold fitur)",
+      "complexity_desc": "473 Tree Nodes",
+      "num_nodes_or_weights": 473,
+      "train_time_s": 14.416,
+      "roc_auc": 0.990413,
+      "pr_auc": 0.990522,
+      "accuracy": 0.939878,
+      "accuracy_pct": 93.99,
+      "f1_weighted": 0.93988,
+      "f1_positive": 0.940456,
+      "precision_weighted": 0.939892,
+      "recall_weighted": 0.939878,
+      "precision_positive": 0.942727,
+      "recall_positive": 0.938197,
+      "tn": 93146,
+      "fp": 5777,
+      "fn": 6264,
+      "tp": 95090,
+      "total_test": 200277,
+      "roc_auc_ci95_low": 0.989964,
+      "roc_auc_ci95_high": 0.991004,
+      "roc_auc_boot_sd": 0.000272,
+      "pr_auc_ci95_low": 0.990029,
+      "pr_auc_ci95_high": 0.991064,
+      "f1_ci95_low": 0.937813,
+      "f1_ci95_high": 0.942214,
+      "cv5_roc_auc_mean": 0.988269,
+      "cv5_roc_auc_sd": 0.000512,
+      "cv5_f1_mean": 0.934555,
+      "cv5_f1_sd": 0.001667,
+      "cv5_acc_mean": 0.934556,
+      "cv5_acc_sd": 0.001664,
+      "fold_roc_aucs": [
+        0.988722,
+        0.987948,
+        0.987527,
+        0.988599,
+        0.988551
+      ]
+    },
+    {
+      "model_key": "RF_Tuned",
+      "model_name": "Random Forest (Tuned Ensemble)",
+      "architecture": "Ensemble Bagging (Black-Box)",
+      "params": "numTrees=40, maxDepth=10, minInstancesPerNode=20",
+      "interpretability": "Rendah (Gabungan puluhan pohon acak, tanpa aturan tunggal)",
+      "complexity_desc": "24944 Tree Nodes",
+      "num_nodes_or_weights": 24944,
+      "train_time_s": 354.787,
+      "roc_auc": 0.989412,
+      "pr_auc": 0.989974,
+      "accuracy": 0.939219,
+      "accuracy_pct": 93.92,
+      "f1_weighted": 0.939214,
+      "f1_positive": 0.940229,
+      "precision_weighted": 0.939252,
+      "recall_weighted": 0.939219,
+      "precision_positive": 0.935858,
+      "recall_positive": 0.94464,
+      "tn": 92361,
+      "fp": 6562,
+      "fn": 5611,
+      "tp": 95743,
+      "total_test": 200277,
+      "roc_auc_ci95_low": 0.988818,
+      "roc_auc_ci95_high": 0.990007,
+      "roc_auc_boot_sd": 0.000301,
+      "pr_auc_ci95_low": 0.989343,
+      "pr_auc_ci95_high": 0.990473,
+      "f1_ci95_low": 0.936282,
+      "f1_ci95_high": 0.941001,
+      "cv5_roc_auc_mean": 0.989356,
+      "cv5_roc_auc_sd": 0.000515,
+      "cv5_f1_mean": 0.93954,
+      "cv5_f1_sd": 0.00094,
+      "cv5_acc_mean": 0.939542,
+      "cv5_acc_sd": 0.00094,
+      "fold_roc_aucs": [
+        0.989663,
+        0.989277,
+        0.98849,
+        0.989737,
+        0.989613
+      ]
+    },
+    {
+      "model_key": "GBT_Tuned",
+      "model_name": "Gradient-Boosted Trees (GBT)",
+      "architecture": "Ensemble Boosting (Black-Box)",
+      "params": "maxIter=20, maxDepth=5",
+      "interpretability": "Rendah (Sekuens pohon residu aditif)",
+      "complexity_desc": "958 Tree Nodes",
+      "num_nodes_or_weights": 958,
+      "train_time_s": 76.009,
+      "roc_auc": 0.990621,
+      "pr_auc": 0.991186,
+      "accuracy": 0.940952,
+      "accuracy_pct": 94.1,
+      "f1_weighted": 0.940949,
+      "f1_positive": 0.941842,
+      "precision_weighted": 0.940965,
+      "recall_weighted": 0.940952,
+      "precision_positive": 0.938906,
+      "recall_positive": 0.944797,
+      "tn": 92692,
+      "fp": 6231,
+      "fn": 5595,
+      "tp": 95759,
+      "total_test": 200277,
+      "roc_auc_ci95_low": 0.99012,
+      "roc_auc_ci95_high": 0.99115,
+      "roc_auc_boot_sd": 0.000268,
+      "pr_auc_ci95_low": 0.990658,
+      "pr_auc_ci95_high": 0.991649,
+      "f1_ci95_low": 0.938449,
+      "f1_ci95_high": 0.94305,
+      "cv5_roc_auc_mean": 0.990539,
+      "cv5_roc_auc_sd": 0.000422,
+      "cv5_f1_mean": 0.940453,
+      "cv5_f1_sd": 0.000665,
+      "cv5_acc_mean": 0.940452,
+      "cv5_acc_sd": 0.000664,
+      "fold_roc_aucs": [
+        0.990798,
+        0.990485,
+        0.989824,
+        0.990802,
+        0.990787
+      ]
+    }
+  ],
+  "mcnemar_paired_tests": [
+    {
+      "model_a": "LR_Tuned",
+      "model_a_name": "Logistic Regression (OHE+Scaled)",
+      "model_b": "DT_Champion_d10",
+      "model_b_name": "Decision Tree (Champion d=10)",
+      "a_correct_b_wrong_b": 1202,
+      "a_wrong_b_correct_c": 986,
+      "discordant_total": 2188,
+      "chi2_uncorrected": 21.3236,
+      "chi2_continuity_corrected": 21.1266,
+      "df": 1,
+      "p_value_chi2_cc": 4.299189293109763e-06,
+      "p_value_exact_binomial": 4.226860986815975e-06
+    },
+    {
+      "model_a": "RF_Tuned",
+      "model_a_name": "Random Forest (Tuned Ensemble)",
+      "model_b": "DT_Champion_d10",
+      "model_b_name": "Decision Tree (Champion d=10)",
+      "a_correct_b_wrong_b": 1813,
+      "a_wrong_b_correct_c": 1945,
+      "discordant_total": 3758,
+      "chi2_uncorrected": 4.6365,
+      "chi2_continuity_corrected": 4.5665,
+      "df": 1,
+      "p_value_chi2_cc": 0.0326026401552509,
+      "p_value_exact_binomial": 0.03258888976711061
+    },
+    {
+      "model_a": "GBT_Tuned",
+      "model_a_name": "Gradient-Boosted Trees (GBT)",
+      "model_b": "DT_Champion_d10",
+      "model_b_name": "Decision Tree (Champion d=10)",
+      "a_correct_b_wrong_b": 1200,
+      "a_wrong_b_correct_c": 985,
+      "discordant_total": 2185,
+      "chi2_uncorrected": 21.1556,
+      "chi2_continuity_corrected": 20.9593,
+      "df": 1,
+      "p_value_chi2_cc": 4.691527164011937e-06,
+      "p_value_exact_binomial": 4.613736134465091e-06
+    },
+    {
+      "model_a": "LR_Tuned",
+      "model_a_name": "Logistic Regression (OHE+Scaled)",
+      "model_b": "RF_Tuned",
+      "model_b_name": "Random Forest (Tuned Ensemble)",
+      "a_correct_b_wrong_b": 1227,
+      "a_wrong_b_correct_c": 879,
+      "discordant_total": 2106,
+      "chi2_uncorrected": 57.5043,
+      "chi2_continuity_corrected": 57.1743,
+      "df": 1,
+      "p_value_chi2_cc": 3.98856515753492e-14,
+      "p_value_exact_binomial": 3.5000284063231753e-14
+    },
+    {
+      "model_a": "DT_Champion_d10",
+      "model_a_name": "Decision Tree (Champion d=10)",
+      "model_b": "DT_Shallow_d3",
+      "model_b_name": "Decision Tree (Shallow d=3)",
+      "a_correct_b_wrong_b": 1651,
+      "a_wrong_b_correct_c": 1801,
+      "discordant_total": 3452,
+      "chi2_uncorrected": 6.518,
+      "chi2_continuity_corrected": 6.4313,
+      "df": 1,
+      "p_value_chi2_cc": 0.011212369463122804,
+      "p_value_exact_binomial": 0.011201720923202247
+    }
+  ],
+  "bootstrap_paired_auc_deltas": [
+    {
+      "model_a": "LR_Tuned",
+      "model_b": "DT_Champion_d10",
+      "delta_roc_auc_mean": 0.000241,
+      "delta_roc_auc_ci95_low": 0.000129,
+      "delta_roc_auc_ci95_high": 0.00037,
+      "bootstrap_p_value": 0.0
+    },
+    {
+      "model_a": "RF_Tuned",
+      "model_b": "DT_Champion_d10",
+      "delta_roc_auc_mean": -0.001089,
+      "delta_roc_auc_ci95_low": -0.001279,
+      "delta_roc_auc_ci95_high": -0.000885,
+      "bootstrap_p_value": 0.0
+    },
+    {
+      "model_a": "GBT_Tuned",
+      "model_b": "DT_Champion_d10",
+      "delta_roc_auc_mean": 0.000164,
+      "delta_roc_auc_ci95_low": 5.6e-05,
+      "delta_roc_auc_ci95_high": 0.000295,
+      "bootstrap_p_value": 0.0
+    },
+    {
+      "model_a": "LR_Tuned",
+      "model_b": "RF_Tuned",
+      "delta_roc_auc_mean": 0.00133,
+      "delta_roc_auc_ci95_low": 0.001143,
+      "delta_roc_auc_ci95_high": 0.00151,
+      "bootstrap_p_value": 0.0
+    }
+  ],
+  "sensitivity_and_negative_control": [
+    {
+      "experiment": "Negative_Control_Checkout_Abandonments_ge_5",
+      "target_definition": "checkout_abandonments_per_month >= 5",
+      "model_key": "LR_Tuned",
+      "model_name": "Logistic Regression (OHE+Scaled)",
+      "roc_auc": 0.497498,
+      "pr_auc": 0.545852,
+      "accuracy_pct": 54.69,
+      "f1_weighted": 0.386707
+    },
+    {
+      "experiment": "Negative_Control_Checkout_Abandonments_ge_5",
+      "target_definition": "checkout_abandonments_per_month >= 5",
+      "model_key": "DT_Champion_d10",
+      "model_name": "Decision Tree (Champion d=10)",
+      "roc_auc": 0.49752,
+      "pr_auc": 0.544851,
+      "accuracy_pct": 53.23,
+      "f1_weighted": 0.474149
+    },
+    {
+      "experiment": "Negative_Control_Checkout_Abandonments_ge_5",
+      "target_definition": "checkout_abandonments_per_month >= 5",
+      "model_key": "RF_Tuned",
+      "model_name": "Random Forest (Tuned)",
+      "roc_auc": 0.500378,
+      "pr_auc": 0.54826,
+      "accuracy_pct": 54.69,
+      "f1_weighted": 0.387136
+    },
+    {
+      "experiment": "Threshold_35pct",
+      "target_definition": "cart_abandonment_rate >= 35.0% (Pos=56.21%)",
+      "model_key": "LR_Tuned",
+      "model_name": "Logistic Regression (OHE+Scaled)",
+      "roc_auc": 0.99024,
+      "pr_auc": 0.992668,
+      "accuracy_pct": 93.91,
+      "f1_weighted": 0.939137
+    },
+    {
+      "experiment": "Threshold_35pct",
+      "target_definition": "cart_abandonment_rate >= 35.0% (Pos=56.21%)",
+      "model_key": "DT_Champion_d10",
+      "model_name": "Decision Tree (Champion d=10)",
+      "roc_auc": 0.989249,
+      "pr_auc": 0.99165,
+      "accuracy_pct": 93.46,
+      "f1_weighted": 0.934619
+    },
+    {
+      "experiment": "Threshold_35pct",
+      "target_definition": "cart_abandonment_rate >= 35.0% (Pos=56.21%)",
+      "model_key": "RF_Tuned",
+      "model_name": "Random Forest (Tuned)",
+      "roc_auc": 0.98918,
+      "pr_auc": 0.991889,
+      "accuracy_pct": 93.86,
+      "f1_weighted": 0.938547
+    },
+    {
+      "experiment": "Threshold_40pct",
+      "target_definition": "cart_abandonment_rate >= 40.0% (Pos=50.53%)",
+      "model_key": "LR_Tuned",
+      "model_name": "Logistic Regression (OHE+Scaled)",
+      "roc_auc": 0.990518,
+      "pr_auc": 0.991057,
+      "accuracy_pct": 94.04,
+      "f1_weighted": 0.94038
+    },
+    {
+      "experiment": "Threshold_40pct",
+      "target_definition": "cart_abandonment_rate >= 40.0% (Pos=50.53%)",
+      "model_key": "DT_Champion_d10",
+      "model_name": "Decision Tree (Champion d=10)",
+      "roc_auc": 0.988218,
+      "pr_auc": 0.98656,
+      "accuracy_pct": 93.55,
+      "f1_weighted": 0.935535
+    },
+    {
+      "experiment": "Threshold_40pct",
+      "target_definition": "cart_abandonment_rate >= 40.0% (Pos=50.53%)",
+      "model_key": "RF_Tuned",
+      "model_name": "Random Forest (Tuned)",
+      "roc_auc": 0.989141,
+      "pr_auc": 0.989657,
+      "accuracy_pct": 93.93,
+      "f1_weighted": 0.939274
+    },
+    {
+      "experiment": "Threshold_45pct",
+      "target_definition": "cart_abandonment_rate >= 45.0% (Pos=44.85%)",
+      "model_key": "LR_Tuned",
+      "model_name": "Logistic Regression (OHE+Scaled)",
+      "roc_auc": 0.9904,
+      "pr_auc": 0.988644,
+      "accuracy_pct": 94.06,
+      "f1_weighted": 0.940661
+    },
+    {
+      "experiment": "Threshold_45pct",
+      "target_definition": "cart_abandonment_rate >= 45.0% (Pos=44.85%)",
+      "model_key": "DT_Champion_d10",
+      "model_name": "Decision Tree (Champion d=10)",
+      "roc_auc": 0.988752,
+      "pr_auc": 0.986593,
+      "accuracy_pct": 93.63,
+      "f1_weighted": 0.936307
+    },
+    {
+      "experiment": "Threshold_45pct",
+      "target_definition": "cart_abandonment_rate >= 45.0% (Pos=44.85%)",
+      "model_key": "RF_Tuned",
+      "model_name": "Random Forest (Tuned)",
+      "roc_auc": 0.988853,
+      "pr_auc": 0.986786,
+      "accuracy_pct": 93.92,
+      "f1_weighted": 0.939196
+    }
+  ],
+  "scaling_benchmarks": {
+    "row_scaling": [
+      {
+        "fraction": 0.2,
+        "train_rows": 160127,
+        "dt_median_s": 5.946,
+        "lr_median_s": 7.565,
+        "rf_median_s": 70.886,
+        "gbt_median_s": 42.063
+      },
+      {
+        "fraction": 0.4,
+        "train_rows": 320208,
+        "dt_median_s": 8.079,
+        "lr_median_s": 10.562,
+        "rf_median_s": 95.172,
+        "gbt_median_s": 78.353
+      },
+      {
+        "fraction": 0.6,
+        "train_rows": 480074,
+        "dt_median_s": 8.981,
+        "lr_median_s": 26.316,
+        "rf_median_s": 188.853,
+        "gbt_median_s": 48.283
+      },
+      {
+        "fraction": 0.8,
+        "train_rows": 639563,
+        "dt_median_s": 6.918,
+        "lr_median_s": 13.377,
+        "rf_median_s": 132.279,
+        "gbt_median_s": 56.114
+      },
+      {
+        "fraction": 1.0,
+        "train_rows": 799723,
+        "dt_median_s": 14.416,
+        "lr_median_s": 18.258,
+        "rf_median_s": 354.787,
+        "gbt_median_s": 76.009
+      }
+    ],
+    "row_scaling_long": [
+      {
+        "fraction": 0.2,
+        "train_rows": 160127,
+        "model_key": "DT_Champion_d10",
+        "fit_time_s": 5.946
+      },
+      {
+        "fraction": 0.2,
+        "train_rows": 160127,
+        "model_key": "LR_Tuned",
+        "fit_time_s": 7.565
+      },
+      {
+        "fraction": 0.2,
+        "train_rows": 160127,
+        "model_key": "RF_Tuned",
+        "fit_time_s": 70.886
+      },
+      {
+        "fraction": 0.2,
+        "train_rows": 160127,
+        "model_key": "GBT_Tuned",
+        "fit_time_s": 42.063
+      },
+      {
+        "fraction": 0.4,
+        "train_rows": 320208,
+        "model_key": "DT_Champion_d10",
+        "fit_time_s": 8.079
+      },
+      {
+        "fraction": 0.4,
+        "train_rows": 320208,
+        "model_key": "LR_Tuned",
+        "fit_time_s": 10.562
+      },
+      {
+        "fraction": 0.4,
+        "train_rows": 320208,
+        "model_key": "RF_Tuned",
+        "fit_time_s": 95.172
+      },
+      {
+        "fraction": 0.4,
+        "train_rows": 320208,
+        "model_key": "GBT_Tuned",
+        "fit_time_s": 78.353
+      },
+      {
+        "fraction": 0.6,
+        "train_rows": 480074,
+        "model_key": "DT_Champion_d10",
+        "fit_time_s": 8.981
+      },
+      {
+        "fraction": 0.6,
+        "train_rows": 480074,
+        "model_key": "LR_Tuned",
+        "fit_time_s": 26.316
+      },
+      {
+        "fraction": 0.6,
+        "train_rows": 480074,
+        "model_key": "RF_Tuned",
+        "fit_time_s": 188.853
+      },
+      {
+        "fraction": 0.6,
+        "train_rows": 480074,
+        "model_key": "GBT_Tuned",
+        "fit_time_s": 48.283
+      },
+      {
+        "fraction": 0.8,
+        "train_rows": 639563,
+        "model_key": "DT_Champion_d10",
+        "fit_time_s": 6.918
+      },
+      {
+        "fraction": 0.8,
+        "train_rows": 639563,
+        "model_key": "LR_Tuned",
+        "fit_time_s": 13.377
+      },
+      {
+        "fraction": 0.8,
+        "train_rows": 639563,
+        "model_key": "RF_Tuned",
+        "fit_time_s": 132.279
+      },
+      {
+        "fraction": 0.8,
+        "train_rows": 639563,
+        "model_key": "GBT_Tuned",
+        "fit_time_s": 56.114
+      },
+      {
+        "fraction": 1.0,
+        "train_rows": 799723,
+        "model_key": "DT_Champion_d10",
+        "fit_time_s": 14.416
+      },
+      {
+        "fraction": 1.0,
+        "train_rows": 799723,
+        "model_key": "LR_Tuned",
+        "fit_time_s": 18.258
+      },
+      {
+        "fraction": 1.0,
+        "train_rows": 799723,
+        "model_key": "RF_Tuned",
+        "fit_time_s": 354.787
+      },
+      {
+        "fraction": 1.0,
+        "train_rows": 799723,
+        "model_key": "GBT_Tuned",
+        "fit_time_s": 76.009
+      }
+    ],
+    "core_scaling": [
+      {
+        "cores": 1,
+        "master": "local[1]",
+        "dt_fit_median_s": 20.677,
+        "runs_s": [
+          25.69,
+          15.663
+        ],
+        "speedup_vs_1core": 1.0
+      },
+      {
+        "cores": 2,
+        "master": "local[2]",
+        "dt_fit_median_s": 9.006,
+        "runs_s": [
+          8.488,
+          9.523
+        ],
+        "speedup_vs_1core": 2.296
+      },
+      {
+        "cores": 4,
+        "master": "local[4]",
+        "dt_fit_median_s": 9.452,
+        "runs_s": [
+          8.351,
+          10.553
+        ],
+        "speedup_vs_1core": 2.188
+      }
+    ],
+    "storage_io_benchmark": {
+      "csv_size_mb": 233.6,
+      "parquet_size_mb": 37.96,
+      "size_reduction_pct": 83.75,
+      "csv_read_agg_median_s": 10.847,
+      "parquet_read_agg_median_s": 0.705,
+      "io_speedup_factor": 15.39
+    }
+  }
+}

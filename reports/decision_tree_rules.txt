@@ -1,764 +1,731 @@
-DecisionTreeClassificationModel: uid=DecisionTreeClassifier_79c7bade30f9, depth=10, numNodes=509, numClasses=2, numFeatures=53
-  If (feature 15 <= 4.5)
-   If (feature 22 <= 4.5)
-    If (feature 15 <= 3.5)
+# ============================================================================
+# DOKUMEN EKSTRAKSI ATURAN KEPUTUSAN (IF-THEN RULES) — PYSPARK DECISION TREE
+# Catatan: Seluruh indeks `feature N` telah dipetakan otomatis ke nama kolom asli.
+# ============================================================================
+
+## BAGIAN 1: POHON KEPUTUSAN RINGKAS (maxDepth=3, 15 Nodes, 8 Leaf Rules)
+----------------------------------------------------------------------------
+DecisionTreeClassificationModel: uid=DecisionTreeClassifier_4125999fb1fb, depth=3, numNodes=7, numClasses=2, numFeatures=57
+  If (impulse_buying_score [f15] <= 4.5)
+   Predict: 0.0
+  Else (impulse_buying_score [f15] > 4.5)
+   If (impulse_buying_score [f15] <= 5.5)
+    If (stress_from_financial_decisions [f22] <= 5.5)
      Predict: 0.0
-    Else (feature 15 > 3.5)
-     If (feature 22 <= 3.5)
+    Else (stress_from_financial_decisions [f22] > 5.5)
+     Predict: 1.0
+   Else (impulse_buying_score [f15] > 5.5)
+    Predict: 1.0
+
+## BAGIAN 2: CHAMPION MODEL PENUH (maxDepth=10, minInstancesPerNode=20, Gini)
+----------------------------------------------------------------------------
+DecisionTreeClassificationModel: uid=DecisionTreeClassifier_8d19f033eff4, depth=10, numNodes=473, numClasses=2, numFeatures=57
+  If (impulse_buying_score [f15] <= 4.5)
+   If (stress_from_financial_decisions [f22] <= 4.5)
+    If (impulse_buying_score [f15] <= 3.5)
+     Predict: 0.0
+    Else (impulse_buying_score [f15] > 3.5)
+     If (stress_from_financial_decisions [f22] <= 3.5)
       Predict: 0.0
-     Else (feature 22 > 3.5)
-      If (feature 28 <= 45.5)
-       Predict: 0.0
-      Else (feature 28 > 45.5)
-       If (feature 1 <= 148005.0)
+     Else (stress_from_financial_decisions [f22] > 3.5)
+      If (product_views_per_day [f28] <= 45.5)
+       If (shopping_time_of_day_encoded [f55] in {1.0,3.0})
         Predict: 0.0
-       Else (feature 1 > 148005.0)
-        If (feature 19 <= 2.5)
-         If (feature 9 <= 4.5)
-          If (feature 1 <= 164922.5)
-           Predict: 1.0
-          Else (feature 1 > 164922.5)
+       Else (shopping_time_of_day_encoded [f55] not in {1.0,3.0})
+        If (preferred_payment_method_encoded [f53] in {0.0,3.0})
+         If (cart_items_average [f32] <= 4.5)
+          If (reading_habits [f40] <= 0.5)
+           If (occupation_encoded [f49] in {0.0,1.0,2.0,4.0})
+            Predict: 0.0
+           Else (occupation_encoded [f49] not in {0.0,1.0,2.0,4.0})
+            Predict: 1.0
+          Else (reading_habits [f40] > 0.5)
            Predict: 0.0
-         Else (feature 9 > 4.5)
+         Else (cart_items_average [f32] > 4.5)
           Predict: 0.0
-        Else (feature 19 > 2.5)
+        Else (preferred_payment_method_encoded [f53] not in {0.0,3.0})
          Predict: 0.0
-   Else (feature 22 > 4.5)
-    If (feature 15 <= 3.5)
+      Else (product_views_per_day [f28] > 45.5)
+       If (income_level [f1] <= 148005.0)
+        Predict: 0.0
+       Else (income_level [f1] > 148005.0)
+        If (hobby_count [f19] <= 2.5)
+         If (referral_count [f9] <= 4.5)
+          If (income_level [f1] <= 164922.5)
+           Predict: 1.0
+          Else (income_level [f1] > 164922.5)
+           Predict: 0.0
+         Else (referral_count [f9] > 4.5)
+          Predict: 0.0
+        Else (hobby_count [f19] > 2.5)
+         Predict: 0.0
+   Else (stress_from_financial_decisions [f22] > 4.5)
+    If (impulse_buying_score [f15] <= 3.5)
      Predict: 0.0
-    Else (feature 15 > 3.5)
-     If (feature 22 <= 5.5)
-      If (feature 40 in {2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0})
-       If (feature 44 in {4.0})
+    Else (impulse_buying_score [f15] > 3.5)
+     If (stress_from_financial_decisions [f22] <= 5.5)
+      If (country_encoded [f44] in {2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0})
+       If (relationship_status_encoded [f48] in {4.0})
         Predict: 0.0
-       Else (feature 44 not in {4.0})
-        If (feature 34 <= 97.5)
-         If (feature 25 <= 0.5)
-          If (feature 50 in {1.0,2.0,4.0,7.0})
+       Else (relationship_status_encoded [f48] not in {4.0})
+        If (notification_response_rate [f34] <= 97.5)
+         If (physical_activity_level [f25] <= 0.5)
+          If (product_category_preference_encoded [f54] in {1.0,3.0,4.0,5.0})
            Predict: 0.0
-          Else (feature 50 not in {1.0,2.0,4.0,7.0})
-           If (feature 28 <= 14.5)
+          Else (product_category_preference_encoded [f54] not in {1.0,3.0,4.0,5.0})
+           If (product_views_per_day [f28] <= 14.5)
             Predict: 1.0
-           Else (feature 28 > 14.5)
+           Else (product_views_per_day [f28] > 14.5)
             Predict: 0.0
-         Else (feature 25 > 0.5)
+         Else (physical_activity_level [f25] > 0.5)
           Predict: 0.0
-        Else (feature 34 > 97.5)
-         If (feature 24 <= 8.5)
-          If (feature 28 <= 15.5)
-           If (feature 36 <= 3.5)
+        Else (notification_response_rate [f34] > 97.5)
+         If (sleep_quality [f24] <= 8.5)
+          If (product_views_per_day [f28] <= 15.5)
+           If (social_sharing_frequency [f36] <= 3.5)
             Predict: 0.0
-           Else (feature 36 > 3.5)
+           Else (social_sharing_frequency [f36] > 3.5)
             Predict: 1.0
-          Else (feature 28 > 15.5)
+          Else (product_views_per_day [f28] > 15.5)
            Predict: 0.0
-         Else (feature 24 > 8.5)
-          If (feature 46 in {1.0,2.0,3.0})
+         Else (sleep_quality [f24] > 8.5)
+          If (days_since_last_purchase [f42] <= 385.5)
            Predict: 0.0
-          Else (feature 46 not in {1.0,2.0,3.0})
+          Else (days_since_last_purchase [f42] > 385.5)
            Predict: 1.0
-      Else (feature 40 not in {2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0})
-       If (feature 48 in {2.0})
-        If (feature 16 <= 8.5)
-         If (feature 25 <= 5.5)
-          If (feature 3 <= 0.5)
+      Else (country_encoded [f44] not in {2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0})
+       If (device_type_encoded [f52] in {2.0})
+        If (environmental_consciousness [f16] <= 8.5)
+         If (physical_activity_level [f25] <= 5.5)
+          If (has_children [f3] <= 0.5)
            Predict: 0.0
-          Else (feature 3 > 0.5)
-           If (feature 49 in {0.0,2.0,4.0})
+          Else (has_children [f3] > 0.5)
+           If (preferred_payment_method_encoded [f53] in {2.0,3.0,5.0})
             Predict: 0.0
-           Else (feature 49 not in {0.0,2.0,4.0})
+           Else (preferred_payment_method_encoded [f53] not in {2.0,3.0,5.0})
             Predict: 1.0
-         Else (feature 25 > 5.5)
-          If (feature 1 <= 47108.5)
+         Else (physical_activity_level [f25] > 5.5)
+          If (income_level [f1] <= 47108.5)
            Predict: 1.0
-          Else (feature 1 > 47108.5)
+          Else (income_level [f1] > 47108.5)
            Predict: 0.0
-        Else (feature 16 > 8.5)
-         If (feature 38 <= 40.5)
+        Else (environmental_consciousness [f16] > 8.5)
+         If (return_rate [f38] <= 40.5)
           Predict: 0.0
-         Else (feature 38 > 40.5)
+         Else (return_rate [f38] > 40.5)
           Predict: 1.0
-       Else (feature 48 not in {2.0})
-        If (feature 50 in {7.0})
-         If (feature 16 <= 4.5)
+       Else (device_type_encoded [f52] not in {2.0})
+        If (product_category_preference_encoded [f54] in {4.0})
+         If (environmental_consciousness [f16] <= 4.5)
           Predict: 0.0
-         Else (feature 16 > 4.5)
-          If (feature 18 <= 1.5)
+         Else (environmental_consciousness [f16] > 4.5)
+          If (travel_frequency [f18] <= 1.5)
            Predict: 0.0
-          Else (feature 18 > 1.5)
-           If (feature 51 in {1.0,2.0,3.0})
+          Else (travel_frequency [f18] > 1.5)
+           If (shopping_time_of_day_encoded [f55] in {0.0,2.0,3.0})
             Predict: 0.0
-           Else (feature 51 not in {1.0,2.0,3.0})
+           Else (shopping_time_of_day_encoded [f55] not in {0.0,2.0,3.0})
             Predict: 1.0
-        Else (feature 50 not in {7.0})
+        Else (product_category_preference_encoded [f54] not in {4.0})
          Predict: 0.0
-     Else (feature 22 > 5.5)
-      If (feature 4 <= 3.5)
-       If (feature 0 <= 27.5)
-        If (feature 40 in {1.0,2.0,5.0})
-         If (feature 29 <= 2.5)
+     Else (stress_from_financial_decisions [f22] > 5.5)
+      If (weekly_purchases [f4] <= 3.5)
+       If (age [f0] <= 27.5)
+        If (country_encoded [f44] in {1.0,3.0,7.0})
+         If (ad_views_per_day [f29] <= 2.5)
           Predict: 0.0
-         Else (feature 29 > 2.5)
-          If (feature 49 in {0.0,1.0,2.0,3.0})
+         Else (ad_views_per_day [f29] > 2.5)
+          If (preferred_payment_method_encoded [f53] in {0.0,1.0,2.0,3.0})
            Predict: 0.0
-          Else (feature 49 not in {0.0,1.0,2.0,3.0})
+          Else (preferred_payment_method_encoded [f53] not in {0.0,1.0,2.0,3.0})
            Predict: 1.0
-        Else (feature 40 not in {1.0,2.0,5.0})
-         If (feature 21 <= 2.5)
-          If (feature 36 <= 4.5)
-           If (feature 42 in {0.0,1.0,2.0})
+        Else (country_encoded [f44] not in {1.0,3.0,7.0})
+         If (exercise_frequency [f21] <= 2.5)
+          If (social_sharing_frequency [f36] <= 4.5)
+           If (employment_status_encoded [f46] in {0.0,2.0,3.0})
             Predict: 0.0
-           Else (feature 42 not in {0.0,1.0,2.0})
+           Else (employment_status_encoded [f46] not in {0.0,2.0,3.0})
             Predict: 1.0
-          Else (feature 36 > 4.5)
+          Else (social_sharing_frequency [f36] > 4.5)
            Predict: 0.0
-         Else (feature 21 > 2.5)
-          If (feature 29 <= 17.5)
-           If (feature 50 in {0.0,7.0})
+         Else (exercise_frequency [f21] > 2.5)
+          If (ad_views_per_day [f29] <= 17.5)
+           If (product_category_preference_encoded [f54] in {0.0,4.0})
             Predict: 0.0
-           Else (feature 50 not in {0.0,7.0})
+           Else (product_category_preference_encoded [f54] not in {0.0,4.0})
             Predict: 1.0
-          Else (feature 29 > 17.5)
+          Else (ad_views_per_day [f29] > 17.5)
            Predict: 0.0
-       Else (feature 0 > 27.5)
-        If (feature 40 in {0.0,3.0,4.0,5.0,6.0,8.0,9.0})
-         If (feature 44 in {1.0,2.0,3.0})
-          If (feature 49 in {0.0,2.0,3.0,4.0})
+       Else (age [f0] > 27.5)
+        If (country_encoded [f44] in {0.0,2.0,4.0,5.0,7.0,8.0,9.0})
+         If (relationship_status_encoded [f48] in {1.0,2.0,3.0})
+          If (preferred_payment_method_encoded [f53] in {0.0,2.0,3.0,5.0})
            Predict: 0.0
-          Else (feature 49 not in {0.0,2.0,3.0,4.0})
-           If (feature 50 in {0.0,1.0,3.0,4.0,6.0,7.0})
+          Else (preferred_payment_method_encoded [f53] not in {0.0,2.0,3.0,5.0})
+           If (product_category_preference_encoded [f54] in {0.0,1.0,2.0,3.0,4.0,7.0})
             Predict: 0.0
-           Else (feature 50 not in {0.0,1.0,3.0,4.0,6.0,7.0})
+           Else (product_category_preference_encoded [f54] not in {0.0,1.0,2.0,3.0,4.0,7.0})
             Predict: 1.0
-         Else (feature 44 not in {1.0,2.0,3.0})
-          If (feature 34 <= 46.5)
-           If (feature 40 in {3.0,5.0,8.0})
+         Else (relationship_status_encoded [f48] not in {1.0,2.0,3.0})
+          If (notification_response_rate [f34] <= 46.5)
+           If (country_encoded [f44] in {2.0,7.0,8.0})
             Predict: 0.0
-           Else (feature 40 not in {3.0,5.0,8.0})
+           Else (country_encoded [f44] not in {2.0,7.0,8.0})
             Predict: 1.0
-          Else (feature 34 > 46.5)
+          Else (notification_response_rate [f34] > 46.5)
            Predict: 0.0
-        Else (feature 40 not in {0.0,3.0,4.0,5.0,6.0,8.0,9.0})
-         If (feature 19 <= 4.5)
-          If (feature 36 <= 6.5)
+        Else (country_encoded [f44] not in {0.0,2.0,4.0,5.0,7.0,8.0,9.0})
+         If (hobby_count [f19] <= 4.5)
+          If (social_sharing_frequency [f36] <= 6.5)
            Predict: 0.0
-          Else (feature 36 > 6.5)
+          Else (social_sharing_frequency [f36] > 6.5)
            Predict: 1.0
-         Else (feature 19 > 4.5)
-          If (feature 50 in {1.0,2.0,3.0,4.0,7.0})
+         Else (hobby_count [f19] > 4.5)
+          If (product_category_preference_encoded [f54] in {1.0,2.0,3.0,4.0,5.0})
            Predict: 0.0
-          Else (feature 50 not in {1.0,2.0,3.0,4.0,7.0})
-           If (feature 49 in {1.0,2.0,3.0,5.0})
+          Else (product_category_preference_encoded [f54] not in {1.0,2.0,3.0,4.0,5.0})
+           If (preferred_payment_method_encoded [f53] in {0.0,1.0,2.0,4.0})
             Predict: 0.0
-           Else (feature 49 not in {1.0,2.0,3.0,5.0})
+           Else (preferred_payment_method_encoded [f53] not in {0.0,1.0,2.0,4.0})
             Predict: 1.0
-      Else (feature 4 > 3.5)
-       If (feature 5 <= 1220.5)
-        If (feature 28 <= 10.5)
-         If (feature 18 <= 8.5)
-          If (feature 42 in {2.0,4.0})
-           Predict: 0.0
-          Else (feature 42 not in {2.0,4.0})
-           Predict: 1.0
-         Else (feature 18 > 8.5)
-          If (feature 47 in {0.0,1.0,2.0,4.0})
-           If (feature 29 <= 16.5)
+      Else (weekly_purchases [f4] > 3.5)
+       If (monthly_spend [f5] <= 1220.5)
+        If (app_usage_frequency [f41] <= 6.5)
+         If (product_views_per_day [f28] <= 10.5)
+          If (days_since_last_purchase [f42] <= 407.5)
+           If (employment_status_encoded [f46] in {3.0,4.0})
             Predict: 0.0
-           Else (feature 29 > 16.5)
+           Else (employment_status_encoded [f46] not in {3.0,4.0})
             Predict: 1.0
-          Else (feature 47 not in {0.0,1.0,2.0,4.0})
-           Predict: 1.0
-        Else (feature 28 > 10.5)
-         If (feature 20 <= 8.5)
+          Else (days_since_last_purchase [f42] > 407.5)
+           If (notification_response_rate [f34] <= 90.5)
+            Predict: 1.0
+           Else (notification_response_rate [f34] > 90.5)
+            Predict: 0.0
+         Else (product_views_per_day [f28] > 10.5)
           Predict: 0.0
-         Else (feature 20 > 8.5)
-          If (feature 33 <= 6.5)
+        Else (app_usage_frequency [f41] > 6.5)
+         If (daily_session_time_minutes [f27] <= 26.5)
+          If (relationship_status_encoded [f48] in {1.0,3.0})
            Predict: 0.0
-          Else (feature 33 > 6.5)
-           If (feature 45 in {2.0,6.0,7.0})
+          Else (relationship_status_encoded [f48] not in {1.0,3.0})
+           If (urban_rural_encoded [f45] in {0.0})
             Predict: 0.0
-           Else (feature 45 not in {2.0,6.0,7.0})
+           Else (urban_rural_encoded [f45] not in {0.0})
             Predict: 1.0
-       Else (feature 5 > 1220.5)
-        If (feature 16 <= 2.5)
-         If (feature 27 <= 105.5)
+         Else (daily_session_time_minutes [f27] > 26.5)
+          If (physical_activity_level [f25] <= 1.5)
+           If (purchase_conversion_rate [f33] <= 43.5)
+            Predict: 1.0
+           Else (purchase_conversion_rate [f33] > 43.5)
+            Predict: 0.0
+          Else (physical_activity_level [f25] > 1.5)
+           Predict: 0.0
+       Else (monthly_spend [f5] > 1220.5)
+        If (environmental_consciousness [f16] <= 2.5)
+         If (daily_session_time_minutes [f27] <= 105.5)
           Predict: 0.0
-         Else (feature 27 > 105.5)
-          If (feature 45 in {2.0,3.0,6.0,7.0})
+         Else (daily_session_time_minutes [f27] > 105.5)
+          If (occupation_encoded [f49] in {1.0,3.0,6.0,7.0})
            Predict: 0.0
-          Else (feature 45 not in {2.0,3.0,6.0,7.0})
-           If (feature 38 <= 56.5)
+          Else (occupation_encoded [f49] not in {1.0,3.0,6.0,7.0})
+           If (return_rate [f38] <= 56.5)
             Predict: 0.0
-           Else (feature 38 > 56.5)
+           Else (return_rate [f38] > 56.5)
             Predict: 1.0
-        Else (feature 16 > 2.5)
-         If (feature 49 in {0.0,1.0,2.0,4.0})
+        Else (environmental_consciousness [f16] > 2.5)
+         If (preferred_payment_method_encoded [f53] in {1.0,2.0,3.0,5.0})
           Predict: 0.0
-         Else (feature 49 not in {0.0,1.0,2.0,4.0})
-          If (feature 20 <= 8.5)
-           If (feature 9 <= 5.5)
-            Predict: 0.0
-           Else (feature 9 > 5.5)
+         Else (preferred_payment_method_encoded [f53] not in {1.0,2.0,3.0,5.0})
+          If (reading_habits [f40] <= 0.5)
+           If (cart_items_average [f32] <= 7.5)
             Predict: 1.0
-          Else (feature 20 > 8.5)
+           Else (cart_items_average [f32] > 7.5)
+            Predict: 0.0
+          Else (reading_habits [f40] > 0.5)
            Predict: 0.0
-  Else (feature 15 > 4.5)
-   If (feature 15 <= 5.5)
-    If (feature 22 <= 5.5)
-     If (feature 22 <= 3.5)
-      If (feature 31 <= 15.5)
-       If (feature 40 in {6.0})
-        If (feature 45 in {0.0,2.0,4.0,5.0,7.0})
-         If (feature 49 in {1.0,3.0,5.0})
+  Else (impulse_buying_score [f15] > 4.5)
+   If (impulse_buying_score [f15] <= 5.5)
+    If (stress_from_financial_decisions [f22] <= 5.5)
+     If (stress_from_financial_decisions [f22] <= 3.5)
+      If (wishlist_items_count [f31] <= 15.5)
+       If (country_encoded [f44] in {5.0})
+        If (occupation_encoded [f49] in {0.0,3.0,4.0,5.0,7.0})
+         If (preferred_payment_method_encoded [f53] in {0.0,1.0,4.0})
           Predict: 0.0
-         Else (feature 49 not in {1.0,3.0,5.0})
-          If (feature 50 in {0.0,1.0,3.0,4.0,5.0})
+         Else (preferred_payment_method_encoded [f53] not in {0.0,1.0,4.0})
+          If (product_category_preference_encoded [f54] in {0.0,1.0,2.0,3.0,6.0})
            Predict: 0.0
-          Else (feature 50 not in {0.0,1.0,3.0,4.0,5.0})
-           If (feature 19 <= 4.5)
+          Else (product_category_preference_encoded [f54] not in {0.0,1.0,2.0,3.0,6.0})
+           If (hobby_count [f19] <= 4.5)
             Predict: 0.0
-           Else (feature 19 > 4.5)
+           Else (hobby_count [f19] > 4.5)
             Predict: 1.0
-        Else (feature 45 not in {0.0,2.0,4.0,5.0,7.0})
-         If (feature 44 in {1.0,2.0})
+        Else (occupation_encoded [f49] not in {0.0,3.0,4.0,5.0,7.0})
+         If (relationship_status_encoded [f48] in {1.0,3.0})
           Predict: 0.0
-         Else (feature 44 not in {1.0,2.0})
-          If (feature 26 <= 2.5)
+         Else (relationship_status_encoded [f48] not in {1.0,3.0})
+          If (mental_health_score [f26] <= 2.5)
            Predict: 0.0
-          Else (feature 26 > 2.5)
-           If (feature 13 <= 9.5)
+          Else (mental_health_score [f26] > 2.5)
+           If (return_frequency [f13] <= 9.5)
             Predict: 0.0
-           Else (feature 13 > 9.5)
+           Else (return_frequency [f13] > 9.5)
             Predict: 1.0
-       Else (feature 40 not in {6.0})
+       Else (country_encoded [f44] not in {5.0})
         Predict: 0.0
-      Else (feature 31 > 15.5)
-       If (feature 42 in {1.0})
+      Else (wishlist_items_count [f31] > 15.5)
+       If (employment_status_encoded [f46] in {2.0})
         Predict: 0.0
-       Else (feature 42 not in {1.0})
-        If (feature 47 in {1.0})
+       Else (employment_status_encoded [f46] not in {2.0})
+        If (review_writing_frequency [f39] <= 6.5)
          Predict: 0.0
-        Else (feature 47 not in {1.0})
-         If (feature 40 in {2.0,4.0,5.0,7.0,9.0})
-          If (feature 20 <= 6.5)
+        Else (review_writing_frequency [f39] > 6.5)
+         If (product_category_preference_encoded [f54] in {1.0,2.0,3.0,5.0,6.0,7.0})
+          If (preferred_payment_method_encoded [f53] in {1.0,5.0})
            Predict: 0.0
-          Else (feature 20 > 6.5)
-           If (feature 26 <= 0.5)
+          Else (preferred_payment_method_encoded [f53] not in {1.0,5.0})
+           If (income_level [f1] <= 129656.5)
             Predict: 1.0
-           Else (feature 26 > 0.5)
+           Else (income_level [f1] > 129656.5)
             Predict: 0.0
-         Else (feature 40 not in {2.0,4.0,5.0,7.0,9.0})
-          Predict: 0.0
-     Else (feature 22 > 3.5)
-      If (feature 22 <= 4.5)
-       If (feature 36 <= 2.5)
-        If (feature 14 <= 9.5)
-         If (feature 27 <= 94.5)
-          If (feature 4 <= 18.5)
-           Predict: 0.0
-          Else (feature 4 > 18.5)
-           If (feature 7 <= 1.5)
-            Predict: 1.0
-           Else (feature 7 > 1.5)
-            Predict: 0.0
-         Else (feature 27 > 94.5)
-          If (feature 9 <= 2.5)
-           If (feature 38 <= 43.5)
-            Predict: 0.0
-           Else (feature 38 > 43.5)
-            Predict: 1.0
-          Else (feature 9 > 2.5)
-           Predict: 0.0
-        Else (feature 14 > 9.5)
-         If (feature 45 in {0.0,1.0,2.0,4.0,5.0,6.0,7.0})
-          Predict: 0.0
-         Else (feature 45 not in {0.0,1.0,2.0,4.0,5.0,6.0,7.0})
-          If (feature 47 in {0.0,1.0,2.0})
-           Predict: 0.0
-          Else (feature 47 not in {0.0,1.0,2.0})
-           Predict: 1.0
-       Else (feature 36 > 2.5)
-        If (feature 31 <= 7.5)
-         If (feature 25 <= 5.5)
-          Predict: 0.0
-         Else (feature 25 > 5.5)
-          If (feature 33 <= 65.5)
-           Predict: 0.0
-          Else (feature 33 > 65.5)
-           If (feature 47 in {0.0,2.0,3.0,5.0})
-            Predict: 0.0
-           Else (feature 47 not in {0.0,2.0,3.0,5.0})
-            Predict: 1.0
-        Else (feature 31 > 7.5)
-         If (feature 34 <= 9.5)
-          If (feature 2 <= 3.5)
-           If (feature 27 <= 23.5)
-            Predict: 1.0
-           Else (feature 27 > 23.5)
-            Predict: 0.0
-          Else (feature 2 > 3.5)
-           Predict: 0.0
-         Else (feature 34 > 9.5)
-          Predict: 0.0
-      Else (feature 22 > 4.5)
-       If (feature 35 <= 8.5)
-        If (feature 40 in {0.0,2.0,4.0,5.0,6.0,7.0,8.0})
-         If (feature 34 <= 16.5)
-          If (feature 26 <= 1.5)
-           Predict: 0.0
-          Else (feature 26 > 1.5)
-           If (feature 1 <= 22293.5)
-            Predict: 1.0
-           Else (feature 1 > 22293.5)
-            Predict: 0.0
-         Else (feature 34 > 16.5)
-          If (feature 50 in {7.0})
-           If (feature 28 <= 40.5)
-            Predict: 0.0
-           Else (feature 28 > 40.5)
-            Predict: 1.0
-          Else (feature 50 not in {7.0})
-           Predict: 1.0
-        Else (feature 40 not in {0.0,2.0,4.0,5.0,6.0,7.0,8.0})
-         If (feature 29 <= 16.5)
-          If (feature 0 <= 57.5)
-           Predict: 1.0
-          Else (feature 0 > 57.5)
-           If (feature 51 in {1.0,2.0,3.0})
-            Predict: 0.0
-           Else (feature 51 not in {1.0,2.0,3.0})
-            Predict: 1.0
-         Else (feature 29 > 16.5)
-          If (feature 34 <= 68.5)
-           If (feature 19 <= 2.5)
-            Predict: 1.0
-           Else (feature 19 > 2.5)
-            Predict: 0.0
-          Else (feature 34 > 68.5)
-           Predict: 0.0
-       Else (feature 35 > 8.5)
-        If (feature 33 <= 18.5)
-         If (feature 27 <= 52.5)
-          If (feature 34 <= 34.5)
-           Predict: 0.0
-          Else (feature 34 > 34.5)
-           Predict: 1.0
-         Else (feature 27 > 52.5)
-          If (feature 42 in {0.0,2.0})
-           Predict: 0.0
-          Else (feature 42 not in {0.0,2.0})
-           If (feature 21 <= 2.5)
-            Predict: 1.0
-           Else (feature 21 > 2.5)
-            Predict: 0.0
-        Else (feature 33 > 18.5)
-         If (feature 20 <= 2.5)
-          If (feature 25 <= 7.5)
-           If (feature 9 <= 8.5)
-            Predict: 0.0
-           Else (feature 9 > 8.5)
-            Predict: 1.0
-          Else (feature 25 > 7.5)
-           Predict: 0.0
-         Else (feature 20 > 2.5)
-          If (feature 46 in {4.0})
-           If (feature 26 <= 4.5)
-            Predict: 0.0
-           Else (feature 26 > 4.5)
-            Predict: 1.0
-          Else (feature 46 not in {4.0})
-           Predict: 1.0
-    Else (feature 22 > 5.5)
-     If (feature 22 <= 6.5)
-      If (feature 46 in {0.0,2.0})
-       If (feature 36 <= 1.5)
-        If (feature 2 <= 7.5)
-         If (feature 6 <= 373.5)
+         Else (product_category_preference_encoded [f54] not in {1.0,2.0,3.0,5.0,6.0,7.0})
           Predict: 1.0
-         Else (feature 6 > 373.5)
-          If (feature 42 in {2.0,4.0})
-           If (feature 50 in {0.0,4.0,7.0})
-            Predict: 0.0
-           Else (feature 50 not in {0.0,4.0,7.0})
-            Predict: 1.0
-          Else (feature 42 not in {2.0,4.0})
+     Else (stress_from_financial_decisions [f22] > 3.5)
+      If (stress_from_financial_decisions [f22] <= 4.5)
+       If (reading_habits [f40] <= 7.5)
+        If (notification_response_rate [f34] <= 90.5)
+         If (occupation_encoded [f49] in {1.0,2.0,3.0,6.0})
+          If (review_writing_frequency [f39] <= 7.5)
+           Predict: 0.0
+          Else (review_writing_frequency [f39] > 7.5)
            Predict: 1.0
-        Else (feature 2 > 7.5)
-         If (feature 47 in {1.0,2.0,3.0,4.0,5.0})
-          If (feature 9 <= 5.5)
-           Predict: 1.0
-          Else (feature 9 > 5.5)
-           If (feature 14 <= 3.5)
-            Predict: 1.0
-           Else (feature 14 > 3.5)
-            Predict: 0.0
-         Else (feature 47 not in {1.0,2.0,3.0,4.0,5.0})
-          Predict: 1.0
-       Else (feature 36 > 1.5)
-        If (feature 50 in {1.0,3.0,5.0,6.0,7.0})
-         If (feature 30 <= 3.5)
-          Predict: 1.0
-         Else (feature 30 > 3.5)
-          If (feature 4 <= 18.5)
-           If (feature 29 <= 0.5)
-            Predict: 0.0
-           Else (feature 29 > 0.5)
-            Predict: 1.0
-          Else (feature 4 > 18.5)
-           If (feature 28 <= 23.5)
-            Predict: 1.0
-           Else (feature 28 > 23.5)
-            Predict: 0.0
-        Else (feature 50 not in {1.0,3.0,5.0,6.0,7.0})
-         If (feature 40 in {7.0})
-          If (feature 49 in {0.0,2.0})
-           If (feature 29 <= 7.5)
-            Predict: 1.0
-           Else (feature 29 > 7.5)
-            Predict: 0.0
-          Else (feature 49 not in {0.0,2.0})
-           Predict: 1.0
-         Else (feature 40 not in {7.0})
-          Predict: 1.0
-      Else (feature 46 not in {0.0,2.0})
-       If (feature 29 <= 0.5)
-        If (feature 40 in {0.0,3.0,6.0,7.0})
-         If (feature 49 in {0.0,4.0})
+         Else (occupation_encoded [f49] not in {1.0,2.0,3.0,6.0})
           Predict: 0.0
-         Else (feature 49 not in {0.0,4.0})
-          If (feature 32 <= 7.5)
-           If (feature 45 in {0.0,1.0,3.0,6.0})
-            Predict: 0.0
-           Else (feature 45 not in {0.0,1.0,3.0,6.0})
-            Predict: 1.0
-          Else (feature 32 > 7.5)
-           Predict: 0.0
-        Else (feature 40 not in {0.0,3.0,6.0,7.0})
-         If (feature 50 in {0.0,1.0,2.0,4.0})
-          If (feature 31 <= 12.5)
-           If (feature 20 <= 5.5)
-            Predict: 1.0
-           Else (feature 20 > 5.5)
-            Predict: 0.0
-          Else (feature 31 > 12.5)
-           If (feature 49 in {0.0,2.0,3.0,5.0})
-            Predict: 0.0
-           Else (feature 49 not in {0.0,2.0,3.0,5.0})
-            Predict: 1.0
-         Else (feature 50 not in {0.0,1.0,2.0,4.0})
-          If (feature 12 <= 37.5)
-           If (feature 45 in {0.0,3.0,6.0,7.0})
-            Predict: 0.0
-           Else (feature 45 not in {0.0,3.0,6.0,7.0})
-            Predict: 1.0
-          Else (feature 12 > 37.5)
-           Predict: 1.0
-       Else (feature 29 > 0.5)
-        If (feature 11 <= 2.5)
-         If (feature 12 <= 12.5)
-          If (feature 45 in {0.0,1.0,4.0,6.0})
-           If (feature 24 <= 6.5)
-            Predict: 1.0
-           Else (feature 24 > 6.5)
-            Predict: 0.0
-          Else (feature 45 not in {0.0,1.0,4.0,6.0})
-           Predict: 1.0
-         Else (feature 12 > 12.5)
-          If (feature 27 <= 7.5)
-           If (feature 49 in {1.0})
-            Predict: 0.0
-           Else (feature 49 not in {1.0})
-            Predict: 1.0
-          Else (feature 27 > 7.5)
-           Predict: 1.0
-        Else (feature 11 > 2.5)
-         Predict: 1.0
-     Else (feature 22 > 6.5)
-      If (feature 35 <= 1.5)
-       If (feature 30 <= 1.5)
-        If (feature 6 <= 405.5)
-         If (feature 5 <= 3909.5)
-          If (feature 6 <= 162.5)
-           If (feature 45 in {0.0,3.0,4.0,5.0})
-            Predict: 0.0
-           Else (feature 45 not in {0.0,3.0,4.0,5.0})
-            Predict: 1.0
-          Else (feature 6 > 162.5)
-           Predict: 1.0
-         Else (feature 5 > 3909.5)
-          If (feature 13 <= 5.5)
-           Predict: 0.0
-          Else (feature 13 > 5.5)
-           Predict: 1.0
-        Else (feature 6 > 405.5)
+        Else (notification_response_rate [f34] > 90.5)
          Predict: 0.0
-       Else (feature 30 > 1.5)
-        If (feature 40 in {0.0,1.0,4.0,6.0})
-         If (feature 23 <= 8.5)
-          If (feature 38 <= 62.5)
-           Predict: 1.0
-          Else (feature 38 > 62.5)
+       Else (reading_habits [f40] > 7.5)
+        If (relationship_status_encoded [f48] in {2.0,3.0})
+         If (monthly_spend [f5] <= 3597.0)
+          If (wishlist_items_count [f31] <= 9.5)
+           If (country_encoded [f44] in {0.0,1.0,2.0,3.0,5.0,6.0,7.0,8.0,9.0})
+            Predict: 0.0
+           Else (country_encoded [f44] not in {0.0,1.0,2.0,3.0,5.0,6.0,7.0,8.0,9.0})
+            Predict: 1.0
+          Else (wishlist_items_count [f31] > 9.5)
            Predict: 0.0
-         Else (feature 23 > 8.5)
-          Predict: 1.0
-        Else (feature 40 not in {0.0,1.0,4.0,6.0})
+         Else (monthly_spend [f5] > 3597.0)
+          Predict: 0.0
+        Else (relationship_status_encoded [f48] not in {2.0,3.0})
+         If (social_media_influence_score [f20] <= 2.5)
+          If (wishlist_items_count [f31] <= 7.5)
+           If (product_category_preference_encoded [f54] in {2.0,3.0,4.0,5.0,7.0})
+            Predict: 0.0
+           Else (product_category_preference_encoded [f54] not in {2.0,3.0,4.0,5.0,7.0})
+            Predict: 1.0
+          Else (wishlist_items_count [f31] > 7.5)
+           Predict: 0.0
+         Else (social_media_influence_score [f20] > 2.5)
+          If (country_encoded [f44] in {1.0,5.0,8.0})
+           Predict: 0.0
+          Else (country_encoded [f44] not in {1.0,5.0,8.0})
+           If (ad_views_per_day [f29] <= 19.5)
+            Predict: 0.0
+           Else (ad_views_per_day [f29] > 19.5)
+            Predict: 1.0
+      Else (stress_from_financial_decisions [f22] > 4.5)
+       If (account_age_months [f35] <= 8.5)
+        If (country_encoded [f44] in {0.0,3.0,4.0,5.0,6.0,7.0,8.0})
+         If (notification_response_rate [f34] <= 16.5)
+          If (mental_health_score [f26] <= 1.5)
+           Predict: 0.0
+          Else (mental_health_score [f26] > 1.5)
+           If (income_level [f1] <= 22293.5)
+            Predict: 1.0
+           Else (income_level [f1] > 22293.5)
+            Predict: 0.0
+         Else (notification_response_rate [f34] > 16.5)
+          If (product_category_preference_encoded [f54] in {4.0})
+           Predict: 0.0
+          Else (product_category_preference_encoded [f54] not in {4.0})
+           Predict: 1.0
+        Else (country_encoded [f44] not in {0.0,3.0,4.0,5.0,6.0,7.0,8.0})
+         If (ad_views_per_day [f29] <= 16.5)
+          If (age [f0] <= 57.5)
+           Predict: 1.0
+          Else (age [f0] > 57.5)
+           If (shopping_time_of_day_encoded [f55] in {0.0,2.0,3.0})
+            Predict: 0.0
+           Else (shopping_time_of_day_encoded [f55] not in {0.0,2.0,3.0})
+            Predict: 1.0
+         Else (ad_views_per_day [f29] > 16.5)
+          If (notification_response_rate [f34] <= 68.5)
+           If (hobby_count [f19] <= 2.5)
+            Predict: 1.0
+           Else (hobby_count [f19] > 2.5)
+            Predict: 0.0
+          Else (notification_response_rate [f34] > 68.5)
+           Predict: 0.0
+       Else (account_age_months [f35] > 8.5)
+        If (purchase_conversion_rate [f33] <= 18.5)
+         If (daily_session_time_minutes [f27] <= 52.5)
+          If (notification_response_rate [f34] <= 34.5)
+           Predict: 0.0
+          Else (notification_response_rate [f34] > 34.5)
+           Predict: 1.0
+         Else (daily_session_time_minutes [f27] > 52.5)
+          If (employment_status_encoded [f46] in {0.0,3.0})
+           Predict: 0.0
+          Else (employment_status_encoded [f46] not in {0.0,3.0})
+           If (exercise_frequency [f21] <= 2.5)
+            Predict: 1.0
+           Else (exercise_frequency [f21] > 2.5)
+            Predict: 0.0
+        Else (purchase_conversion_rate [f33] > 18.5)
+         If (social_media_influence_score [f20] <= 2.5)
+          If (physical_activity_level [f25] <= 7.5)
+           If (referral_count [f9] <= 8.5)
+            Predict: 0.0
+           Else (referral_count [f9] > 8.5)
+            Predict: 1.0
+          Else (physical_activity_level [f25] > 7.5)
+           Predict: 0.0
+         Else (social_media_influence_score [f20] > 2.5)
+          If (ethnicity_encoded [f50] in {3.0})
+           If (mental_health_score [f26] <= 4.5)
+            Predict: 0.0
+           Else (mental_health_score [f26] > 4.5)
+            Predict: 1.0
+          Else (ethnicity_encoded [f50] not in {3.0})
+           Predict: 1.0
+    Else (stress_from_financial_decisions [f22] > 5.5)
+     If (stress_from_financial_decisions [f22] <= 6.5)
+      If (days_since_last_purchase [f42] <= 655.5)
+       If (ethnicity_encoded [f50] in {0.0})
+        If (device_type_encoded [f52] in {1.0,2.0})
+         If (hobby_count [f19] <= 4.5)
+          If (purchase_conversion_rate [f33] <= 49.5)
+           Predict: 1.0
+          Else (purchase_conversion_rate [f33] > 49.5)
+           If (product_category_preference_encoded [f54] in {1.0,4.0,5.0})
+            Predict: 0.0
+           Else (product_category_preference_encoded [f54] not in {1.0,4.0,5.0})
+            Predict: 1.0
+         Else (hobby_count [f19] > 4.5)
+          If (product_views_per_day [f28] <= 24.5)
+           Predict: 1.0
+          Else (product_views_per_day [f28] > 24.5)
+           If (average_order_value [f6] <= 235.5)
+            Predict: 1.0
+           Else (average_order_value [f6] > 235.5)
+            Predict: 0.0
+        Else (device_type_encoded [f52] not in {1.0,2.0})
          Predict: 1.0
-      Else (feature 35 > 1.5)
-       If (feature 34 <= 94.5)
-        If (feature 34 <= 34.5)
+       Else (ethnicity_encoded [f50] not in {0.0})
+        If (daily_session_time_minutes [f27] <= 7.5)
+         If (country_encoded [f44] in {1.0,3.0,5.0,6.0,7.0,8.0})
+          If (occupation_encoded [f49] in {0.0,2.0,4.0,6.0})
+           If (country_encoded [f44] in {7.0})
+            Predict: 0.0
+           Else (country_encoded [f44] not in {7.0})
+            Predict: 1.0
+          Else (occupation_encoded [f49] not in {0.0,2.0,4.0,6.0})
+           Predict: 1.0
+         Else (country_encoded [f44] not in {1.0,3.0,5.0,6.0,7.0,8.0})
+          If (monthly_spend [f5] <= 4373.5)
+           Predict: 1.0
+          Else (monthly_spend [f5] > 4373.5)
+           Predict: 0.0
+        Else (daily_session_time_minutes [f27] > 7.5)
          Predict: 1.0
-        Else (feature 34 > 34.5)
-         If (feature 28 <= 35.5)
-          If (feature 35 <= 23.5)
-           Predict: 1.0
-          Else (feature 35 > 23.5)
-           If (feature 18 <= 0.5)
-            Predict: 0.0
-           Else (feature 18 > 0.5)
-            Predict: 1.0
-         Else (feature 28 > 35.5)
+      Else (days_since_last_purchase [f42] > 655.5)
+       If (app_usage_frequency [f41] <= 0.5)
+        If (product_category_preference_encoded [f54] in {2.0,4.0,7.0})
+         If (exercise_frequency [f21] <= 2.5)
           Predict: 1.0
-       Else (feature 34 > 94.5)
-        Predict: 1.0
-   Else (feature 15 > 5.5)
-    If (feature 22 <= 4.5)
-     If (feature 39 in {1.0,2.0,3.0})
-      If (feature 26 <= 5.5)
-       If (feature 29 <= 15.5)
-        If (feature 40 in {0.0,1.0,3.0,4.0,8.0,9.0})
-         If (feature 0 <= 31.5)
-          If (feature 12 <= 88.5)
-           If (feature 21 <= 6.5)
-            Predict: 1.0
-           Else (feature 21 > 6.5)
-            Predict: 0.0
-          Else (feature 12 > 88.5)
-           If (feature 1 <= 153330.5)
-            Predict: 1.0
-           Else (feature 1 > 153330.5)
-            Predict: 0.0
-         Else (feature 0 > 31.5)
-          Predict: 1.0
-        Else (feature 40 not in {0.0,1.0,3.0,4.0,8.0,9.0})
-         If (feature 6 <= 436.5)
-          Predict: 1.0
-         Else (feature 6 > 436.5)
-          If (feature 9 <= 5.5)
+         Else (exercise_frequency [f21] > 2.5)
+          If (income_level [f1] <= 94309.0)
            Predict: 1.0
-          Else (feature 9 > 5.5)
+          Else (income_level [f1] > 94309.0)
            Predict: 0.0
-       Else (feature 29 > 15.5)
-        If (feature 45 in {1.0,2.0,6.0,7.0})
-         If (feature 7 <= 0.5)
-          If (feature 40 in {0.0,1.0,2.0,3.0,4.0,6.0,7.0,8.0})
-           If (feature 42 in {0.0,2.0,3.0,4.0})
-            Predict: 0.0
-           Else (feature 42 not in {0.0,2.0,3.0,4.0})
-            Predict: 1.0
-          Else (feature 40 not in {0.0,1.0,2.0,3.0,4.0,6.0,7.0,8.0})
-           Predict: 1.0
-         Else (feature 7 > 0.5)
-          If (feature 27 <= 71.5)
-           Predict: 1.0
-          Else (feature 27 > 71.5)
-           If (feature 35 <= 4.5)
-            Predict: 0.0
-           Else (feature 35 > 4.5)
-            Predict: 1.0
-        Else (feature 45 not in {1.0,2.0,6.0,7.0})
-         If (feature 0 <= 23.5)
-          If (feature 45 in {3.0,5.0})
-           Predict: 0.0
-          Else (feature 45 not in {3.0,5.0})
-           Predict: 1.0
-         Else (feature 0 > 23.5)
-          Predict: 1.0
-      Else (feature 26 > 5.5)
-       If (feature 6 <= 71.5)
-        If (feature 52 in {0.0})
-         If (feature 50 in {0.0,2.0,4.0,7.0})
-          If (feature 12 <= 55.5)
-           If (feature 1 <= 105877.5)
-            Predict: 1.0
-           Else (feature 1 > 105877.5)
-            Predict: 0.0
-          Else (feature 12 > 55.5)
-           Predict: 0.0
-         Else (feature 50 not in {0.0,2.0,4.0,7.0})
-          If (feature 20 <= 3.5)
-           Predict: 1.0
-          Else (feature 20 > 3.5)
-           If (feature 27 <= 79.5)
-            Predict: 0.0
-           Else (feature 27 > 79.5)
-            Predict: 1.0
-        Else (feature 52 not in {0.0})
-         If (feature 23 <= 4.5)
-          If (feature 34 <= 55.5)
-           Predict: 1.0
-          Else (feature 34 > 55.5)
-           If (feature 35 <= 11.5)
-            Predict: 0.0
-           Else (feature 35 > 11.5)
-            Predict: 1.0
-         Else (feature 23 > 4.5)
-          If (feature 50 in {0.0,2.0,4.0,7.0})
-           Predict: 0.0
-          Else (feature 50 not in {0.0,2.0,4.0,7.0})
-           If (feature 33 <= 40.5)
-            Predict: 0.0
-           Else (feature 33 > 40.5)
-            Predict: 1.0
-       Else (feature 6 > 71.5)
-        If (feature 46 in {0.0,1.0,2.0,3.0})
-         If (feature 11 <= 3.5)
-          If (feature 40 in {0.0,4.0,6.0,9.0})
-           If (feature 6 <= 206.5)
-            Predict: 0.0
-           Else (feature 6 > 206.5)
-            Predict: 1.0
-          Else (feature 40 not in {0.0,4.0,6.0,9.0})
-           Predict: 1.0
-         Else (feature 11 > 3.5)
-          If (feature 2 <= 8.5)
-           Predict: 1.0
-          Else (feature 2 > 8.5)
-           If (feature 4 <= 19.5)
-            Predict: 1.0
-           Else (feature 4 > 19.5)
-            Predict: 0.0
-        Else (feature 46 not in {0.0,1.0,2.0,3.0})
-         If (feature 50 in {2.0,3.0,4.0,5.0,7.0})
-          If (feature 25 <= 6.5)
-           If (feature 30 <= 4.5)
-            Predict: 1.0
-           Else (feature 30 > 4.5)
-            Predict: 0.0
-          Else (feature 25 > 6.5)
-           If (feature 23 <= 2.5)
-            Predict: 0.0
-           Else (feature 23 > 2.5)
-            Predict: 1.0
-         Else (feature 50 not in {2.0,3.0,4.0,5.0,7.0})
-          If (feature 14 <= 7.5)
-           Predict: 1.0
-          Else (feature 14 > 7.5)
-           If (feature 25 <= 6.5)
-            Predict: 1.0
-           Else (feature 25 > 6.5)
-            Predict: 0.0
-     Else (feature 39 not in {1.0,2.0,3.0})
-      If (feature 4 <= 19.5)
-       If (feature 35 <= 22.5)
-        If (feature 45 in {1.0,3.0,4.0,6.0,7.0})
-         If (feature 5 <= 1387.5)
-          If (feature 50 in {4.0,6.0})
-           If (feature 33 <= 25.5)
-            Predict: 0.0
-           Else (feature 33 > 25.5)
-            Predict: 1.0
-          Else (feature 50 not in {4.0,6.0})
-           Predict: 1.0
-         Else (feature 5 > 1387.5)
-          If (feature 42 in {1.0})
-           If (feature 21 <= 4.5)
-            Predict: 1.0
-           Else (feature 21 > 4.5)
-            Predict: 0.0
-          Else (feature 42 not in {1.0})
-           Predict: 1.0
-        Else (feature 45 not in {1.0,3.0,4.0,6.0,7.0})
+        Else (product_category_preference_encoded [f54] not in {2.0,4.0,7.0})
          Predict: 1.0
-       Else (feature 35 > 22.5)
-        If (feature 5 <= 1220.5)
-         If (feature 30 <= 3.5)
+       Else (app_usage_frequency [f41] > 0.5)
+        If (daily_session_time_minutes [f27] <= 19.5)
+         If (reading_habits [f40] <= 20.5)
+          If (browse_to_buy_ratio [f12] <= 63.5)
+           Predict: 1.0
+          Else (browse_to_buy_ratio [f12] > 63.5)
+           If (premium_subscription [f37] <= 0.5)
+            Predict: 1.0
+           Else (premium_subscription [f37] > 0.5)
+            Predict: 0.0
+         Else (reading_habits [f40] > 20.5)
+          Predict: 0.0
+        Else (daily_session_time_minutes [f27] > 19.5)
+         If (wishlist_items_count [f31] <= 9.5)
           Predict: 1.0
-         Else (feature 30 > 3.5)
-          If (feature 44 in {0.0,2.0,4.0})
+         Else (wishlist_items_count [f31] > 9.5)
+          If (reading_habits [f40] <= 18.5)
+           If (relationship_status_encoded [f48] in {3.0})
+            Predict: 0.0
+           Else (relationship_status_encoded [f48] not in {3.0})
+            Predict: 1.0
+          Else (reading_habits [f40] > 18.5)
+           Predict: 1.0
+     Else (stress_from_financial_decisions [f22] > 6.5)
+      If (account_age_months [f35] <= 1.5)
+       If (ad_clicks_per_day [f30] <= 1.5)
+        If (average_order_value [f6] <= 405.5)
+         If (monthly_spend [f5] <= 3909.5)
+          If (average_order_value [f6] <= 162.5)
+           If (occupation_encoded [f49] in {0.0,1.0,4.0,5.0})
+            Predict: 0.0
+           Else (occupation_encoded [f49] not in {0.0,1.0,4.0,5.0})
+            Predict: 1.0
+          Else (average_order_value [f6] > 162.5)
+           Predict: 1.0
+         Else (monthly_spend [f5] > 3909.5)
+          If (return_frequency [f13] <= 5.5)
            Predict: 0.0
-          Else (feature 44 not in {0.0,2.0,4.0})
+          Else (return_frequency [f13] > 5.5)
            Predict: 1.0
-        Else (feature 5 > 1220.5)
-         If (feature 36 <= 4.5)
-          If (feature 16 <= 1.5)
-           If (feature 31 <= 8.5)
-            Predict: 1.0
-           Else (feature 31 > 8.5)
-            Predict: 0.0
-          Else (feature 16 > 1.5)
+        Else (average_order_value [f6] > 405.5)
+         Predict: 0.0
+       Else (ad_clicks_per_day [f30] > 1.5)
+        If (country_encoded [f44] in {0.0,1.0,4.0,5.0})
+         If (overall_stress_level [f23] <= 8.5)
+          If (return_rate [f38] <= 62.5)
            Predict: 1.0
-         Else (feature 36 > 4.5)
-          If (feature 41 in {1.0,2.0})
-           Predict: 1.0
-          Else (feature 41 not in {1.0,2.0})
-           If (feature 26 <= 6.5)
-            Predict: 0.0
-           Else (feature 26 > 6.5)
-            Predict: 1.0
-      Else (feature 4 > 19.5)
-       If (feature 38 <= 22.5)
-        Predict: 1.0
-       Else (feature 38 > 22.5)
-        If (feature 46 in {0.0,2.0,3.0})
-         If (feature 28 <= 31.5)
-          If (feature 45 in {0.0,1.0,2.0,6.0,7.0})
-           If (feature 49 in {2.0,4.0,5.0})
-            Predict: 0.0
-           Else (feature 49 not in {2.0,4.0,5.0})
-            Predict: 1.0
-          Else (feature 45 not in {0.0,1.0,2.0,6.0,7.0})
-           Predict: 1.0
-         Else (feature 28 > 31.5)
-          If (feature 3 <= 0.5)
+          Else (return_rate [f38] > 62.5)
            Predict: 0.0
-          Else (feature 3 > 0.5)
-           Predict: 1.0
-        Else (feature 46 not in {0.0,2.0,3.0})
-         If (feature 0 <= 57.5)
+         Else (overall_stress_level [f23] > 8.5)
           Predict: 1.0
-         Else (feature 0 > 57.5)
-          If (feature 45 in {0.0,2.0,3.0,5.0,7.0})
-           Predict: 0.0
-          Else (feature 45 not in {0.0,2.0,3.0,5.0,7.0})
-           Predict: 1.0
-    Else (feature 22 > 4.5)
-     If (feature 22 <= 5.5)
-      If (feature 15 <= 6.5)
-       If (feature 44 in {0.0,1.0})
-        Predict: 1.0
-       Else (feature 44 not in {0.0,1.0})
-        If (feature 14 <= 9.5)
+        Else (country_encoded [f44] not in {0.0,1.0,4.0,5.0})
          Predict: 1.0
-        Else (feature 14 > 9.5)
-         If (feature 50 in {1.0,2.0,4.0})
-          If (feature 12 <= 29.5)
-           If (feature 39 in {1.0,2.0,3.0})
-            Predict: 0.0
-           Else (feature 39 not in {1.0,2.0,3.0})
-            Predict: 1.0
-          Else (feature 12 > 29.5)
-           Predict: 1.0
-         Else (feature 50 not in {1.0,2.0,4.0})
-          Predict: 1.0
-      Else (feature 15 > 6.5)
+      Else (account_age_months [f35] > 1.5)
        Predict: 1.0
-     Else (feature 22 > 5.5)
-      If (feature 15 <= 6.5)
-       If (feature 22 <= 6.5)
-        If (feature 34 <= 3.5)
-         If (feature 1 <= 88296.5)
-          If (feature 49 in {4.0})
-           If (feature 45 in {0.0,1.0,2.0,5.0})
-            Predict: 0.0
-           Else (feature 45 not in {0.0,1.0,2.0,5.0})
+   Else (impulse_buying_score [f15] > 5.5)
+    If (stress_from_financial_decisions [f22] <= 4.5)
+     If (gender_encoded [f43] in {1.0,2.0,3.0})
+      If (mental_health_score [f26] <= 5.5)
+       If (ad_views_per_day [f29] <= 15.5)
+        If (country_encoded [f44] in {0.0,1.0,2.0,4.0,8.0,9.0})
+         If (age [f0] <= 31.5)
+          If (browse_to_buy_ratio [f12] <= 88.5)
+           If (exercise_frequency [f21] <= 6.5)
             Predict: 1.0
-          Else (feature 49 not in {4.0})
-           Predict: 1.0
-         Else (feature 1 > 88296.5)
+           Else (exercise_frequency [f21] > 6.5)
+            Predict: 0.0
+          Else (browse_to_buy_ratio [f12] > 88.5)
+           If (income_level [f1] <= 153330.5)
+            Predict: 1.0
+           Else (income_level [f1] > 153330.5)
+            Predict: 0.0
+         Else (age [f0] > 31.5)
           Predict: 1.0
-        Else (feature 34 > 3.5)
+        Else (country_encoded [f44] not in {0.0,1.0,2.0,4.0,8.0,9.0})
+         If (average_order_value [f6] <= 436.5)
+          Predict: 1.0
+         Else (average_order_value [f6] > 436.5)
+          If (referral_count [f9] <= 5.5)
+           Predict: 1.0
+          Else (referral_count [f9] > 5.5)
+           If (preferred_payment_method_encoded [f53] in {0.0,1.0,3.0,4.0})
+            Predict: 0.0
+           Else (preferred_payment_method_encoded [f53] not in {0.0,1.0,3.0,4.0})
+            Predict: 1.0
+       Else (ad_views_per_day [f29] > 15.5)
+        If (occupation_encoded [f49] in {2.0,3.0,6.0,7.0})
+         If (coupon_usage_frequency [f7] <= 0.5)
+          If (country_encoded [f44] in {0.0,1.0,2.0,3.0,4.0,5.0,6.0,8.0})
+           If (employment_status_encoded [f46] in {0.0,1.0,3.0,4.0})
+            Predict: 0.0
+           Else (employment_status_encoded [f46] not in {0.0,1.0,3.0,4.0})
+            Predict: 1.0
+          Else (country_encoded [f44] not in {0.0,1.0,2.0,3.0,4.0,5.0,6.0,8.0})
+           Predict: 1.0
+         Else (coupon_usage_frequency [f7] > 0.5)
+          If (daily_session_time_minutes [f27] <= 71.5)
+           Predict: 1.0
+          Else (daily_session_time_minutes [f27] > 71.5)
+           If (account_age_months [f35] <= 4.5)
+            Predict: 0.0
+           Else (account_age_months [f35] > 4.5)
+            Predict: 1.0
+        Else (occupation_encoded [f49] not in {2.0,3.0,6.0,7.0})
+         If (age [f0] <= 23.5)
+          If (occupation_encoded [f49] in {1.0,4.0})
+           Predict: 0.0
+          Else (occupation_encoded [f49] not in {1.0,4.0})
+           Predict: 1.0
+         Else (age [f0] > 23.5)
+          Predict: 1.0
+      Else (mental_health_score [f26] > 5.5)
+       If (average_order_value [f6] <= 71.5)
+        If (app_usage_frequency [f41] <= 5.5)
+         If (product_category_preference_encoded [f54] in {0.0,3.0,4.0,7.0})
+          If (country_encoded [f44] in {1.0,4.0,6.0,7.0,9.0})
+           Predict: 0.0
+          Else (country_encoded [f44] not in {1.0,4.0,6.0,7.0,9.0})
+           If (urban_rural_encoded [f45] in {0.0,2.0})
+            Predict: 0.0
+           Else (urban_rural_encoded [f45] not in {0.0,2.0})
+            Predict: 1.0
+         Else (product_category_preference_encoded [f54] not in {0.0,3.0,4.0,7.0})
+          If (notification_response_rate [f34] <= 59.5)
+           Predict: 1.0
+          Else (notification_response_rate [f34] > 59.5)
+           If (sleep_quality [f24] <= 6.5)
+            Predict: 0.0
+           Else (sleep_quality [f24] > 6.5)
+            Predict: 1.0
+        Else (app_usage_frequency [f41] > 5.5)
+         If (language_preference_encoded [f51] in {0.0,1.0,3.0})
+          If (monthly_spend [f5] <= 2028.0)
+           Predict: 0.0
+          Else (monthly_spend [f5] > 2028.0)
+           Predict: 1.0
+         Else (language_preference_encoded [f51] not in {0.0,1.0,3.0})
+          Predict: 1.0
+       Else (average_order_value [f6] > 71.5)
+        If (ethnicity_encoded [f50] in {0.0,1.0,2.0,4.0})
+         If (impulse_purchases_per_month [f11] <= 3.5)
+          If (country_encoded [f44] in {0.0,4.0,5.0,9.0})
+           If (average_order_value [f6] <= 206.5)
+            Predict: 0.0
+           Else (average_order_value [f6] > 206.5)
+            Predict: 1.0
+          Else (country_encoded [f44] not in {0.0,4.0,5.0,9.0})
+           Predict: 1.0
+         Else (impulse_purchases_per_month [f11] > 3.5)
+          Predict: 1.0
+        Else (ethnicity_encoded [f50] not in {0.0,1.0,2.0,4.0})
+         If (product_category_preference_encoded [f54] in {2.0,3.0,4.0,5.0,6.0})
+          If (physical_activity_level [f25] <= 6.5)
+           If (ad_clicks_per_day [f30] <= 4.5)
+            Predict: 1.0
+           Else (ad_clicks_per_day [f30] > 4.5)
+            Predict: 0.0
+          Else (physical_activity_level [f25] > 6.5)
+           If (overall_stress_level [f23] <= 2.5)
+            Predict: 0.0
+           Else (overall_stress_level [f23] > 2.5)
+            Predict: 1.0
+         Else (product_category_preference_encoded [f54] not in {2.0,3.0,4.0,5.0,6.0})
+          If (brand_loyalty_score [f14] <= 7.5)
+           Predict: 1.0
+          Else (brand_loyalty_score [f14] > 7.5)
+           If (physical_activity_level [f25] <= 6.5)
+            Predict: 1.0
+           Else (physical_activity_level [f25] > 6.5)
+            Predict: 0.0
+     Else (gender_encoded [f43] not in {1.0,2.0,3.0})
+      If (weekly_purchases [f4] <= 19.5)
+       If (account_age_months [f35] <= 22.5)
+        If (occupation_encoded [f49] in {1.0,2.0,5.0,6.0,7.0})
+         If (monthly_spend [f5] <= 1387.5)
+          If (product_category_preference_encoded [f54] in {3.0,7.0})
+           If (purchase_conversion_rate [f33] <= 25.5)
+            Predict: 0.0
+           Else (purchase_conversion_rate [f33] > 25.5)
+            Predict: 1.0
+          Else (product_category_preference_encoded [f54] not in {3.0,7.0})
+           Predict: 1.0
+         Else (monthly_spend [f5] > 1387.5)
+          If (employment_status_encoded [f46] in {2.0})
+           If (exercise_frequency [f21] <= 4.5)
+            Predict: 1.0
+           Else (exercise_frequency [f21] > 4.5)
+            Predict: 0.0
+          Else (employment_status_encoded [f46] not in {2.0})
+           Predict: 1.0
+        Else (occupation_encoded [f49] not in {1.0,2.0,5.0,6.0,7.0})
          Predict: 1.0
-       Else (feature 22 > 6.5)
+       Else (account_age_months [f35] > 22.5)
+        If (days_since_last_purchase [f42] <= 110.5)
+         Predict: 1.0
+        Else (days_since_last_purchase [f42] > 110.5)
+         If (return_rate [f38] <= 40.5)
+          If (environmental_consciousness [f16] <= 3.5)
+           If (shopping_time_of_day_encoded [f55] in {0.0,2.0})
+            Predict: 0.0
+           Else (shopping_time_of_day_encoded [f55] not in {0.0,2.0})
+            Predict: 1.0
+          Else (environmental_consciousness [f16] > 3.5)
+           Predict: 1.0
+         Else (return_rate [f38] > 40.5)
+          If (notification_response_rate [f34] <= 87.5)
+           If (product_category_preference_encoded [f54] in {4.0,6.0})
+            Predict: 0.0
+           Else (product_category_preference_encoded [f54] not in {4.0,6.0})
+            Predict: 1.0
+          Else (notification_response_rate [f34] > 87.5)
+           Predict: 0.0
+      Else (weekly_purchases [f4] > 19.5)
+       If (return_rate [f38] <= 22.5)
         Predict: 1.0
-      Else (feature 15 > 6.5)
+       Else (return_rate [f38] > 22.5)
+        If (ethnicity_encoded [f50] in {0.0,1.0,4.0})
+         If (product_views_per_day [f28] <= 31.5)
+          If (occupation_encoded [f49] in {0.0,2.0,3.0,6.0,7.0})
+           If (preferred_payment_method_encoded [f53] in {2.0,4.0})
+            Predict: 0.0
+           Else (preferred_payment_method_encoded [f53] not in {2.0,4.0})
+            Predict: 1.0
+          Else (occupation_encoded [f49] not in {0.0,2.0,3.0,6.0,7.0})
+           Predict: 1.0
+         Else (product_views_per_day [f28] > 31.5)
+          If (app_usage_frequency [f41] <= 3.5)
+           Predict: 1.0
+          Else (app_usage_frequency [f41] > 3.5)
+           Predict: 0.0
+        Else (ethnicity_encoded [f50] not in {0.0,1.0,4.0})
+         If (age [f0] <= 57.5)
+          Predict: 1.0
+         Else (age [f0] > 57.5)
+          If (occupation_encoded [f49] in {0.0,1.0,3.0,4.0,7.0})
+           Predict: 0.0
+          Else (occupation_encoded [f49] not in {0.0,1.0,3.0,4.0,7.0})
+           Predict: 1.0
+    Else (stress_from_financial_decisions [f22] > 4.5)
+     If (stress_from_financial_decisions [f22] <= 5.5)
+      If (impulse_buying_score [f15] <= 6.5)
+       If (relationship_status_encoded [f48] in {0.0,1.0})
+        Predict: 1.0
+       Else (relationship_status_encoded [f48] not in {0.0,1.0})
+        If (brand_loyalty_score [f14] <= 9.5)
+         Predict: 1.0
+        Else (brand_loyalty_score [f14] > 9.5)
+         If (product_category_preference_encoded [f54] in {1.0,3.0,5.0})
+          If (browse_to_buy_ratio [f12] <= 29.5)
+           If (gender_encoded [f43] in {1.0,2.0,3.0})
+            Predict: 0.0
+           Else (gender_encoded [f43] not in {1.0,2.0,3.0})
+            Predict: 1.0
+          Else (browse_to_buy_ratio [f12] > 29.5)
+           Predict: 1.0
+         Else (product_category_preference_encoded [f54] not in {1.0,3.0,5.0})
+          Predict: 1.0
+      Else (impulse_buying_score [f15] > 6.5)
+       Predict: 1.0
+     Else (stress_from_financial_decisions [f22] > 5.5)
+      If (impulse_buying_score [f15] <= 6.5)
+       If (stress_from_financial_decisions [f22] <= 6.5)
+        If (notification_response_rate [f34] <= 3.5)
+         If (income_level [f1] <= 88296.5)
+          If (preferred_payment_method_encoded [f53] in {5.0})
+           If (country_encoded [f44] in {0.0,1.0,3.0,4.0,7.0,8.0,9.0})
+            Predict: 0.0
+           Else (country_encoded [f44] not in {0.0,1.0,3.0,4.0,7.0,8.0,9.0})
+            Predict: 1.0
+          Else (preferred_payment_method_encoded [f53] not in {5.0})
+           Predict: 1.0
+         Else (income_level [f1] > 88296.5)
+          Predict: 1.0
+        Else (notification_response_rate [f34] > 3.5)
+         Predict: 1.0
+       Else (stress_from_financial_decisions [f22] > 6.5)
+        Predict: 1.0
+      Else (impulse_buying_score [f15] > 6.5)
        Predict: 1.0

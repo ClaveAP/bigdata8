@@ -1,0 +1,13 @@
+experiment,target_definition,model_key,model_name,roc_auc,pr_auc,accuracy_pct,f1_weighted
+Negative_Control_Checkout_Abandonments_ge_5,checkout_abandonments_per_month >= 5,LR_Tuned,Logistic Regression (OHE+Scaled),0.497498,0.545852,54.69,0.386707
+Negative_Control_Checkout_Abandonments_ge_5,checkout_abandonments_per_month >= 5,DT_Champion_d10,Decision Tree (Champion d=10),0.49752,0.544851,53.23,0.474149
+Negative_Control_Checkout_Abandonments_ge_5,checkout_abandonments_per_month >= 5,RF_Tuned,Random Forest (Tuned),0.500378,0.54826,54.69,0.387136
+Threshold_35pct,cart_abandonment_rate >= 35.0% (Pos=56.21%),LR_Tuned,Logistic Regression (OHE+Scaled),0.99024,0.992668,93.91,0.939137
+Threshold_35pct,cart_abandonment_rate >= 35.0% (Pos=56.21%),DT_Champion_d10,Decision Tree (Champion d=10),0.989249,0.99165,93.46,0.934619
+Threshold_35pct,cart_abandonment_rate >= 35.0% (Pos=56.21%),RF_Tuned,Random Forest (Tuned),0.98918,0.991889,93.86,0.938547
+Threshold_40pct,cart_abandonment_rate >= 40.0% (Pos=50.53%),LR_Tuned,Logistic Regression (OHE+Scaled),0.990518,0.991057,94.04,0.94038
+Threshold_40pct,cart_abandonment_rate >= 40.0% (Pos=50.53%),DT_Champion_d10,Decision Tree (Champion d=10),0.988218,0.98656,93.55,0.935535
+Threshold_40pct,cart_abandonment_rate >= 40.0% (Pos=50.53%),RF_Tuned,Random Forest (Tuned),0.989141,0.989657,93.93,0.939274
+Threshold_45pct,cart_abandonment_rate >= 45.0% (Pos=44.85%),LR_Tuned,Logistic Regression (OHE+Scaled),0.9904,0.988644,94.06,0.940661
+Threshold_45pct,cart_abandonment_rate >= 45.0% (Pos=44.85%),DT_Champion_d10,Decision Tree (Champion d=10),0.988752,0.986593,93.63,0.936307
+Threshold_45pct,cart_abandonment_rate >= 45.0% (Pos=44.85%),RF_Tuned,Random Forest (Tuned),0.988853,0.986786,93.92,0.939196

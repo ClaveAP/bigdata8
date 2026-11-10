@@ -1,0 +1,296 @@
+{
+  "champion_num_nodes": 473,
+  "champion_depth": 10,
+  "shallow_d3_num_nodes": 7,
+  "shallow_d3_depth": 3,
+  "shallow_d3_leaf_rules": 8,
+  "champion_test_metrics": {
+    "roc_auc": 0.990413,
+    "pr_auc": 0.990522,
+    "accuracy": 0.939878,
+    "accuracy_pct": 93.99,
+    "f1_weighted": 0.93988,
+    "f1_positive": 0.940456,
+    "precision_weighted": 0.939892,
+    "recall_weighted": 0.939878,
+    "precision_positive": 0.942727,
+    "recall_positive": 0.938197,
+    "tn": 93146,
+    "fp": 5777,
+    "fn": 6264,
+    "tp": 95090,
+    "total_test": 200277
+  },
+  "shallow_d3_test_metrics": {
+    "roc_auc": 0.965127,
+    "pr_auc": 0.952364,
+    "accuracy": 0.940627,
+    "accuracy_pct": 94.06,
+    "f1_weighted": 0.940625,
+    "f1_positive": 0.940454,
+    "precision_weighted": 0.941048,
+    "recall_weighted": 0.940627,
+    "precision_positive": 0.954861,
+    "recall_positive": 0.926476,
+    "tn": 94484,
+    "fp": 4439,
+    "fn": 7452,
+    "tp": 93902,
+    "total_test": 200277
+  },
+  "fidelity_shallow_vs_champion": {
+    "agreement_rate": 0.982764,
+    "agreement_pct": 98.28,
+    "disagreement_count": 3452,
+    "total_test_rows": 200277,
+    "auc_retention_pct": 97.45,
+    "accuracy_retention_pct": 100.08
+  },
+  "top_tree_splits_level_0_to_3": [
+    {
+      "tree_level": 1,
+      "feature_index": 15,
+      "feature_name": "impulse_buying_score",
+      "operator": "<=",
+      "threshold": "4.5",
+      "condition": "impulse_buying_score <= 4.5"
+    },
+    {
+      "tree_level": 1,
+      "feature_index": 22,
+      "feature_name": "stress_from_financial_decisions",
+      "operator": "<=",
+      "threshold": "4.5",
+      "condition": "stress_from_financial_decisions <= 4.5"
+    },
+    {
+      "tree_level": 2,
+      "feature_index": 15,
+      "feature_name": "impulse_buying_score",
+      "operator": "<=",
+      "threshold": "3.5",
+      "condition": "impulse_buying_score <= 3.5"
+    },
+    {
+      "tree_level": 2,
+      "feature_index": 22,
+      "feature_name": "stress_from_financial_decisions",
+      "operator": "<=",
+      "threshold": "3.5",
+      "condition": "stress_from_financial_decisions <= 3.5"
+    },
+    {
+      "tree_level": 3,
+      "feature_index": 28,
+      "feature_name": "product_views_per_day",
+      "operator": "<=",
+      "threshold": "45.5",
+      "condition": "product_views_per_day <= 45.5"
+    },
+    {
+      "tree_level": 3,
+      "feature_index": 55,
+      "feature_name": "shopping_time_of_day_encoded",
+      "operator": "in",
+      "threshold": "{1.0,3.0}",
+      "condition": "shopping_time_of_day_encoded in {1.0,3.0}"
+    },
+    {
+      "tree_level": 3,
+      "feature_index": 1,
+      "feature_name": "income_level",
+      "operator": "<=",
+      "threshold": "148005.0",
+      "condition": "income_level <= 148005.0"
+    },
+    {
+      "tree_level": 2,
+      "feature_index": 15,
+      "feature_name": "impulse_buying_score",
+      "operator": "<=",
+      "threshold": "3.5",
+      "condition": "impulse_buying_score <= 3.5"
+    },
+    {
+      "tree_level": 2,
+      "feature_index": 22,
+      "feature_name": "stress_from_financial_decisions",
+      "operator": "<=",
+      "threshold": "5.5",
+      "condition": "stress_from_financial_decisions <= 5.5"
+    },
+    {
+      "tree_level": 3,
+      "feature_index": 44,
+      "feature_name": "country_encoded",
+      "operator": "in",
+      "threshold": "{2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0}",
+      "condition": "country_encoded in {2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0}"
+    },
+    {
+      "tree_level": 3,
+      "feature_index": 48,
+      "feature_name": "relationship_status_encoded",
+      "operator": "in",
+      "threshold": "{4.0}",
+      "condition": "relationship_status_encoded in {4.0}"
+    },
+    {
+      "tree_level": 3,
+      "feature_index": 52,
+      "feature_name": "device_type_encoded",
+      "operator": "in",
+      "threshold": "{2.0}",
+      "condition": "device_type_encoded in {2.0}"
+    },
+    {
+      "tree_level": 3,
+      "feature_index": 4,
+      "feature_name": "weekly_purchases",
+      "operator": "<=",
+      "threshold": "3.5",
+      "condition": "weekly_purchases <= 3.5"
+    },
+    {
+      "tree_level": 3,
+      "feature_index": 0,
+      "feature_name": "age",
+      "operator": "<=",
+      "threshold": "27.5",
+      "condition": "age <= 27.5"
+    },
+    {
+      "tree_level": 3,
+      "feature_index": 5,
+      "feature_name": "monthly_spend",
+      "operator": "<=",
+      "threshold": "1220.5",
+      "condition": "monthly_spend <= 1220.5"
+    }
+  ],
+  "shallow_tree_humanized": "DecisionTreeClassificationModel: uid=DecisionTreeClassifier_4125999fb1fb, depth=3, numNodes=7, numClasses=2, numFeatures=57\n  If (impulse_buying_score [f15] <= 4.5)\n   Predict: 0.0\n  Else (impulse_buying_score [f15] > 4.5)\n   If (impulse_buying_score [f15] <= 5.5)\n    If (stress_from_financial_decisions [f22] <= 5.5)\n     Predict: 0.0\n    Else (stress_from_financial_decisions [f22] > 5.5)\n     Predict: 1.0\n   Else (impulse_buying_score [f15] > 5.5)\n    Predict: 1.0\n",
+  "operational_3_tier_rules_test_evaluation": [
+    {
+      "rule_tier": "Tier 1: Risiko Kritis (Impulse > 5.5 atau [Impulse == 5 & Stress > 5.5])",
+      "test_users": 98341,
+      "high_abandon_users": 93902,
+      "high_abandon_rate_pct": 95.49,
+      "avg_cart_abandonment_rate": 62.25,
+      "avg_impulse_score": 7.82,
+      "avg_financial_stress": 7.71,
+      "coverage_pct": 49.1
+    },
+    {
+      "rule_tier": "Tier 2: Risiko Ambang/Moderat (Impulse == 5 & Stress <= 5.5)",
+      "test_users": 10943,
+      "high_abandon_users": 4111,
+      "high_abandon_rate_pct": 37.57,
+      "avg_cart_abandonment_rate": 36.95,
+      "avg_impulse_score": 5.0,
+      "avg_financial_stress": 4.0,
+      "coverage_pct": 5.46
+    },
+    {
+      "rule_tier": "Tier 3: Risiko Rendah/Aman (Impulse <= 4.5)",
+      "test_users": 90993,
+      "high_abandon_users": 3341,
+      "high_abandon_rate_pct": 3.67,
+      "avg_cart_abandonment_rate": 16.88,
+      "avg_impulse_score": 1.96,
+      "avg_financial_stress": 2.2,
+      "coverage_pct": 45.43
+    }
+  ],
+  "top_15_feature_importances": [
+    {
+      "feature_name": "impulse_buying_score",
+      "feature_internal": "impulse_buying_score",
+      "importance_score": 0.9500361042900491,
+      "percentage_contribution": 95.0
+    },
+    {
+      "feature_name": "stress_from_financial_decisions",
+      "feature_internal": "stress_from_financial_decisions",
+      "importance_score": 0.047230750262802636,
+      "percentage_contribution": 4.72
+    },
+    {
+      "feature_name": "country",
+      "feature_internal": "country_encoded",
+      "importance_score": 0.00022324953212160483,
+      "percentage_contribution": 0.02
+    },
+    {
+      "feature_name": "product_category_preference",
+      "feature_internal": "product_category_preference_encoded",
+      "importance_score": 0.00021756807336781783,
+      "percentage_contribution": 0.02
+    },
+    {
+      "feature_name": "occupation",
+      "feature_internal": "occupation_encoded",
+      "importance_score": 0.0001363541489774772,
+      "percentage_contribution": 0.01
+    },
+    {
+      "feature_name": "preferred_payment_method",
+      "feature_internal": "preferred_payment_method_encoded",
+      "importance_score": 0.00013231907141235535,
+      "percentage_contribution": 0.01
+    },
+    {
+      "feature_name": "notification_response_rate",
+      "feature_internal": "notification_response_rate",
+      "importance_score": 0.00012689699459828035,
+      "percentage_contribution": 0.01
+    },
+    {
+      "feature_name": "income_level",
+      "feature_internal": "income_level",
+      "importance_score": 8.990692022728598e-05,
+      "percentage_contribution": 0.01
+    },
+    {
+      "feature_name": "relationship_status",
+      "feature_internal": "relationship_status_encoded",
+      "importance_score": 8.545491701701745e-05,
+      "percentage_contribution": 0.01
+    },
+    {
+      "feature_name": "product_views_per_day",
+      "feature_internal": "product_views_per_day",
+      "importance_score": 7.746566759663687e-05,
+      "percentage_contribution": 0.01
+    },
+    {
+      "feature_name": "average_order_value",
+      "feature_internal": "average_order_value",
+      "importance_score": 7.685589278217057e-05,
+      "percentage_contribution": 0.01
+    },
+    {
+      "feature_name": "physical_activity_level",
+      "feature_internal": "physical_activity_level",
+      "importance_score": 7.514058357435632e-05,
+      "percentage_contribution": 0.01
+    },
+    {
+      "feature_name": "daily_session_time_minutes",
+      "feature_internal": "daily_session_time_minutes",
+      "importance_score": 7.456867363672894e-05,
+      "percentage_contribution": 0.01
+    },
+    {
+      "feature_name": "exercise_frequency",
+      "feature_internal": "exercise_frequency",
+      "importance_score": 7.228425443301146e-05,
+      "percentage_contribution": 0.01
+    },
+    {
+      "feature_name": "monthly_spend",
+      "feature_internal": "monthly_spend",
+      "importance_score": 7.172344282138705e-05,
+      "percentage_contribution": 0.01
+    }
+  ]
+}

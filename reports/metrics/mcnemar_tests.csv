@@ -1,0 +1,6 @@
+model_a,model_a_name,model_b,model_b_name,a_correct_b_wrong_b,a_wrong_b_correct_c,discordant_total,chi2_uncorrected,chi2_continuity_corrected,df,p_value_chi2_cc,p_value_exact_binomial
+LR_Tuned,Logistic Regression (OHE+Scaled),DT_Champion_d10,Decision Tree (Champion d=10),1202,986,2188,21.3236,21.1266,1,4.299189293109763e-06,4.226860986815975e-06
+RF_Tuned,Random Forest (Tuned Ensemble),DT_Champion_d10,Decision Tree (Champion d=10),1813,1945,3758,4.6365,4.5665,1,0.0326026401552509,0.03258888976711061
+GBT_Tuned,Gradient-Boosted Trees (GBT),DT_Champion_d10,Decision Tree (Champion d=10),1200,985,2185,21.1556,20.9593,1,4.691527164011937e-06,4.613736134465091e-06
+LR_Tuned,Logistic Regression (OHE+Scaled),RF_Tuned,Random Forest (Tuned Ensemble),1227,879,2106,57.5043,57.1743,1,3.98856515753492e-14,3.5000284063231753e-14
+DT_Champion_d10,Decision Tree (Champion d=10),DT_Shallow_d3,Decision Tree (Shallow d=3),1651,1801,3452,6.518,6.4313,1,0.011212369463122804,0.011201720923202247

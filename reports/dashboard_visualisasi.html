@@ -12,18 +12,15 @@
     .header h1 { font-size: 24px; font-weight: 800; color: #38bdf8; }
     .header p { color: #94a3b8; font-size: 13px; margin-top: 4px; }
     .badge { background: #1e293b; border: 1px solid #38bdf8; color: #38bdf8; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-    
     .scorecards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
     .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
     .card .title { font-size: 12px; font-weight: 600; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.5px; }
     .card .value { font-size: 32px; font-weight: 800; margin: 8px 0 4px 0; color: #f8fafc; }
     .card .subtext { font-size: 12px; color: #38bdf8; }
-
     .grid-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
     .chart-box { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; }
     .chart-box h3 { font-size: 15px; font-weight: 700; color: #f1f5f9; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
     .chart-box h3 span { font-size: 11px; font-weight: 400; color: #94a3b8; }
-
     .business-banner { background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%); border: 1px solid #38bdf8; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
     .business-banner h4 { font-size: 15px; color: #38bdf8; font-weight: 700; margin-bottom: 8px; }
     .business-banner p { font-size: 13px; color: #cbd5e1; line-height: 1.6; }
@@ -34,54 +31,53 @@
   <div class="header">
     <div>
       <h1>EXECUTIVE DASHBOARD: E-COMMERCE CART ABANDONMENT ANALYTICS</h1>
-      <p>Kelompok 8: Anggrek Mekar Cilibende | Big Data Processing via Apache Spark (1.000.000 Profil Pengguna)</p>
+      <p>Kelompok 8: Anggrek Mekar Cilibende | Big Data Processing via Apache Spark (1.000.000 Profil Pengguna x 60 Kolom)</p>
     </div>
-    <div class="badge">Apache Spark MLlib & Decision Tree Engine</div>
+    <div class="badge">Apache Spark MLlib &bull; 57 Fitur Prediktor &bull; Validation-Tuned</div>
   </div>
 
   <div class="scorecards">
     <div class="card">
       <div class="title">Total Data Pengguna</div>
       <div class="value">1.000.000</div>
-      <div class="subtext">Skala Big Data Terdistribusi (Parquet)</div>
+      <div class="subtext">60 Kolom Mentah &rarr; Parquet (37,96 MB)</div>
     </div>
     <div class="card">
       <div class="title">Rata-rata Cart Abandonment</div>
       <div class="value">40,21%</div>
-      <div class="subtext">Ambang Batas Risiko Tinggi &ge; 40.0%</div>
+      <div class="subtext">Ambang Batas Risiko Tinggi &ge; 40.0% (50,55%)</div>
     </div>
     <div class="card">
-      <div class="title">Model Akurasi (Decision Tree)</div>
-      <div class="value" style="color: #4ade80;">93,95%</div>
-      <div class="subtext">Champion Tuned Model (200.277 Test Data)</div>
+      <div class="title">Akurasi Champion Decision Tree</div>
+      <div class="value" style="color: #4ade80;">93,99%</div>
+      <div class="subtext">F1: 0.9399 (200,277 Data Uji)</div>
     </div>
     <div class="card">
-      <div class="title">Model ROC-AUC Score</div>
-      <div class="value" style="color: #38bdf8;">0,9832</div>
-      <div class="subtext">Separasi Kelas Nyaris Sempurna</div>
+      <div class="title">Decision Tree ROC-AUC</div>
+      <div class="value" style="color: #38bdf8;">0,9904</div>
+      <div class="subtext">LR: 0.9906 | GBT: 0.9906 | RF: 0.9894</div>
     </div>
   </div>
 
   <div class="business-banner">
-    <h4>💡 Kesimpulan Strategis Eksekutif (Key Business Takeaway):</h4>
+    <h4>💡 Kesimpulan Strategis &amp; Metodologis (Key Takeaway):</h4>
     <p>
-      Pembatalan transaksi bukan disebabkan oleh keterbatasan daya beli konsumen (anggaran belanja kelompok pembatal dan kelompok loyal sama-sama <b>$2.500/bulan</b> dengan durasi browsing <b>60 menit</b>). 
-      Pemicu utama murni adalah <b>friksi psikologis sesaat (Buyer's Remorse)</b>: dorongan belanja impulsif tinggi (skor 7.68) bertabrakan dengan kepanikan stres finansial (skor 7.59) saat melihat akumulasi total tagihan. 
-      Rekomendasi intervensi: <b>Integrasi opsi Buy Now Pay Later (BNPL) 0% di keranjang</b> dan tombol <b>"Beli 1 Sekarang, Simpan Sisanya untuk Nanti"</b>.
+      1. <b>Temuan Perilaku:</b> Pembatalan transaksi bukan dipicu oleh rendahnya daya beli (pengeluaran bulanan kelompok pembatal <b>$2,496.58</b> vs kelompok loyal <b>$2,501.02</b>; durasi sesi <b>60.01</b> vs <b>60.02 menit</b>), melainkan <b>klaster 4 faktor psikologis kolinear</b>: <code>impulse_buying_score</code> (<i>r</i> = +0,9615), <code>stress_from_financial_decisions</code> (<i>r</i> = +0,9404), <code>overall_stress_level</code> (<i>r</i> = +0,8635), dan <code>impulse_purchases_per_month</code> (<i>r</i> = +0,8501).<br>
+      2. <b>Trade-off Model:</b> Logistic Regression mencapai ROC-AUC tertinggi (<b>0.9906</b>) diikuti GBT (<b>0.9906</b>) dan Random Forest (<b>0.9894</b>), sedangkan Decision Tree Champion (<b>0.9904</b>, akurasi <b>93.99%</b>) memberikan transparansi aturan <i>IF-THEN</i> langsung untuk mesin intervensi <i>checkout real-time</i>.
     </p>
   </div>
 
   <div class="grid-charts">
     <div class="chart-box">
-      <h3>1. Tren Stres Finansial vs Lonjakan Pembatalan <span>(Faktor Psikologis Dominan)</span></h3>
+      <h3>1. Tren Stres Finansial vs Lonjakan Pembatalan <span>(N = 1.000.000 Pengguna)</span></h3>
       <div style="height: 280px;">
         <canvas id="stressChart"></canvas>
       </div>
     </div>
     <div class="chart-box">
-      <h3>2. Top Faktor Pendorong Pembatalan <span>(Feature Importance Decision Tree)</span></h3>
+      <h3>2. Komparasi Multi-Model PySpark MLlib <span>(Evaluasi 200.277 Data Uji)</span></h3>
       <div style="height: 280px;">
-        <canvas id="featureChart"></canvas>
+        <canvas id="modelChart"></canvas>
       </div>
     </div>
   </div>
@@ -94,7 +90,7 @@
       </div>
     </div>
     <div class="chart-box">
-      <h3>4. Kontras Persona Pelanggan: High vs Low Abandonment <span>(Daya Beli vs Mental)</span></h3>
+      <h3>4. Kontras 4 Faktor Psikologis: High vs Low Abandonment <span>(Klaster Kolinear Utama)</span></h3>
       <div style="height: 280px;">
         <canvas id="personaChart"></canvas>
       </div>
@@ -102,40 +98,29 @@
   </div>
 
   <script>
-    // Data Ingestion hasil olahan PySpark
     const dashboardData = {
       stress: {
         scores: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         impulse: [0.6, 1.2, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 8.8, 9.4],
-        abandonRate: [4.71, 9.55, 16.09, 24.00, 32.02, 39.98, 47.99, 56.03, 64.06, 70.98, 77.03]
+        abandonRate: [4.71, 9.55, 16.09, 24.0, 32.02, 39.98, 47.99, 56.03, 64.06, 70.98, 77.03]
       },
-      features: {
-        names: [
-          'Impulse Buying Score (94.99%)',
-          'Financial Decision Stress (4.72%)',
-          'Product Category (0.02%)',
-          'Country (0.02%)',
-          'Occupation (0.02%)',
-          'Payment Method (0.01%)',
-          'Notification Response (0.01%)',
-          'Ad Views / Day (0.01%)'
-        ],
-        scores: [94.99, 4.72, 0.02, 0.02, 0.02, 0.01, 0.01, 0.01]
+      models: {
+        names: ['Logistic Regression', 'Gradient-Boosted Trees', 'Random Forest', 'Decision Tree (d=10)', 'Decision Tree (d=3)'],
+        rocAuc: [99.06, 99.06, 98.94, 99.04, 96.51],
+        accuracy: [94.1, 94.1, 93.92, 93.99, 94.06]
       },
       devices: {
-        labels: ['Mobile (60.0%)', 'Desktop (30.0%)', 'Tablet (10.0%)'],
+        labels: ["Mobile (60.02%)", "Desktop (29.98%)", "Tablet (9.99%)"],
         users: [600247, 299845, 99908]
       },
       persona: {
-        metrics: ['Skor Impulsif (0-10)', 'Stres Finansial (0-10)'],
-        highRisk: [7.68, 7.59],
-        lowRisk: [2.26, 2.35]
+        metrics: ['Impulse Score (0-10)', 'Financial Stress (0-10)', 'Overall Stress (0-10)', 'Impulse Purchases/Mo'],
+        highRisk: [7.68, 7.59, 7.45, 4.63],
+        lowRisk: [2.26, 2.35, 2.5, 1.92]
       }
     };
 
-    // Chart 1: Line Chart Stres vs Pembatalan
-    const ctxStress = document.getElementById('stressChart').getContext('2d');
-    new Chart(ctxStress, {
+    new Chart(document.getElementById('stressChart').getContext('2d'), {
       type: 'line',
       data: {
         labels: dashboardData.stress.scores,
@@ -151,7 +136,7 @@
           },
           {
             label: 'Skor Belanja Impulsif (x8 Skala)',
-            data: dashboardData.stress.impulse.map(v => v * 8),
+            data: dashboardData.stress.impulse.map(v => +(v * 8).toFixed(2)),
             borderColor: '#38bdf8',
             borderWidth: 2,
             borderDash: [5, 5],
@@ -170,33 +155,35 @@
       }
     });
 
-    // Chart 2: Feature Importance Horizontal Bar
-    const ctxFeature = document.getElementById('featureChart').getContext('2d');
-    new Chart(ctxFeature, {
+    new Chart(document.getElementById('modelChart').getContext('2d'), {
       type: 'bar',
       data: {
-        labels: dashboardData.features.names,
-        datasets: [{
-          label: 'Kontribusi Keputusan (%)',
-          data: dashboardData.features.scores,
-          backgroundColor: '#38bdf8'
-        }]
+        labels: dashboardData.models.names,
+        datasets: [
+          {
+            label: 'ROC-AUC (x100)',
+            data: dashboardData.models.rocAuc,
+            backgroundColor: '#38bdf8'
+          },
+          {
+            label: 'Akurasi (%)',
+            data: dashboardData.models.accuracy,
+            backgroundColor: '#4ade80'
+          }
+        ]
       },
       options: {
-        indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        plugins: { legend: { labels: { color: '#cbd5e1' } } },
         scales: {
-          x: { max: 100, ticks: { color: '#94a3b8' } },
-          y: { ticks: { color: '#cbd5e1', font: { size: 11 } } }
+          y: { min: 88, max: 100, ticks: { color: '#94a3b8' } },
+          x: { ticks: { color: '#cbd5e1', font: { size: 10 } } }
         }
       }
     });
 
-    // Chart 3: Doughnut Device
-    const ctxDevice = document.getElementById('deviceChart').getContext('2d');
-    new Chart(ctxDevice, {
+    new Chart(document.getElementById('deviceChart').getContext('2d'), {
       type: 'doughnut',
       data: {
         labels: dashboardData.devices.labels,
@@ -213,9 +200,7 @@
       }
     });
 
-    // Chart 4: Persona Head-to-Head
-    const ctxPersona = document.getElementById('personaChart').getContext('2d');
-    new Chart(ctxPersona, {
+    new Chart(document.getElementById('personaChart').getContext('2d'), {
       type: 'bar',
       data: {
         labels: dashboardData.persona.metrics,

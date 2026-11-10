@@ -1,0 +1,15 @@
+feature,feature_internal,is_collinear_cluster,spark_dt_gini,rf_ensemble_gini,lr_standardized_weight,perm_auc_drop_dt_mean,perm_auc_drop_dt_std,perm_auc_drop_rf_mean,perm_auc_drop_rf_std,perm_auc_drop_lr_mean,perm_auc_drop_lr_std,mean_abs_shap_dt,mean_abs_shap_rf
+impulse_buying_score,impulse_buying_score,True,0.950036,0.351355,0.545895,0.322877,0.001107,0.071542,0.001215,0.2687,0.000307,0.33564,0.180385
+stress_from_financial_decisions,stress_from_financial_decisions,True,0.047231,0.311477,0.321668,0.048347,0.000537,0.034399,0.000429,0.067884,0.000576,0.13058,0.146793
+overall_stress_level,overall_stress_level,True,2.2e-05,0.170793,0.007339,0.0,0.0,0.002876,0.000195,6e-06,1.3e-05,0.0,0.052285
+impulse_purchases_per_month,impulse_purchases_per_month,True,1e-05,0.14038,0.01071,-4.2e-05,3.6e-05,0.003737,0.00026,3e-05,1.9e-05,0.002263,0.052753
+monthly_spend,monthly_spend,False,7.2e-05,0.001113,0.003158,1e-05,0.000132,-1.3e-05,1.9e-05,-3e-06,7e-06,0.004798,0.002414
+purchase_conversion_rate,purchase_conversion_rate,False,4.8e-05,0.000842,0.000527,-0.00017,0.000101,-8e-06,3e-06,0.0,1e-06,0.002823,0.002172
+daily_session_time_minutes,daily_session_time_minutes,False,7.5e-05,0.000906,0.002908,-3.7e-05,7.6e-05,5e-06,8e-06,-3e-06,5e-06,0.001408,0.00203
+return_rate,return_rate,False,5.1e-05,0.000821,0.000143,-8.9e-05,0.000104,2e-06,8e-06,-1e-06,0.0,0.000273,0.001867
+average_order_value,average_order_value,False,7.7e-05,0.001,0.000358,-1.9e-05,4.2e-05,7e-06,1.3e-05,-0.0,1e-06,0.002131,0.002096
+coupon_usage_frequency,coupon_usage_frequency,False,1.5e-05,0.000273,0.003757,3.8e-05,2.1e-05,5e-06,6e-06,1e-06,4e-06,0.000499,0.001043
+age,age,False,5.4e-05,0.000888,0.009433,-0.000365,9.4e-05,1.3e-05,1.2e-05,2.7e-05,2.5e-05,0.0,0.0
+income_level,income_level,False,9e-05,0.001036,0.001934,-0.000158,0.000116,1.1e-05,9e-06,-1e-06,5e-06,0.0,0.0
+days_since_last_purchase,days_since_last_purchase,False,5.2e-05,0.001157,0.00437,-0.000192,0.000153,2e-06,1.6e-05,1.2e-05,9e-06,0.0,0.0
+device_type,device_type_encoded,False,2.4e-05,0.000171,0.003898,-0.000216,7.7e-05,-0.0,5e-06,-8e-06,1e-05,0.0,0.0

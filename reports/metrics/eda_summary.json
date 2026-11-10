@@ -1,0 +1,216 @@
+{
+  "total_rows": 1000000,
+  "total_columns": 62,
+  "total_nulls": 0,
+  "global_metrics": {
+    "mean_cart_abandonment_rate": 40.2123,
+    "std_cart_abandonment_rate": 25.4333,
+    "min_cart_abandonment_rate": 0,
+    "max_cart_abandonment_rate": 90,
+    "mean_checkout_abandonments": 4.9975,
+    "std_checkout_abandonments": 3.1628,
+    "mean_monthly_spend": 2498.78,
+    "mean_aov": 255.03,
+    "mean_session_minutes": 60.01
+  },
+  "correlations_with_cart_abandonment_rate": {
+    "impulse_buying_score": 0.9615,
+    "stress_from_financial_decisions": 0.9404,
+    "overall_stress_level": 0.8635,
+    "impulse_purchases_per_month": 0.8501,
+    "monthly_spend": -0.0019,
+    "average_order_value": -0.0008,
+    "cart_items_average": 0.0004,
+    "daily_session_time_minutes": -0.0003,
+    "checkout_abandonments_per_month": -0.0009
+  },
+  "collinearity_cluster": {
+    "r_impulse_vs_financial_stress": 0.9162,
+    "r_impulse_vs_overall_stress": 0.8419,
+    "r_financial_stress_vs_overall_stress": 0.9162
+  },
+  "dimensions": {
+    "n_countries": 10,
+    "countries": [
+      "Australia",
+      "Brazil",
+      "Canada",
+      "China",
+      "France",
+      "Germany",
+      "India",
+      "Japan",
+      "UK",
+      "USA"
+    ],
+    "n_genders": 4,
+    "genders": [
+      "Female",
+      "Male",
+      "Non-binary",
+      "Other"
+    ],
+    "n_payment_methods": 6,
+    "payment_methods": [
+      "Apple Pay",
+      "Bank Transfer",
+      "Credit Card",
+      "Debit Card",
+      "Google Pay",
+      "PayPal"
+    ]
+  },
+  "device_breakdown": [
+    {
+      "device_type": "Mobile",
+      "user_count": 600247,
+      "share_pct": 60.02,
+      "avg_cart_rate": 40.23,
+      "avg_checkout_abandon": 5.0,
+      "avg_session_min": 59.96
+    },
+    {
+      "device_type": "Desktop",
+      "user_count": 299845,
+      "share_pct": 29.98,
+      "avg_cart_rate": 40.17,
+      "avg_checkout_abandon": 5.0,
+      "avg_session_min": 60.11
+    },
+    {
+      "device_type": "Tablet",
+      "user_count": 99908,
+      "share_pct": 9.99,
+      "avg_cart_rate": 40.2,
+      "avg_checkout_abandon": 4.99,
+      "avg_session_min": 60.04
+    }
+  ],
+  "stress_curve": [
+    {
+      "stress_from_financial_decisions": 0,
+      "user_count": 91249,
+      "avg_cart_rate": 4.71,
+      "avg_checkout_abandon": 5.0,
+      "avg_impulse_score": 0.6,
+      "avg_overall_stress": 0.6,
+      "avg_impulse_purchases": 1.2
+    },
+    {
+      "stress_from_financial_decisions": 1,
+      "user_count": 91228,
+      "avg_cart_rate": 9.55,
+      "avg_checkout_abandon": 5.0,
+      "avg_impulse_score": 1.2,
+      "avg_overall_stress": 1.2,
+      "avg_impulse_purchases": 1.4
+    },
+    {
+      "stress_from_financial_decisions": 2,
+      "user_count": 90816,
+      "avg_cart_rate": 16.09,
+      "avg_checkout_abandon": 4.99,
+      "avg_impulse_score": 2.0,
+      "avg_overall_stress": 2.0,
+      "avg_impulse_purchases": 1.8
+    },
+    {
+      "stress_from_financial_decisions": 3,
+      "user_count": 90671,
+      "avg_cart_rate": 24.0,
+      "avg_checkout_abandon": 5.0,
+      "avg_impulse_score": 3.0,
+      "avg_overall_stress": 3.01,
+      "avg_impulse_purchases": 2.2
+    },
+    {
+      "stress_from_financial_decisions": 4,
+      "user_count": 90875,
+      "avg_cart_rate": 32.02,
+      "avg_checkout_abandon": 5.01,
+      "avg_impulse_score": 4.0,
+      "avg_overall_stress": 4.0,
+      "avg_impulse_purchases": 2.8
+    },
+    {
+      "stress_from_financial_decisions": 5,
+      "user_count": 90666,
+      "avg_cart_rate": 39.98,
+      "avg_checkout_abandon": 5.0,
+      "avg_impulse_score": 5.0,
+      "avg_overall_stress": 5.0,
+      "avg_impulse_purchases": 3.2
+    },
+    {
+      "stress_from_financial_decisions": 6,
+      "user_count": 91031,
+      "avg_cart_rate": 47.99,
+      "avg_checkout_abandon": 5.01,
+      "avg_impulse_score": 6.0,
+      "avg_overall_stress": 5.99,
+      "avg_impulse_purchases": 3.8
+    },
+    {
+      "stress_from_financial_decisions": 7,
+      "user_count": 90668,
+      "avg_cart_rate": 56.03,
+      "avg_checkout_abandon": 5.01,
+      "avg_impulse_score": 7.0,
+      "avg_overall_stress": 7.01,
+      "avg_impulse_purchases": 4.2
+    },
+    {
+      "stress_from_financial_decisions": 8,
+      "user_count": 90382,
+      "avg_cart_rate": 64.06,
+      "avg_checkout_abandon": 4.98,
+      "avg_impulse_score": 8.0,
+      "avg_overall_stress": 8.0,
+      "avg_impulse_purchases": 4.8
+    },
+    {
+      "stress_from_financial_decisions": 9,
+      "user_count": 91184,
+      "avg_cart_rate": 70.98,
+      "avg_checkout_abandon": 4.99,
+      "avg_impulse_score": 8.8,
+      "avg_overall_stress": 8.8,
+      "avg_impulse_purchases": 5.2
+    },
+    {
+      "stress_from_financial_decisions": 10,
+      "user_count": 91230,
+      "avg_cart_rate": 77.03,
+      "avg_checkout_abandon": 4.99,
+      "avg_impulse_score": 9.4,
+      "avg_overall_stress": 9.4,
+      "avg_impulse_purchases": 5.6
+    }
+  ],
+  "persona_comparison": [
+    {
+      "is_high_abandonment": 1,
+      "user_count": 505469,
+      "avg_impulse_score": 7.68,
+      "avg_financial_stress": 7.59,
+      "avg_overall_stress": 7.45,
+      "avg_impulse_purchases": 4.63,
+      "avg_monthly_spend": 2496.58,
+      "avg_order_value": 255.01,
+      "avg_cart_items": 5.5,
+      "avg_session_minutes": 60.01
+    },
+    {
+      "is_high_abandonment": 0,
+      "user_count": 494531,
+      "avg_impulse_score": 2.26,
+      "avg_financial_stress": 2.35,
+      "avg_overall_stress": 2.5,
+      "avg_impulse_purchases": 1.92,
+      "avg_monthly_spend": 2501.02,
+      "avg_order_value": 255.05,
+      "avg_cart_items": 5.49,
+      "avg_session_minutes": 60.02
+    }
+  ]
+}
