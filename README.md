@@ -1,6 +1,6 @@
 # E-Commerce Shopper Behavior & Checkout Abandonment Analysis (Big Data)
 
-Repositori ini memuat implementasi proyek **Teknologi Big Data (Semester 5)** oleh **Kelompok 8 (Anggrek Mekar Cilibende)** untuk menganalisis faktor-faktor pendorong pembatalan transaksi di tahap akhir (*cart/checkout abandonment*) pada platform e-commerce berskala **1.000.000 data pengguna** menggunakan **Apache Spark (PySpark)** dan **Decision Tree Classifier**.
+Repositori ini memuat implementasi proyek **Teknologi Big Data (Semester 5)** oleh **Kelompok 8 (Anggrek Mekar Cilibende)** untuk menganalisis faktor-faktor pendorong pembatalan transaksi di tahap akhir (*cart/checkout abandonment*) pada platform e-commerce berskala **1.000.000 baris data pengguna (`60` kolom mentah $\rightarrow$ `57` prediktor independen)** menggunakan **Apache Spark (PySpark 4.1.1)** dan **Decision Tree Classifier**.
 
 ---
 
@@ -12,179 +12,113 @@ Repositori ini memuat implementasi proyek **Teknologi Big Data (Semester 5)** ol
 
 ---
 
-## ⚡ Showcase Interaktif & Demo Google Colab (Plug & Play)
+## ⚡ Showcase Interaktif & Demo Google Colab (*Plug & Play*)
 
-Untuk presentasi ke dosen atau uji coba langsung tanpa instalasi lingkungan lokal, repositori ini telah dilengkapi dengan notebook interaktif:  
+Untuk presentasi ke dosen atau uji coba langsung tanpa instalasi rumit, repositori ini dilengkapi notebook interaktif:  
 📁 **[`notebooks/01_e_commerce_abandonment_showcase.ipynb`](notebooks/01_e_commerce_abandonment_showcase.ipynb)**
 
-- **Auto-Detection Multi-Platform**: Dapat langsung dijalankan di **VS Code lokal** maupun diunggah ke **[Google Colab](https://colab.research.google.com)**.
-- **Auto-Cloning di Colab**: Saat dibuka di Colab, sel pertama secara cerdas mendeteksi lingkungan cloud, otomatis mengklon repositori, dan langsung membaca data Parquet serta model terlatih tanpa error *Path does not exist*.
-- **6 Visualisasi Analitis Lengkap**:
-  1. *Tren Korelasi Garis*: Stres Finansial vs Lonjakan Pembatalan Keranjang (4.7% ke 77.0%).
-  2. *Matriks Korelasi Heatmap*: Hubungan Pearson 7 fitur perilaku belanja kunci.
-  3. *Pangsa Pasar & Perangkat*: Donut Chart dominasi Mobile (60%) dan Bar Chart Metode Pembayaran.
-  4. *Evaluasi Rapor Model*: Heatmap Confusion Matrix pada 200.277 data uji (Akurasi 93.95%).
-  5. *Explainable AI (XAI)*: Horizontal Bar Chart Top 10 Feature Importance & Aturan IF-THEN.
-  6. *Customer Persona Profiling*: Komparasi head-to-head persona High vs Low Abandonment (Skor Impulsif 7.68 vs 2.26).
-- **Simulator Prediksi Interaktif**: Uji coba profil pelanggan baru secara real-time dengan rekomendasi aksi bisnis (BNPL / 1-Click Checkout / Exit-Intent Voucher).
+- **Auto-Detection Multi-Platform**: Berjalan langsung di **VS Code lokal** maupun **[Google Colab](https://colab.research.google.com)** (kompatibel lintas versi Spark melalui sanitasi metadata `pruneTree`).
+- **12 Visualisasi Resolusi Publikasi (300 DPI)** di folder `reports/`:
+  1. `eda_stress_vs_abandonment.png` — Lonjakan pembatalan keranjang (`4,71%` $\rightarrow$ `77,03%`) vs kontrol negatif (`checkout_abandonments_per_month` datar di `~5,00`).
+  2. `eda_device_vs_abandonment.png` — Distribusi pembatalan per perangkat (`Mobile 60,02%`, `Desktop 29,98%`, `Tablet 9,99%`).
+  3. `correlation_heatmap.png` — Matriks korelasi Pearson yang mengungkap **klaster 4 variabel psikologis kolinear** (`impulse_buying_score` $r=+0,9615$, `stress_from_financial_decisions` $r=+0,9404$, `overall_stress_level` $r=+0,8635$, `impulse_purchases_per_month` $r=+0,8501$).
+  4. `confusion_matrix.png` — Evaluasi Champion Decision Tree pada `200.277` baris *unseen test set* (`TN = 93.146`, `FP = 5.777`, `FN = 6.264`, `TP = 95.090`; Akurasi **`93,99%`**, ROC-AUC **`0,9904`**).
+  5. `decision_tree_feature_importance.png` — Peringkat fitur teratas pada pohon tunggal (`impulse_buying_score 95,00%`, `stress_from_financial_decisions 4,72%`).
+  6. `customer_persona_comparison.png` — Profil High Abandonment (`7,65` impulsif, `7,62` stres) vs Low Abandonment (`2,29` impulsif, `2,32` stres) dengan pengeluaran bulanan setara (`~$2.499`).
+  7. `model_roc_pr_curves.png` — Kurva ROC & Precision-Recall komparatif 6 model.
+  8. `dt_pruning_depth_curve.png` — Kurva validasi 72 konfigurasi (`maxDepth 2..12`) & bukti *overfitting* pada pohon tanpa pruning (`3.431` node).
+  9. `pyspark_scaling_benchmark.png` — Benchmark skalabilitas baris (`100k`–`1M`) & CPU core (`2,30x` speedup).
+  10. `kmeans_persona_clusters.png` — Segmentasi K-Means (`K=2..5`, Silhouette terbaik `0,3921`) & 3 Persona Pelanggan.
+  11. `shap_summary_plot.png` — Distribusi **TreeSHAP** pada data uji.
+  12. `permutation_vs_gini_importance.png` — Komparasi *Single-Tree Gini*, *Ensemble RF Gini*, *LR Standardized Weight*, dan *Permutation Importance* untuk membongkar *Greedy Collinear Feature Masking*.
 
 ---
 
 ## 🚀 Ringkasan Performa Model & Temuan Kunci
 
-### 1. Komparasi 3 Model Machine Learning (PySpark MLlib)
-Diuji pada 200.277 data uji (*unseen test set*):
+### 1. Benchmark Komparatif 6 Model (PySpark MLlib pada `N = 200.277` Test Set)
+Seluruh model dilatih menggunakan protokol **Split-Before-Fit (`seed=42`)** dan pemilihan hyperparameter pada **Validation Split (`199.949` baris)** sebelum diuji satu kali pada **Test Set (`200.277` baris)**:
 
-| No | Model Algoritma | Tipe Arsitektur | ROC-AUC | Akurasi | F1-Score | Waktu Latih | Status |
-| :-: | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-| 1 | **Logistic Regression** | Linear Baseline | **0.9906** | 94.09% | 0.9409 | 45.05 s | Baseline Pembanding |
-| 2 | **Decision Tree Classifier** | Tree (White-Box) | **0.9832** | **93.95%** | **0.9395** | **22.67 s** | **🏆 CHAMPION MODEL** |
-| 3 | **Random Forest Classifier** | Ensemble Bagging | **0.9884** | 93.80% | 0.9380 | 63.68 s | Black-Box Pembanding |
+| No | Model Algoritma | Kompleksitas Struktur | Test ROC-AUC (95% CI) | Test PR-AUC | Test Akurasi | F1-Weighted | Waktu Latih | Peran Evaluasi |
+| :-: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| 1 | **`LR_Tuned` (OHE + Scaled)** | 132 bobot linier | **`0,9906`** (`[0,9902, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9410`** | 18,26 s | Pembanding Linier |
+| 2 | **`GBT_Tuned` (`maxIter=20, d=5`)** | 20 pohon (958 node) | **`0,9906`** (`[0,9901, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9409`** | 76,01 s | Pembanding Boosting |
+| 3 | **`DT_Champion_d10` (`d=10, min=20, gini`)** | **1 pohon (473 node)** | **`0,9904`** (`[0,9900, 0,9910]`) | **`0,9905`** | **`93,99%`** | **`0,9399`** | **14,42 s** | **🏆 CHAMPION MODEL** |
+| 4 | **`RF_Tuned` (`40 pohon, d=10`)** | 40 pohon (24.944 node) | `0,9894` (`[0,9888, 0,9900]`) | `0,9900` | `93,92%` | `0,9392` | 354,79 s | Pembanding Bagging |
+| 5 | **`DT_Default_d7` (`d=7, min=20, gini`)** | 1 pohon (41 node) | `0,9773` (`[0,9763, 0,9782]`) | `0,9643` | `94,09%` | `0,9409` | 8,34 s | Baseline Menengah |
+| 6 | **`DT_Shallow_d3` (`d=3, min=20, gini`)** | **1 pohon (7 node / 4 daun)** | `0,9651` (`[0,9639, 0,9664]`) | `0,9524` | `94,06%` | `0,9406` | 8,80 s | **Surrogate Rule Engine (`98,28%` Fidelitas)** |
 
-> **Mengapa Decision Tree Menjadi Champion Model?**  
-> 1. **White-Box Explainability**: Menghasilkan aturan logika nyata (**IF-THEN Rules**) yang terbaca manusia untuk strategi bisnis operasional (Random Forest adalah black-box yang mustahil diekstrak aturan spesifiknya).  
-> 2. **Efisiensi Big Data**: Waktu latih **hanya 22 detik** di cluster PySpark, hampir 3x lebih cepat dibanding Random Forest (64 detik).  
-> 3. **Hyperparameter Tuning & Pruning**: Konfigurasi terbaik `maxDepth=10`, `minInstancesPerNode=20`, `impurity=gini` mencegah overfitting dan mempertahankan akurasi 93.95%.
+> **Mengapa `DT_Champion_d10` (bersama Surrogate `DT_Shallow_d3`) Menjadi Pilihan Terbaik?**  
+> 1. **Kinerja Setara Model Kompleks ($\Delta\text{ROC-AUC}$ Hanya `0,00024`)**: Selisih ROC-AUC antara `LR_Tuned` (`0,9906`) / `GBT_Tuned` (`0,9906`) dan `DT_Champion_d10` (`0,9904`) hanya **`0,024%`**, bahkan `DT_Champion_d10` mengungguli `RF_Tuned` (`0,9894`, `24.944` node) dengan waktu latih **`24,6x` lebih cepat** (`14,42s` vs `354,79s`).  
+> 2. **100% *White-Box* & Aturan 4-Daun Berfidelitas `98,28%`**: Pohon dangkal `DT_Shallow_d3` yang hanya terdiri dari **4 daun aturan (`IF-THEN`)** menyamai **`98,28%` (`196.825 / 200.277`)** keputusan `DT_Champion_d10` dengan akurasi **`94,06%`**.
 
-### 2. Top-2 Faktor Dominan Penentu Pembatalan (Feature Importance)
-- 🥇 **`impulse_buying_score`**: **94.99%** kontribusi keputusan.
-- 🥈 **`stress_from_financial_decisions`**: **4.72%** kontribusi keputusan.
-- **Insight Bisnis**: Pembeli sangat impulsif memasukkan barang ke keranjang (*impulse browsing*), namun saat tiba di rincian checkout dan melihat akumulasi total harga, muncul stres finansial dan penyesalan belanja (*buyer's remorse*) yang memicu pembatalan massal (melonjak dari 4.7% hingga 77.0%).
-
----
-
-## 📊 Panduan Dashboard Interaktif Google Looker Studio
-
-Untuk visualisasi Business Intelligence (BI) tanpa membebani browser, PySpark telah mengekspor 5 file agregasi ringkas (**Data Marts < 10 KB**) di folder `reports/looker_data/`:
-
-| No | Nama File Data Mart | Ukuran | Visualisasi yang Dibuat di Looker Studio |
-| :-: | :--- | :---: | :--- |
-| 1 | **`looker_scorecard_global.csv`** | 126 B | **4 Kartu Skor (KPI)**: Total User (1M), Avg Abandon (40.21%), Avg Spend (\$2.498), AOV (\$255). |
-| 2 | **`looker_stres_impulse.csv`** | 422 B | **Line Chart (Bintang Utama)**: Hubungan Stres Finansial (0-10) vs Lonjakan Pembatalan (4.7% $\rightarrow$ 77.0%). |
-| 3 | **`looker_model_feature_importance.csv`** | 406 B | **Horizontal Bar Chart**: Bobot Feature Importance Model Decision Tree (Impulse 95% & Stress 4.7%). |
-| 4 | **`looker_demografi.csv`** | 6.0 KB | **Donut Chart & Peta**: Sebaran Perangkat (Mobile 60%, Desktop 30%) & Pembatalan per Negara. |
-| 5 | **`looker_metode_bayar.csv`** | 2.5 KB | **Bar Chart Transaksi**: Volume & Pembatalan per Metode Bayar (Credit Card, PayPal, Apple Pay, dll). |
-
-*Panduan klik detail tata letak dashboard tersedia di [docs/06_LOOKER_STUDIO_GUIDE.md](docs/06_LOOKER_STUDIO_GUIDE.md).*
+### 2. Temuan Explainable AI (SHAP, Permutation Importance, & Kolinearitas)
+- Pada pohon tunggal `DT_Champion_d10`, penurunan impuritas Gini terkonsentrasi pada `impulse_buying_score` (**`95,00%`**) dan `stress_from_financial_decisions` (**`4,72%`**).
+- Melalui audit **TreeSHAP**, **Ensemble RF Gini**, dan **Joint Cluster Permutation** (`src/explainability_shap.py`), dibuktikan bahwa `overall_stress_level` ($r=+0,8635$, RF Gini `17,08%`) dan `impulse_purchases_per_month` ($r=+0,8501$, RF Gini `14,04%`) juga membawa sinyal kuat namun tertutup oleh efek **Greedy Collinear Feature Masking** pada pohon tunggal. Ketika ke-4 fitur psikologis ini diacak bersama, ROC-AUC seluruh model jatuh **`~0,48` poin menuju `~0,50` (acak)**.
 
 ---
 
-## 📌 Alur Pipeline & Reproducibility (Panduan Menjalankan Proyek)
+## 📊 Dashboard Interaktif Google Looker Studio & HTML Mandiri
 
-Karena ukuran dataset asli adalah **233,6 MB** (melebihi batas upload GitHub 100 MB), dataset mentah, file Parquet, dan bobot model sengaja tidak di-commit ke Git. 
+Skrip `src/export_looker_data.py` menghasilkan 5 berkas CSV Data Mart terverifikasi di `reports/looker_data/`:
+1. **`looker_scorecard_global.csv`** (`1` baris): Total User (`1.000.000`), Avg Cart Abandonment (`40,21%`), High Abandonment (`50,55%`), Avg Spend (`$2.498,59`), Avg Session (`60,02` menit).
+2. **`looker_stres_impulse.csv`** (`11` baris): Kurva `stress_from_financial_decisions` (`0–10`) vs lonjakan pembatalan (`4,71%` $\rightarrow$ `77,03%`).
+3. **`looker_model_feature_importance.csv`** (`10` baris): Bobot Feature Importance Champion Decision Tree.
+4. **`looker_demografi.csv`** (`120` baris): Dimensi silang **10 negara**, **3 perangkat**, dan **4 kelompok usia**.
+5. **`looker_metode_bayar.csv`** (`48` baris): Dimensi silang **6 metode bayar**, **4 kelas pendapatan**, dan **2 status langganan premium**.
 
-Setiap anggota tim dapat mereplikasi seluruh data, model, dan laporan dari awal di laptop masing-masing dengan mengikuti langkah-langkah berikut:
+Panduan langkah demi langkah tersedia di [`docs/06_LOOKER_STUDIO_GUIDE.md`](docs/06_LOOKER_STUDIO_GUIDE.md), dan dashboard mandiri siap pakai dapat dibuka langsung di [`reports/dashboard_visualisasi.html`](reports/dashboard_visualisasi.html).
 
-### 1. Setup Environment
-Pastikan laptop sudah terinstall **Java (OpenJDK 11 atau 17)** untuk menjalankan Apache Spark:
+---
+
+## 📌 Alur Pipeline & Reproducibility
+
 ```bash
-# Clone repositori
-git clone https://github.com/ClaveAP/bigdata8.git
-cd bigdata8
-
-# Buat virtual environment & install requirements
+# 1. Buat virtual environment & pasang dependensi
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-```
 
-### 2. Unduh Dataset 1 Juta Baris (Otomatis ke `data/raw/`)
-```bash
+# 2. Unduh dataset 1 juta baris dari Kaggle (233,60 MB)
 python src/download_data.py
-```
-*Script ini otomatis mengunduh dataset asli dari Kaggle (`e_commerce_shopper_behaviour_and_lifestyle.csv` - 233.6 MB) dan menyimpannya di folder `data/raw/`.*
 
-### 3. Pembersihan Data & Konversi ke Apache Parquet (Hemat 84.3%)
-```bash
+# 3. Jalankan pipeline end-to-end secara berurutan
 python src/preprocessing.py
-```
-*Memvalidasi missing value, membuat target biner valid `cart_abandonment_rate >= 40.0%`, dan menyimpan data bersih ke `data/processed/ecommerce_processed_parquet/`.*
-
-### 4. Feature Engineering & Split Train/Test (80:20)
-```bash
+python src/eda_profiling.py
 python src/feature_engineering.py
-```
-*Melakukan StringIndexer pada 14 kolom kategorikal, merakit 53 dimensi fitur via VectorAssembler (bebas dari data leakage), dan membagi data: Train (799.723 baris) serta Test (200.277 baris).*
-
-### 5. Benchmark Model, Hyperparameter Tuning & Ekstraksi Aturan
-```bash
-# Komparasi 3 Algoritma (Logistic Regression vs Decision Tree vs Random Forest)
-python src/compare_models.py
-
-# Hyperparameter Grid Tuning & Tree Pruning (Champion Model: depth=10, minInstances=20)
+python src/train_classifier.py
 python src/tune_tree.py
-
-# Ekstraksi Feature Importance & IF-THEN Rules
 python src/extract_rules_insights.py
-```
-
-### 6. Ekspor Data Mart untuk Dashboard Looker Studio
-```bash
+python src/clustering.py
+python src/explainability_shap.py
+python src/compare_models.py
 python src/export_looker_data.py
+python src/export_report_plots.py
+python src/generate_showcase_notebook.py
+
+# 4. Jalankan pengujian otomatis integritas pipeline (5 test suites)
+python -m unittest discover -s tests -v
 ```
-*Menghasilkan file agregasi ringkas di `reports/looker_data/` yang siap di-upload ke Looker Studio.*
 
 ---
 
 ## 📂 Struktur Direktori Repositori
-- `docs/`: Ruang kendali dokumentasi proyek:
-  - 📘 **`PANDUAN_LENGKAP_PROYEK_DAN_SIDANG.md`**: **Panduan utama persiapan presentasi, bedah korelasi, dan simulasi tanya-jawab dosen.**
-  - `00_PROJECT_CHARTER.md`: Rumusan masalah & hipotesis bisnis.
-  - `01_DATA_DICTIONARY.md`: Kamus 60 kolom fitur dataset e-commerce.
-  - `02_DATA_PIPELINE_LOG.md`: Log teknis preprocessing Parquet & binarisasi target.
-  - `03_MODEL_EXPERIMENTS.md`: Log metrik evaluasi komparasi 3 model & tuning Decision Tree.
-  - `04_BUSINESS_RECOMMENDATIONS.md`: Strategi intervensi bisnis (BNPL, Save-for-Later, Exit-Intent Voucher).
-  - `05_TIMELINE_TRACKER.md`: Pelacak progres 18 aktivitas proyek (sinkron dengan Google Sheets).
-  - `06_LOOKER_STUDIO_GUIDE.md`: Blueprint panduan visualisasi dashboard.
-- `src/`: Modul kode produksi PySpark modular (`preprocessing.py`, `tune_tree.py`, dll).
-- `reports/`: Hasil visualisasi grafik feature importance, diagram EDA, teks aturan IF-THEN (`decision_tree_rules.txt`), dan Data Mart Looker Studio (`reports/looker_data/`).
-- `data/`: Folder penyimpanan lokal data mentah dan data Parquet (dilindungi `.gitignore`).
-- `models/`: Folder penyimpanan lokal model terlatih PySpark MLlib (`models/decision_tree_tuned/`).
+- `docs/`: Dokumentasi hidup proyek (*Living Documentation*):
+  - 📘 **[`PANDUAN_LENGKAP_PROYEK_DAN_SIDANG.md`](docs/PANDUAN_LENGKAP_PROYEK_DAN_SIDANG.md)**: Panduan utama presentasi, bedah arsitektur, dan simulasi tanya-jawab sidang dosen.
+  - [`00_PROJECT_CHARTER.md`](docs/00_PROJECT_CHARTER.md): Kontrak proyek, hipotesis bisnis, & ruang lingkup.
+  - [`01_DATA_DICTIONARY.md`](docs/01_DATA_DICTIONARY.md): Kamus lengkap 60 kolom mentah + 2 kolom turunan (`62` kolom total).
+  - [`02_DATA_PIPELINE_LOG.md`](docs/02_DATA_PIPELINE_LOG.md): Log teknis Snappy Parquet (`83,75%` kompresi, `15,39x` speedup I/O) & protokol *Split-Before-Fit*.
+  - [`03_MODEL_EXPERIMENTS.md`](docs/03_MODEL_EXPERIMENTS.md): Hasil 72-config grid tuning, ablasi `M0..M4`, benchmark 6 model, uji McNemar, SHAP, & K-Means.
+  - [`04_BUSINESS_RECOMMENDATIONS.md`](docs/04_BUSINESS_RECOMMENDATIONS.md): Aturan IF-THEN pohon asli (`<= 4,5`), kuartil `Q1–Q4`, & matriks intervensi bisnis.
+  - [`05_TIMELINE_TRACKER.md`](docs/05_TIMELINE_TRACKER.md): Pelacak progres 18 aktivitas proyek.
+  - [`06_LOOKER_STUDIO_GUIDE.md`](docs/06_LOOKER_STUDIO_GUIDE.md): Blueprint pembuatan dashboard BI.
+  - [`07_JOURNAL_PLAN_JIKO.md`](docs/07_JOURNAL_PLAN_JIKO.md): Blueprint penulisan naskah jurnal Sinta 4 JIKO.
+  - [`08_PROJECT_FIX_AND_HARDENING_PLAN.md`](docs/08_PROJECT_FIX_AND_HARDENING_PLAN.md): Log audit & pengerasan ilmiah seluruh repositori.
+- `src/`: Modul produksi PySpark modular.
+- `reports/`: 12 grafik PNG (300 DPI), `reports/metrics/*.json|*.csv`, `reports/looker_data/*.csv`, `decision_tree_rules.txt`, & `dashboard_visualisasi.html`.
+- `tests/`: Suite pengujian otomatis `test_pipeline_integrity.py`.
 
 ---
 
-## 📋 Task List & Status Pengerjaan (Tracking Delegasi Tim)
-
-Berikut adalah status aktivitas proyek mengacu pada [Google Sheets Tracker](https://docs.google.com/spreadsheets/d/199qGgqLir1qj1HC9fz9oXuhW5leLQrQtXzch0n_XTgg/edit?gid=0#gid=0):
-
-### ✅ Tugas yang Sudah Selesai (Completed - 12 / 18 = 66,7%)
-- [x] **Aktivitas 1**: Penyusunan Desain Teknis & Alur Data (Worksheet 4)
-- [x] **Aktivitas 2**: Setup Lingkungan & Ingestion Dataset E-Commerce (1M baris, PySpark 4.3)
-- [x] **Aktivitas 3**: Eksplorasi Data Awal (EDA) Sesi vs Abandonment & Visualisasi Korelasi
-- [x] **Aktivitas 4**: Pembersihan Data Skala Besar & Ekspor Apache Parquet (Kompresi 84.3%)
-- [x] **Aktivitas 5**: Feature Engineering: Binerisasi Label Risiko Abandonment
-- [x] **Aktivitas 6**: Encoding Variabel Kategorikal (StringIndexer 14 kolom & VectorAssembler 53 fitur)
-- [x] **Aktivitas 7**: Pembagian Dataset Terdistribusi (Train 80% / Test 20%)
-- [x] **Aktivitas 8**: Pelatihan Baseline Decision Tree Classifier
-- [x] **Aktivitas 9**: Hyperparameter Tuning & Pruning Decision Tree (Champion Model M2: Depth=10, ROC-AUC 0.9832)
-- [x] **Aktivitas 10**: Evaluasi Kinerja Model (Benchmark 3 Model: LR vs DT vs RF)
-- [x] **Aktivitas 11**: Ekstraksi Feature Importance & IF-THEN Rules Operasional
-- [x] **Aktivitas 12**: Perumusan Rekomendasi Tim UI/UX & Pemasaran (BNPL, Split Wishlist, Anti-Idle Discount)
-
----
-
-### ⏳ Tugas yang Sedang Berjalan & Siap Didelegasikan (Next Milestones)
-
-#### 1. Finalisasi Dashboard Visualisasi Interaktif Looker Studio (Aktivitas 13)
-- **Status**: **Sedang Berjalan**
-- **Fokus Pekerjaan**:
-  - Mengunggah 5 file CSV data mart dari folder `reports/looker_data/` ke Looker Studio.
-  - Merangkai grafik: Scorecard KPI, Line Chart Korelasi Stres-Impulsif, Horizontal Bar Feature Importance, dan Donut Chart Perangkat.
-  - Mengikuti blueprint tata letak di `docs/06_LOOKER_STUDIO_GUIDE.md`.
-
-#### 2. Penulisan Draft Jurnal Ilmiah / Manuskrip Publikasi (Aktivitas 14 & 16)
-- **Status**: Siap Dikerjakan (Target W8 - W12)
-- **Fokus Pekerjaan**:
-  - Menyusun naskah ilmiah: Abstrak, Pendahuluan, Tinjauan Pustaka, Metodologi Big Data (PySpark & Decision Tree), Hasil Evaluasi & Pembahasan, serta Kesimpulan.
-  - Memasukkan tabel perbandingan model dan grafik feature importance ke dalam manuskrip.
-
-#### 3. Penyusunan Laporan Akhir & Dokumentasi Sistem (Aktivitas 15)
-- **Status**: Siap Dikerjakan (Target W10 - W12)
-- **Fokus Pekerjaan**:
-  - Mengompilasi seluruh dokumen teknis di folder `docs/` menjadi satu berkas Laporan Akhir Praktikum/Proyek komprehensif.
-
-#### 4. Persiapan Slide Presentasi & Skenario Demo Showcase (Aktivitas 17 & 18)
-- **Status**: Menjelang Minggu 11 - 12
-- **Fokus Pekerjaan**:
-  - Membuat slide presentasi showcase mengacu pada `docs/PANDUAN_LENGKAP_PROYEK_DAN_SIDANG.md`.
-  - Pembagian peran pembicara untuk demo akhir produk di depan dosen penguji.
+## 📜 Lisensi & Atribusi Dataset
+Dataset sumber (*E-Commerce Shopper Behavior — Amazon/Shopify Based*, `dhrubangtalukdar/e-commerce-shopper-behavior-amazonshopify-based`) didistribusikan di bawah lisensi **[Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)**. Berkas turunan Snappy Parquet dan model terlatih yang disertakan di repositori ini semata-mata digunakan untuk keperluan riset akademik dan reproduksibilitas notebook showcase (*Plug & Play* Google Colab).

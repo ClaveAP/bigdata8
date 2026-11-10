@@ -1,73 +1,75 @@
 # Data Pipeline & Preprocessing Log
 
-Dokumen ini mencatat setiap keputusan rekayasa data (*data engineering*), temuan statistik eksplorasi data (EDA), dan transformasi fitur pada skala Big Data (1.000.000 baris).
+Dokumen ini mencatat setiap keputusan rekayasa data (*data engineering*), audit skema 60 kolom, pencegahan kebocoran data (*Split-Before-Fit*), temuan eksplorasi data (EDA), dan transformasi fitur pada skala *Big Data* (`1.000.000` baris).
 
 ## Status Pipeline
-- **Tahap Saat Ini**: Selesai Eksplorasi Awal (EDA) -> Data Cleaning, Binarisasi Target Valid, & Parquet Transformation (W7 - W8 Selesai)
-- **Engine**: Apache Spark via PySpark 4.3.0 (`local[*]`)
-- **Format Input**: CSV mentah (1.000.000 baris x 60 kolom, 233.6 MB)
-- **Format Output**: Apache Parquet terkompresi Snappy (36.75 MB, hemat storage 84.3%)
-- **Kondisi Data**: Bersih dari Missing Values/Null pada seluruh kolom fitur.
+- **Tahap Saat Ini**: Selesai 100% — Ingestion, Validasi 60 Kolom, Derivasi Fitur Temporal, Parquet Snappy Export, & Split-Before-Fit Feature Engineering.
+- **Engine**: Apache Spark via PySpark 4.3.0 (`local[*]`, Apache Arrow diaktifkan).
+- **Format Input**: CSV mentah (`1.000.000` baris $\times$ `60` kolom, `233,60 MB`).
+- **Format Output**:
+  - `data/processed/ecommerce_processed_parquet/`: `1.000.000` baris $\times$ `62` kolom (`37,96 MB`, hemat ruang penyimpanan **83,75%**).
+  - `data/processed/train_data_parquet/`: `799.723` baris (`79,97%`).
+  - `data/processed/test_data_parquet/`: `200.277` baris (`20,03%`).
+- **Kondisi Data**: `0` nilai *Missing / Null* di seluruh `60` kolom mentah maupun `62` kolom terproses.
 
 ---
 
 ## Ringkasan Temuan EDA & Keputusan Penentuan Target
 
-### 1. Evaluasi & Pemilihan Variabel Target yang Tepat
-- **Variabel Awal**: `checkout_abandonments_per_month` (angka 0 s.d. 10).
-  - *Temuan Ilmiah*: Pada dataset sintetis Kaggle ini, kolom `checkout_abandonments_per_month` digenerate menggunakan *Uniform Random Distribution* (korelasi mendekati 0 terhadap seluruh 57 fitur perilaku/demografi). Akibatnya model hanya belajar menebak acak (ROC-AUC ~0.50).
-- **Variabel Valid**: **`cart_abandonment_rate`** (persentase pembatalan keranjang belanja).
-  - *Karakteristik Nyata*: Memiliki hubungan sebab-akibat statistik yang sangat kuat dengan perilaku psikologis belanja konsumen:
-    - Korelasi dengan `impulse_buying_score`: **+0.9615** (sangat kuat).
-    - Korelasi dengan `stress_from_financial_decisions`: **+0.9404** (sangat kuat).
-  - *Rata-rata Cart Abandonment Rate*: **40.21%** (Standar Deviasi: **25.43%**).
+### 1. Evaluasi Variabel Target Valid vs Variabel Kontrol Negatif
+- **Variabel Kontrol Negatif (`checkout_abandonments_per_month`)**:
+  - Rentang nilai `0` s.d. `10` (rata-rata `4,9975`, SD `3,1628`).
+  - *Temuan Audit Matematis*: Kolom ini dibangkitkan dari distribusi seragam independen (*uniform random noise*) dengan korelasi Pearson $r = -0,000944$ terhadap `cart_abandonment_rate` dan $|r| < 0,0025$ terhadap seluruh 57 fitur prediktor. Pada eksperimen kontrol negatif (**E7**), pelatihan model terhadap variabel ini menghasilkan $\text{ROC-AUC} \approx 0,500$, membuktikan bahwa *pipeline* evaluasi tidak mengalami kebocoran atau *overfitting* palsu.
+- **Variabel Target Utama (`cart_abandonment_rate`)**:
+  - Rentang nilai `0%` s.d. `90%` (rata-rata `40,2123%`, SD `25,4333%`).
+  - *Klaster 4 Fitur Psikologis Kolinear*: Pembatalan keranjang digerakkan secara dominan oleh 4 variabel psikologis/impulsivitas yang saling berkolinearitas tinggi ($r$ antar-fitur `0,8419` s.d. `0,9162`):
+    1. `impulse_buying_score`: $r = +0,9615$ terhadap `cart_abandonment_rate` ($r = +0,8414$ terhadap target biner).
+    2. `stress_from_financial_decisions`: $r = +0,9404$ terhadap `cart_abandonment_rate` ($r = +0,8282$ terhadap target biner).
+    3. `overall_stress_level`: $r = +0,8635$ terhadap `cart_abandonment_rate` ($r = +0,7697$ terhadap target biner).
+    4. `impulse_purchases_per_month`: $r = +0,8501$ terhadap `cart_abandonment_rate` ($r = +0,7426$ terhadap target biner).
+  - *53 Fitur Prediktor Lainnya*: Variabel finansial dan operasional seperti `monthly_spend` ($r = -0,0019$), `average_order_value` ($r = -0,0008$), `daily_session_time_minutes` ($r = -0,0003$), `purchase_conversion_rate` ($r = +0,0007$), dan `return_rate` ($r = -0,0005$) bersifat ortogonal terhadap pembatalan keranjang.
 - **Formulasi Binerisasi Target (`is_high_abandonment`)**:
-  - `cart_abandonment_rate >= 40.0%` $\rightarrow$ **High Abandonment Risk (1)** (505.469 user / **50.55%**)
-  - `cart_abandonment_rate < 40.0%` $\rightarrow$ **Low Abandonment Risk (0)** (494.531 user / **49.45%**)
-  - Menghasilkan sebaran kelas yang sempurna (*balanced class* mendekati 50:50) tanpa perlu teknik resampling sintetis.
+  - `cart_abandonment_rate >= 40.0%` $\rightarrow$ **High Abandonment Risk (`1`)**: `505.469` pengguna (**`50,55%`**).
+  - `cart_abandonment_rate < 40.0%` $\rightarrow$ **Low Abandonment Risk (`0`)**: `494.531` pengguna (**`49,45%`**).
+  - Menghasilkan keseimbangan kelas alami (~50:50) tanpa memerlukan *oversampling* sintetis (SMOTE).
 
-### 2. Pengguna Berdasarkan Perangkat (*Device Type*)
-- **Mobile**: 600.247 user (60.0%) - Rata-rata durasi sesi: 59.96 menit.
-- **Desktop**: 299.845 user (30.0%) - Rata-rata durasi sesi: 60.11 menit.
-- **Tablet**: 99.908 user (10.0%) - Rata-rata durasi sesi: 60.04 menit.
-- **Kesimpulan**: Proporsi pengguna mayoritas adalah *Mobile Shopper* (60%).
-
-### 3. Pengaruh Stres Finansial & Impulsivitas Belanja
-- Pengguna dengan kecenderungan impulsif tinggi (`impulse_buying_score` > 5.5) sangat reaktif menambahkan banyak barang ke keranjang karena stimulus emosional, namun saat tiba pada komitmen pembayaran akhir dan berhadapan dengan total tagihan, rasa penyesalan belanja (*buyer's remorse*) dan stres finansial memicu pembatalan massal.
-
----
-
-## Log Pembersihan & Ekspor Parquet (Aktivitas 4 & 5)
-- **Modul**: `src/preprocessing.py`
-- **Missing Values**: 0 baris dihapus (dataset 100% lengkap).
-- **Pencegahan Kebocoran Data (*Data Leakage Prevention*)**:
-  - Kolom `cart_abandonment_rate` dan `checkout_abandonments_per_month` **dihapus dari matriks fitur independen**, agar model hanya belajar dari pola perilaku, demografi, dan psikologis murni konsumen.
-- **Efisiensi Format Parquet**:
-  - Ukuran CSV Mentah: **233.60 MB**
-  - Ukuran Parquet (Snappy): **36.75 MB**
-  - **Penghematan Storage**: **84.3% lebih hemat** dengan kecepatan I/O baca kolumnar PySpark hingga 10x lebih cepat.
+### 2. Distribusi Dimensi Demografis & Perangkat (`N = 1.000.000`)
+- **Perangkat (`device_type` — 3 kategori)**:
+  - `Mobile`: `600.247` pengguna (`60,02%`) — rata-rata `cart_abandonment_rate`: `40,23%`, rata-rata sesi: `59,96` menit.
+  - `Desktop`: `299.845` pengguna (`29,98%`) — rata-rata `cart_abandonment_rate`: `40,17%`, rata-rata sesi: `60,11` menit.
+  - `Tablet`: `99.908` pengguna (`9,99%`) — rata-rata `cart_abandonment_rate`: `40,20%`, rata-rata sesi: `60,04` menit.
+- **Negara (`country` — 10 negara)**: `Australia`, `Brazil`, `Canada`, `China`, `France`, `Germany`, `India`, `Japan`, `UK`, `USA` (masing-masing ~10% populasi).
+- **Gender (`gender` — 4 kategori)**: `Female`, `Male`, `Non-binary`, `Other`.
+- **Metode Pembayaran (`preferred_payment_method` — 6 metode)**: `Apple Pay`, `Bank Transfer`, `Credit Card`, `Debit Card`, `Google Pay`, `PayPal`.
 
 ---
 
-## Log Feature Engineering & Dataset Splitting (Aktivitas 6 & 7)
-- **Modul**: `src/feature_engineering.py`
-- **Encoding Variabel Kategorikal**:
-  - Menggunakan `StringIndexer` untuk 14 kolom nominal/ordinal: `gender`, `country`, `urban_rural`, `employment_status`, `education_level`, `relationship_status`, `occupation`, `ethnicity`, `language_preference`, `device_type`, `preferred_payment_method`, `product_category_preference`, `shopping_time_of_day`, `budgeting_style`.
-- **Perakitan Fitur (`VectorAssembler`)**:
-  - Menggabungkan 39 fitur numerik murni + 14 fitur hasil StringIndexer menjadi 1 vektor komprehensif `features` (total 53 dimensi fitur).
-- **Pembagian Dataset (Train/Test Split 80:20)**:
-  - **Train Set**: **799.723 baris** (disimpan di `data/processed/train_data_parquet/`)
-  - **Test Set**: **200.277 baris** (disimpan di `data/processed/test_data_parquet/`)
-- **Status Data Siap Latih**: Siap dikonsumsi langsung oleh Spark MLlib (`DecisionTreeClassifier`, `LogisticRegression`, `RandomForestClassifier`).
+## Log Pembersihan, Derivasi Fitur Temporal, & Ekspor Parquet
+- **Modul**: [`src/preprocessing.py`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/src/preprocessing.py) & [`src/pipeline_utils.py`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/src/pipeline_utils.py).
+- **Validasi 60 Kolom Mentah**: Seluruh 60 kolom divalidasi bebas nilai *null* (`total_nulls_across_60_cols = 0`).
+- **Derivasi Fitur Tanggal (`days_since_last_purchase`)**:
+  - Kolom `last_purchase_date` (`2025-01-01` s.d. `2027-01-01`) dikonversi menjadi selisih hari numerik terhadap tanggal maksimum referensi dataset (`2027-01-01`), menghasilkan fitur numerik `days_since_last_purchase` (`0` s.d. `730` hari).
+- **Inklusi Penuh Fitur Numerik yang Sebelumnya Terlewat**:
+  - Kolom `review_writing_frequency`, `reading_habits`, `app_usage_frequency`, dan `days_since_last_purchase` kini disertakan penuh ke dalam 43 fitur numerik.
+- **Efisiensi Penyimpanan Kolumnar Apache Parquet**:
+  - Ukuran CSV Mentah: **`233,60 MB`**
+  - Ukuran Parquet (Snappy): **`37,96 MB`**
+  - **Penghematan Ruang Disk**: **`83,75%`** dengan akselerasi I/O pembacaan dan agregasi kolumnar di PySpark.
 
 ---
 
-## Log Pembaruan Dukungan Multi-Platform (Google Colab & VS Code)
-- **Kebutuhan**: Memastikan notebook interaktif `notebooks/01_e_commerce_abandonment_showcase.ipynb` dapat dijalankan secara instan (*Plug & Play*) di Google Colab tanpa error *Path does not exist* (`AnalysisException`).
-- **Pembaruan Konfigurasi Git & Data Tracking**:
-  - `data/processed/ecommerce_processed_parquet/` (37.75 MB, 1 juta baris agregasi) dan `data/processed/test_data_parquet/` (15.5 MB, data uji 200.277 baris) diizinkan masuk ke version control Git GitHub.
-  - `models/decision_tree_tuned/` (44 KB) dan `models/decision_tree_baseline/` (28 KB) diizinkan masuk ke version control Git GitHub.
-  - Data mentah `data/raw/` (233.6 MB) dan `train_data_parquet/` (63 MB) tetap diproteksi di `.gitignore` lokal untuk efisiensi transfer data.
-- **Mekanisme Auto-Detection di Notebook**:
-  - Sel inisialisasi mendeteksi `if 'google.colab' in sys.modules:` secara otomatis.
-  - Jika di Colab, sistem otomatis melakukan git clone repositori ke `/content/bigdata8` dan memindahkan direktori kerja (`%cd`), sehingga pembacaan data Parquet dan model langsung sukses tanpa konfigurasi manual.
+## Log Feature Engineering Bebas Kebocoran (*Strict Split-Before-Fit*)
+- **Modul**: [`src/feature_engineering.py`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/src/feature_engineering.py).
+- **Protokol Split-Before-Fit**:
+  1. Dataset dibagi terlebih dahulu menjadi **Train Set (`799.723` baris / `79,97%`)** dan **Test Set (`200.277` baris / `20,03%`)** menggunakan `randomSplit([0.8, 0.2], seed=42)`.
+  2. Seluruh transformator (`StringIndexer`, `OneHotEncoder`, dan `StandardScaler`) di-*fit* **hanya pada `train_df`** (`pipeline.fit(train_df)`), lalu digunakan untuk mentransformasi `train_df` dan `test_df`. Hal ini menjamin `0%` kebocoran informasi distribusi data uji ke tahap pelatihan.
+- **Dua Representasi Vektor Fitur untuk Komparasi Adil antar-Arsitektur Model**:
+  1. **`features` (`57` dimensi)**: Menggabungkan `43` fitur numerik asli + `14` fitur kategorikal hasil `StringIndexer` untuk keluarga model berbasis pohon (**Decision Tree**, **Random Forest**, **GBT**).
+  2. **`features_lr` (`132` dimensi)**: Menggabungkan `43` fitur numerik + `14` fitur kategorikal yang telah di-*One-Hot Encode* (`OneHotEncoder`), lalu distandarisasi (`StandardScaler(withMean=False, withStd=True)`) khusus untuk model linier (**Logistic Regression**), sehingga bebas dari bias urutan indeks semu pada variabel nominal.
+
+---
+
+## Log Dukungan Multi-Platform & Sanitasi Metadata Model (Google Colab & VS Code)
+- **Kompatibilitas Lintas Versi PySpark (Local PySpark 4.3.0 vs Colab PySpark 4.0.5)**:
+  - PySpark 4.3.0 menyisipkan atribut `"pruneTree"` di dalam `metadata/part-00000` saat menyimpan model pohon keputusan, yang memicu `IllegalArgumentException` pada PySpark 4.0.x di Google Colab.
+  - Fungsi [`sanitize_spark_model_metadata`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/src/pipeline_utils.py#L96-L120) secara otomatis menghapus kunci `"pruneTree"` dan berkas `.crc` setiap kali `models/decision_tree_baseline` maupun `models/decision_tree_tuned` disimpan ke disk.
