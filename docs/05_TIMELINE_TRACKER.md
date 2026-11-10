@@ -22,7 +22,7 @@
 | No | Aktivitas Proyek Big Data | Modul / Tahapan | Prioritas | Status | Timeline | PIC / Catatan |
 | :---: | :--- | :--- | :---: | :---: | :---: | :--- |
 | **1** | Penyusunan Desain Teknis & Alur Data (Worksheet 4) | Perencanaan & Desain | Tinggi | **Selesai** | W6 | Fondasi arsitektur proyek & Project Charter |
-| **2** | Setup Lingkungan & Ingestion Dataset E-Commerce | Infrastruktur & Ingestion | Tinggi | **Selesai** | W6 - W7 | Dataset `1.000.000` baris (`233,60 MB`) & PySpark 4.1.1 aktif |
+| **2** | Setup Lingkungan & Ingestion Dataset E-Commerce | Infrastruktur & Ingestion | Tinggi | **Selesai** | W6 - W7 | Dataset `1.000.000` baris (`233,60 MB`) & PySpark 4.3.0 aktif |
 | **3** | Eksplorasi Data Awal (EDA) Sesi vs Abandonment | Exploratory Data Analysis | Sedang | **Selesai** | W6 - W7 | Audit korelasi 60 kolom (`schema_and_correlation_audit.csv`) & plot 300 DPI |
 | **4** | Pembersihan Data Skala Besar & Konversi Parquet | Data Preprocessing | Tinggi | **Selesai** | W7 - W8 | `62` kolom terproses di Snappy Parquet (`37,96 MB`, hemat `83,75%`, I/O `15,39x` lebih cepat) |
 | **5** | Feature Engineering: Label Risiko Abandonment | Feature Engineering | Tinggi | **Selesai** | W8 | Target biner `is_high_abandonment` (`cart_abandonment_rate >= 40%`: `50,55%` vs `49,45%`) |
@@ -32,7 +32,7 @@
 | **9** | Hyperparameter Tuning & Ablasi Pruning Decision Tree | Machine Learning | Tinggi | **Selesai** | W9 - W10 | 72-Config Validation Grid & Ablasi `M0..M4`; Champion `M2` (`maxDepth=10, minInst=20, gini`, `473` node, Test ROC-AUC `0,9904`, Akurasi `93,99%`) |
 | **10** | Benchmark Multi-Model, Uji McNemar & Kontrol Negatif | Model Evaluation | Tinggi | **Selesai** | W10 | Komparasi 6 Model (`LR`, `GBT`, `DT_d10`, `RF`, `DT_d7`, `DT_d3`), Bootstrap CI, McNemar Test, & Skalabilitas PySpark |
 | **11** | Ekstraksi IF-THEN Rules, SHAP & Segmentasi K-Means | Explainability & Clustering | Tinggi | **Selesai** | W10 | Aturan 4-daun `98,28%` fidelitas, SHAP + Permutation Importance (resolusi kolinearitas), & K-Means Persona (`K=2..5`) |
-| **12** | Perumusan Rekomendasi Tim UI/UX & Pemasaran | Business Insights | Sedang | **Selesai** | W10 - W11 | Matriks Intervensi 4-Kuartil (`Q1–Q4`), BNPL, Mindful Cooling-Off, & Gamifikasi |
+| **12** | Perumusan Rekomendasi Tim UI/UX & Pemasaran | Business Insights | Sedang | **Selesai** | W10 - W11 | Matriks Intervensi 3-Tier Operasional, BNPL, Split-Cart, & Free Return |
 | **13** | Pengembangan Dashboard Visualisasi Interaktif | BI & Visualisasi | Tinggi | **Selesai** | W10 - W11 | 5 Data Marts Looker Studio, Dashboard HTML Mandiri, 12 Grafik 300 DPI, & Notebook Showcase |
 | **14** | Rencana & Blueprint Manuskrip Jurnal Ilmiah (JIKO Sinta 4) | Publikasi Ilmiah | Tinggi | **Selesai** | W10 - W11 | Blueprint lengkap JIKO (`07_JOURNAL_PLAN_JIKO.md` & Google Docs) terverifikasi dengan eksperimen `E0–E9` |
 | **15** | Pengujian Otomatis Integritas Pipeline (`unittest`) | Quality Assurance | Tinggi | **Selesai** | W11 | 5 Suite pengujian otomatis (`tests/test_pipeline_integrity.py`) lulus 100% |

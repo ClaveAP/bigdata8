@@ -22,9 +22,9 @@ Seluruh eksperimen pada dokumen ini mematuhi protokol evaluasi ketat berikut:
 
 Skrip: [`src/tune_tree.py`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/src/tune_tree.py) | Artefak: [`dt_tuning_grid.csv`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/reports/metrics/dt_tuning_grid.csv), [`dt_champion_summary.json`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/reports/metrics/dt_champion_summary.json), [`dt_pruning_depth_curve.png`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/reports/dt_pruning_depth_curve.png)
 
-### 2.1 Tabel Ablasi 7 Konfigurasi Referensi (Satu Faktor per Langkah)
+### 2.1 Tabel Ablasi 7 Konfigurasi `M0–M4` (+ Baseline `d=5`)
 
-Untuk menjawab pertanyaan penguji mengenai pengaruh murni `maxDepth`, `minInstancesPerNode` (*pre-pruning*), dan `impurity` (`gini` vs `entropy`) tanpa efek bauran (*confounding*), berikut hasil 7 model referensi yang dilatih penuh pada `799.723` baris Train Set dan diuji pada `200.277` baris Test Set:
+Untuk menjawab pertanyaan penguji mengenai pengaruh murni `maxDepth`, `minInstancesPerNode` (*pre-pruning*), dan `impurity` (`gini` vs `entropy`) tanpa efek bauran (*confounding*), berikut hasil `7` konfigurasi ablasi di `tune_tree.py` beserta model baseline `d=5` dari `train_classifier.py` (`8` baris evaluasi total) yang dilatih penuh pada `799.723` baris Train Set dan diuji pada `200.277` baris Test Set:
 
 | ID Model | `maxDepth` | `minInst` | `Impurity` | Jumlah Node | Val ROC-AUC (`199.949`) | Test ROC-AUC (`200.277`) | Test PR-AUC | Test Akurasi | Test F1-Weighted | Waktu Latih (s) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -56,7 +56,7 @@ Skrip: [`src/compare_models.py`](file:///Users/admin/code/code-kuliah/bigdata-pj
 
 | Model | Spesifikasi Hyperparameter | Kompleksitas Struktur | 5-Fold CV ROC-AUC | Test ROC-AUC (95% CI) | Test PR-AUC | Test Akurasi | Test F1-Weighted | Waktu Latih (s) |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **`LR_Tuned`** | `regParam=0.01, elasticNet=0.0` (`features_lr`) | 132 bobot kontinu | `0,9905 ± 0,0004` | **`0,9906`** (`[0,9902, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9410`** | 18,26s |
+| **`LR_Tuned`** | `regParam=0.0, maxIter=50` (`features_lr`) | 132 bobot kontinu | `0,9905 ± 0,0004` | **`0,9906`** (`[0,9902, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9410`** | 18,26s |
 | **`GBT_Tuned`** | `maxIter=20, maxDepth=5, step=0.1` | 20 pohon (958 node) | `0,9905 ± 0,0004` | **`0,9906`** (`[0,9901, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9409`** | 76,01s |
 | **`DT_Champion_d10`** | `maxDepth=10, minInst=20, gini` | **1 pohon (473 node)** | `0,9883 ± 0,0005` | **`0,9904`** (`[0,9900, 0,9910]`) | **`0,9905`** | **`93,99%`** | **`0,9399`** | **14,42s** |
 | **`RF_Tuned`** | `numTrees=40, maxDepth=10, minInst=20` | 40 pohon (24.944 node) | `0,9894 ± 0,0005` | `0,9894` (`[0,9888, 0,9900]`) | `0,9900` | `93,92%` | `0,9392` | 354,79s |
@@ -78,10 +78,10 @@ Skrip: [`src/compare_models.py`](file:///Users/admin/code/code-kuliah/bigdata-pj
 
 | Perbandingan Berpasangan ($A$ vs $B$) | Diskordan $b$ ($A$ Benar, $B$ Salah) | Diskordan $c$ ($A$ Salah, $B$ Benar) | Statistik $\chi^2_{\text{McNemar}}$ | $p\text{-value}$ | Bootstrap $\Delta\text{ROC-AUC}$ (95% CI) | Interpretasi Praktis & Ilmiah |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **`LR_Tuned` vs `DT_Champion_d10`** | 1.202 | 986 | 21,13 | $4,23 \times 10^{-6}$ | `+0,00024` (`[+0,00010, +0,00040]`) | Signifikan secara statistik karena ukuran sampel raksasa ($N=200\text{k}$), namun **selisih praktis $\Delta\text{AUC}$ hanya `0,024%` (`0,00024`)**. |
-| **`GBT_Tuned` vs `DT_Champion_d10`** | 1.168 | 953 | 20,96 | $4,61 \times 10^{-6}$ | `+0,00016` (`[+0,00001, +0,00031]`) | Selisih $\Delta\text{AUC}$ hanya **`0,016%`**, sementara `DT_Champion_d10` **`5,27x` lebih cepat dilatih** (`14,42s` vs `76,01s`) dan 100% *white-box*. |
-| **`RF_Tuned` vs `DT_Champion_d10`** | 1.384 | 1.522 | 6,46 | $0,0110$ | `-0,00102` (`[-0,00136, -0,00068]`) | **`DT_Champion_d10` mengungguli `RF_Tuned`** baik pada ROC-AUC (`0,9904` vs `0,9894`) maupun Akurasi (`93,99%` vs `93,92%`), karena subsampling fitur acak RF (`featureSubsetStrategy='sqrt'`) sering melewatkan 4 fitur psikologis utama pada sebagian pohon. |
-| **`DT_Champion_d10` vs `DT_Shallow_d3`** | 1.649 | 1.799 | 6,45 | $0,0111$ | `+0,02521` (`[+0,02405, +0,02627]`) | `DT_Champion_d10` meningkatkan daya pisah peringkat probabilitas ($\Delta\text{AUC} = +0,0252$), sedangkan `DT_Shallow_d3` mempertahankan **98,28% fidelitas prediksi** hanya dengan 4 daun aturan! |
+| **`LR_Tuned` vs `DT_Champion_d10`** | 1.202 | 986 | 21,13 | $4,23 \times 10^{-6}$ | `+0,00024` (`[+0,00013, +0,00037]`) | Signifikan secara statistik karena ukuran sampel raksasa ($N=200\text{k}$), namun **selisih praktis $\Delta\text{AUC}$ hanya `0,024%` (`0,00024`)**. |
+| **`GBT_Tuned` vs `DT_Champion_d10`** | 1.200 | 985 | 20,96 | $4,61 \times 10^{-6}$ | `+0,00016` (`[+0,00006, +0,00030]`) | Selisih $\Delta\text{AUC}$ hanya **`0,016%`**, sementara `DT_Champion_d10` **`5,27x` lebih cepat dilatih** (`14,42s` vs `76,01s`) dan 100% *white-box*. |
+| **`RF_Tuned` vs `DT_Champion_d10`** | 1.813 | 1.945 | 4,57 | $0,0326$ | `-0,00109` (`[-0,00128, -0,00089]`) | **`DT_Champion_d10` mengungguli `RF_Tuned`** baik pada ROC-AUC (`0,9904` vs `0,9894`) maupun Akurasi (`93,99%` vs `93,92%`), karena subsampling fitur acak RF (`featureSubsetStrategy='sqrt'`) sering melewatkan 4 fitur psikologis utama pada sebagian pohon. |
+| **`DT_Champion_d10` vs `DT_Shallow_d3`** | 1.651 | 1.801 | 6,43 | $0,0112$ | `+0,0253` *(selisih langsung Test AUC)* | `DT_Champion_d10` meningkatkan daya pisah peringkat probabilitas ($\Delta\text{AUC} = +0,0253$), sedangkan `DT_Shallow_d3` mempertahankan **98,28% fidelitas prediksi** hanya dengan 4 daun aturan! |
 
 ---
 
@@ -99,7 +99,7 @@ Pada EDA, terdapat **4 variabel psikologis yang saling berkorelasi sangat kuat**
 Namun, pada pohon tunggal `DT_Champion_d10`, bobot Gini Importance terkonsentrasi pada `impulse_buying_score` (**`95,00%`**) dan `stress_from_financial_decisions` (**`4,72%`**), sedangkan `overall_stress_level` dan `impulse_purchases_per_month` tampak mendekati **`0,00%`**.  
 Melalui perbandingan lintas-metode atribusi fitur pada tabel di bawah, fenomena ini terbukti sebagai **Greedy Collinear Feature Masking** (ketika pohon tunggal membelah pada fitur terkuat `impulse_buying_score`, variasi dari 3 fitur kolinear lainnya sudah ikut terjelaskan sehingga tidak dipilih ulang):
 
-| Fitur Prediktor | Korelasi Pearson ($r$ ke Target) | Single-Tree Gini (`DT_Champion_d10`) | Ensemble Gini (`RF` 40 Pohon) | Koefisien Standar `LR` ($\|\beta_j\|$) | Permutation $\Delta\text{AUC}$ (`DT`) | Mean $\|\text{SHAP}\|$ (`DT`) | Mean $\|\text{SHAP}\|$ (`RF`) |
+| Fitur Prediktor | Korelasi Pearson ($r$ ke Target) | Single-Tree Gini (`DT_Champion_d10`) | Ensemble Gini (`RF` 100 Pohon Audit) | Koefisien Standar `LR` ($\|\beta_j\|$) | Permutation $\Delta\text{AUC}$ (`DT`) | Mean $\|\text{SHAP}\|$ (`DT`) | Mean $\|\text{SHAP}\|$ (`RF`) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **`impulse_buying_score`** | **`+0,9615`** | **`95,00%`** | **`35,14%`** | **`54,59%`** | **`-0,3229`** | **`0,3356`** | **`0,1804`** |
 | **`stress_from_financial_decisions`** | **`+0,9404`** | **`4,72%`** | **`31,15%`** | **`32,17%`** | **`-0,0483`** | **`0,1306`** | **`0,1468`** |
@@ -118,9 +118,9 @@ Skrip: [`src/compare_models.py`](file:///Users/admin/code/code-kuliah/bigdata-pj
 
 | Eksperimen & Definisi Target | Proporsi Kelas Positif (`Class 1`) | Test ROC-AUC (`LR_Tuned`) | Test ROC-AUC (`DT_Champion_d10`) | Test ROC-AUC (`RF_Tuned`) | Kesimpulan Validasi |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Sensitivitas Threshold `>= 35,0%`** (`cart_abandonment_rate`) | 57,38% | 0,9905 | 0,9885 | 0,9894 | Performa sangat stabil ($\text{AUC} \approx 0,99$). |
-| **Target Utama `>= 40,0%`** (`cart_abandonment_rate`) | **50,55%** | **0,9906** | **0,9904** | **0,9894** | Titik keseimbangan kelas paling optimal (`50,55%` vs `49,45%`). |
-| **Sensitivitas Threshold `>= 45,0%`** (`cart_abandonment_rate`) | 43,72% | 0,9897 | 0,9882 | 0,9886 | Performa tetap kokoh ($\text{AUC} > 0,988$), bukan artefak angka `40%`. |
+| **Sensitivitas Threshold `>= 35,0%`** (`cart_abandonment_rate`) | 56,21% *(sub-uji)* | 0,9902 | 0,9892 | 0,9892 | Performa sangat stabil ($\text{AUC} \approx 0,99$). |
+| **Target Utama `>= 40,0%`** (`cart_abandonment_rate`) | **50,55%** *(penuh)* / `50,53%` *(sub)* | **0,9906** *(penuh)* / `0,9905` *(sub)* | **0,9904** *(penuh)* / `0,9882` *(sub)* | **0,9894** *(penuh)* / `0,9891` *(sub)* | Titik keseimbangan kelas paling optimal (`50,55%` vs `49,45%`). |
+| **Sensitivitas Threshold `>= 45,0%`** (`cart_abandonment_rate`) | 44,85% *(sub-uji)* | 0,9904 | 0,9888 | 0,9889 | Performa tetap kokoh ($\text{AUC} > 0,988$), bukan artefak angka `40%`. |
 | **Kontrol Negatif**: `checkout_abandonments_per_month >= 5` | 53,29% | **`0,4975`** | **`0,4975`** | **`0,5004`** | **Terbukti $\text{AUC} \approx 0,500$ (acak murni)**: membuktikan pipeline 100% bebas *data leakage* dan mengonfirmasi temuan EDA bahwa `checkout_abandonments_per_month` adalah derau independen ($r = -0,0009$). |
 
 ---
@@ -138,19 +138,20 @@ Evaluasi `KMeans` (`StandardScaler` pada 10 fitur perilaku dan psikologis di sel
 
 ---
 
-## 7. Eksperimen E4 — Benchmark Skalabilitas Komputasi PySpark (`100k`–`1M` Baris & `1`–`4` Core)
+## 7. Eksperimen E4 — Benchmark Skalabilitas Komputasi PySpark (`20%–100%` Train Set & `1–4` Core)
 
 Skrip: [`src/compare_models.py`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/src/compare_models.py) | Artefak: [`scaling_rows.csv`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/reports/metrics/scaling_rows.csv), [`scaling_cores.csv`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/reports/metrics/scaling_cores.csv), [`pyspark_scaling_benchmark.png`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/reports/pyspark_scaling_benchmark.png)
 
-### 7.1 Skalabilitas Volume Data (`100.000` $\rightarrow$ `1.000.000` Baris pada `local[*]`)
-| Ukuran Sampel | Baris Train | Waktu Latih `LR_Tuned` (s) | Waktu Latih `DT_Champion_d10` (s) | Waktu Latih `RF_Tuned` (s) |
-| :--- | :---: | :---: | :---: | :---: |
-| **10% (`100.000` baris)** | 80.105 | 2,52s | **1,93s** | 15,82s |
-| **25% (`250.000` baris)** | 200.072 | 3,12s | **2,44s** | 39,93s |
-| **50% (`500.000` baris)** | 400.289 | 6,41s | **4,36s** | 127,26s |
-| **100% (`1.000.000` baris)** | 799.723 | 12,18s | **9,45s** | 348,80s |
+### 7.1 Skalabilitas Volume Data (`160.127` $\rightarrow$ `799.723` Baris Train Set pada `local[*]`)
+| Fraksi Train Set | Baris Train | Waktu Latih `DT_Champion_d10` (s) | Waktu Latih `LR_Tuned` (s) | Waktu Latih `GBT_Tuned` (s) | Waktu Latih `RF_Tuned` (`40` trees) (s) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **20%** | 160.127 | **5,95s** | 7,57s | 42,06s | 70,89s |
+| **40%** | 320.208 | **8,08s** | 10,56s | 78,35s | 95,17s |
+| **60%** | 480.074 | **8,98s** | 26,32s | 48,28s | 188,85s |
+| **80%** | 639.563 | **6,92s** | 13,38s | 56,11s | 132,28s |
+| **100%** | 799.723 | **14,42s** | 18,26s | 76,01s | 354,79s |
 
 ### 7.2 Skalabilitas Paralelisme CPU (`local[1]` vs `local[2]` vs `local[4]` pada `DT_Champion_d10`)
-- **`local[1]` (1 Thread)**: `20,683 detik` (Baseline `1,00x`, Throughput `38.666 baris/detik`).
-- **`local[2]` (2 Thread)**: `9,012 detik` (**Speedup `2,30x`**, Throughput `88.742 baris/detik`).
-- **`local[4]` (4 Thread / 2 Physical Cores HyperThreading)**: `9,446 detik` (**Speedup `2,19x`**, Throughput `84.661 baris/detik` — saturasi natural pada perangkat keras 2-core fisik / 4-thread logis).
+- **`local[1]` (1 Thread)**: `20,677 detik` (Baseline `1,00x`, Throughput `38.677 baris/detik`).
+- **`local[2]` (2 Thread)**: `9,006 detik` (**Speedup `2,30x`**, Throughput `88.799 baris/detik`).
+- **`local[4]` (4 Thread / 2 Physical Cores HyperThreading)**: `9,452 detik` (**Speedup `2,19x`**, Throughput `84.609 baris/detik` — saturasi natural pada perangkat keras 2-core fisik / 4-thread logis).

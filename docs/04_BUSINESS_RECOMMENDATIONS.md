@@ -10,10 +10,10 @@ Berdasarkan audit statistik populasi penuh ($N = 1.000.000$) dan evaluasi multi-
 
 1. **Klaster 4 Faktor Psikologis Kolinear sebagai Pendorong Tunggal Pembatalan**:
    - Pembatalan keranjang (`cart_abandonment_rate`) digerakkan oleh 4 variabel psikologis yang saling berkolinearitas tinggi:
-     - `impulse_buying_score` ($r = +0,9615$; *DT Gini Importance* = **95,00%**, *RF Ensemble Gini* = **35,14%**, *Mean* $|\text{SHAP}|_{\text{RF}}$ = **0,1804**)
-     - `stress_from_financial_decisions` ($r = +0,9404$; *DT Gini Importance* = **4,72%**, *RF Ensemble Gini* = **31,15%**, *Mean* $|\text{SHAP}|_{\text{RF}}$ = **0,1468**)
-     - `overall_stress_level` ($r = +0,8635$; *RF Ensemble Gini* = **17,08%**, *Mean* $|\text{SHAP}|_{\text{RF}}$ = **0,0523**)
-     - `impulse_purchases_per_month` ($r = +0,8501$; *RF Ensemble Gini* = **14,04%**, *Mean* $|\text{SHAP}|_{\text{RF}}$ = **0,0528**)
+     - `impulse_buying_score` ($r = +0,9615$; *DT Gini Importance* = **95,00%**, *RF Ensemble Gini (100 Pohon Audit)* = **35,14%**, *Mean* $|\text{SHAP}|_{\text{RF}}$ = **0,1804**)
+     - `stress_from_financial_decisions` ($r = +0,9404$; *DT Gini Importance* = **4,72%**, *RF Ensemble Gini (100 Pohon Audit)* = **31,15%**, *Mean* $|\text{SHAP}|_{\text{RF}}$ = **0,1468**)
+     - `overall_stress_level` ($r = +0,8635$; *RF Ensemble Gini (100 Pohon Audit)* = **17,08%**, *Mean* $|\text{SHAP}|_{\text{RF}}$ = **0,0523**)
+     - `impulse_purchases_per_month` ($r = +0,8501$; *RF Ensemble Gini (100 Pohon Audit)* = **14,04%**, *Mean* $|\text{SHAP}|_{\text{RF}}$ = **0,0528**)
    - Pengacakan serentak (*Joint Cluster Permutation*) keempat fitur ini menjatuhkan $\text{ROC-AUC}$ sebesar **$-0,4835$ s.d. $-0,4899$** (menuju tebakan acak $\approx 0,50$), membuktikan bahwa **100% sinyal prediktif pembatalan berada pada klaster friksi psikologis ini**.
 2. **Bukan Masalah Daya Beli atau Kendala Teknis Sesi**:
    - Kelompok pembatal tinggi (*High Abandonment*, $N = 505.469$) dan kelompok pembeli stabil (*Low Abandonment*, $N = 494.531$) memiliki pengeluaran bulanan yang identik (**\$2.496,58** vs **\$2.501,02**), nilai pesanan rata-rata (AOV) yang identik (**\$255,01** vs **\$255,05**), dan durasi sesi harian yang sama (**60,01 menit** vs **60,02 menit**).

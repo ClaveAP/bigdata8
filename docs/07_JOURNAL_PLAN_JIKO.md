@@ -41,7 +41,7 @@ Seluruh angka di bawah ini diambil langsung dari `reports/metrics/*.json` dan si
 
 | Model | Konfigurasi Optimal | Kompleksitas Struktur | 5-Fold CV ROC-AUC | Test ROC-AUC (95% CI) | Test PR-AUC | Test Akurasi | Test F1-Weighted | Waktu Latih (s) |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **`LR_Tuned`** | `regParam=0.01`, OHE+Scaled | 132 bobot kontinu | `0,9905 ± 0,0004` | **`0,9906`** (`[0,9902, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9410`** | `18,26` |
+| **`LR_Tuned`** | `regParam=0.0`, OHE+Scaled | 132 bobot kontinu | `0,9905 ± 0,0004` | **`0,9906`** (`[0,9902, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9410`** | `18,26` |
 | **`GBT_Tuned`** | `maxIter=20, maxDepth=5` | 20 pohon (958 node) | `0,9905 ± 0,0004` | **`0,9906`** (`[0,9901, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9409`** | `76,01` |
 | **`DT_Champion_d10`** | `maxDepth=10, minInst=20, gini` | **1 pohon (473 node)** | `0,9883 ± 0,0005` | **`0,9904`** (`[0,9900, 0,9910]`) | **`0,9905`** | **`93,99%`** | **`0,9399`** | **`14,42`** |
 | **`RF_Tuned`** | `numTrees=40, maxDepth=10, minInst=20` | 40 pohon (24.944 node) | `0,9894 ± 0,0005` | `0,9894` (`[0,9888, 0,9900]`) | `0,9900` | `93,92%` | `0,9392` | `354,79` |
@@ -49,9 +49,9 @@ Seluruh angka di bawah ini diambil langsung dari `reports/metrics/*.json` dan si
 | **`DT_Shallow_d3`** | `maxDepth=3, minInst=20, gini` | **1 pohon (7 node / 4 daun)** | `0,9688 ± 0,0064` | `0,9651` (`[0,9639, 0,9664]`) | `0,9524` | `94,06%` | `0,9406` | `8,80` |
 
 ### 2.3 Uji Statistik Berpasangan McNemar ($df = 1$) & Ukuran Efek Bootstrap ($\Delta\text{ROC-AUC}$)
-1. **`LR_Tuned` vs `DT_Champion_d10`**: $b = 1.202$, $c = 986$, $\chi^2_{\text{McNemar}} = 21,13$, $p = 4,23 \times 10^{-6}$; $\Delta\text{ROC-AUC} = +0,00024$ (`95% CI [+0,00010, +0,00040]`).
-2. **`GBT_Tuned` vs `DT_Champion_d10`**: $b = 1.168$, $c = 953$, $\chi^2_{\text{McNemar}} = 20,96$, $p = 4,61 \times 10^{-6}$; $\Delta\text{ROC-AUC} = +0,00016$ (`95% CI [+0,00001, +0,00031]`).
-3. **`RF_Tuned` vs `DT_Champion_d10`**: $b = 1.384$, $c = 1.522$, $\chi^2_{\text{McNemar}} = 6,46$, $p = 0,0110$; $\Delta\text{ROC-AUC} = -0,00102$ (`95% CI [-0,00136, -0,00068]`) — **`DT_Champion_d10` secara signifikan mengungguli `RF_Tuned` baik pada ROC-AUC maupun Akurasi, dengan waktu latih `24,6x` lebih singkat**.
+1. **`LR_Tuned` vs `DT_Champion_d10`**: $b = 1.202$, $c = 986$, $\chi^2_{\text{McNemar}} = 21,13$, $p = 4,23 \times 10^{-6}$; $\Delta\text{ROC-AUC} = +0,00024$ (`95% CI [+0,00013, +0,00037]`).
+2. **`GBT_Tuned` vs `DT_Champion_d10`**: $b = 1.200$, $c = 985$, $\chi^2_{\text{McNemar}} = 20,96$, $p = 4,61 \times 10^{-6}$; $\Delta\text{ROC-AUC} = +0,00016$ (`95% CI [+0,00006, +0,00030]`).
+3. **`RF_Tuned` vs `DT_Champion_d10`**: $b = 1.813$, $c = 1.945$, $\chi^2_{\text{McNemar}} = 4,57$, $p = 0,0326$; $\Delta\text{ROC-AUC} = -0,00109$ (`95% CI [-0,00128, -0,00089]`) — **`DT_Champion_d10` secara signifikan mengungguli `RF_Tuned` baik pada ROC-AUC maupun Akurasi, dengan waktu latih `24,6x` lebih singkat**.
 
 ### 2.4 Ablasi *Pre-Pruning* Decision Tree (`E2` — 72 Konfigurasi Validasi)
 - **Efek Kedalaman & *Overfitting* (`M0` $\rightarrow$ `M2` $\rightarrow$ `M4`)**: Peningkatan kedalaman dari `maxDepth=3` (`7` node, Test AUC `0,9651`) ke `maxDepth=10` (`473` node, Test AUC `0,9904`) meningkatkan kualitas pemeringkatan probabilitas. Namun tanpa *pre-pruning* pada `maxDepth=12, minInstancesPerNode=1` (`M4`), jumlah node meledak **`7,25x` lipat (`3.431` node)** diikuti penurunan Validation AUC ke `0,9787` dan Test Akurasi ke `93,67%`.
@@ -59,13 +59,13 @@ Seluruh angka di bawah ini diambil langsung dari `reports/metrics/*.json` dan si
 - **Ablasi Murni `impurity` (`M2` vs `M3b` pada `maxDepth=10, minInst=20`)**: `gini` (`473` node, Test AUC `0,9904`) unggul tipis atas `entropy` (`227` node, Test AUC `0,9883`).
 
 ### 2.5 Fidelitas Pohon Ringkas (`E6`) & Resolusi Kolinearitas Fitur (`E8`)
-- **Surrogate Rule Fidelity**: Pohon dangkal `DT_Shallow_d3` (`maxDepth=3`, hanya **4 daun aturan IF-THEN** yang hanya memeriksa `impulse_buying_score <= 4,5` dan `stress_from_financial_decisions <= 3,5`) menghasilkan **kesepakatan prediksi `98,28%` (`196.825 / 200.277`)** terhadap `DT_Champion_d10` (`473` node) dan mencapai Test Akurasi **`94,06%`**.
+- **Surrogate Rule Fidelity**: Pohon dangkal `DT_Shallow_d3` (`maxDepth=3`, hanya **4 daun aturan IF-THEN** yang memeriksa `impulse_buying_score <= 4,5`, `<= 5,5`, dan `stress_from_financial_decisions <= 5,5`) menghasilkan **kesepakatan prediksi `98,28%` (`196.825 / 200.277`)** terhadap `DT_Champion_d10` (`473` node) dan mencapai Test Akurasi **`94,06%`**.
 - **Greedy Collinear Feature Masking**: Keempat prediktor psikologis (`impulse_buying_score` $r=+0,9615$, `stress_from_financial_decisions` $r=+0,9404$, `overall_stress_level` $r=+0,8635$, `impulse_purchases_per_month` $r=+0,8501$) membentuk klaster multikolinear. Pada pohon tunggal `DT_Champion_d10`, `99,72%` Gini importance terserap oleh 2 fitur pertama (`95,00%` + `4,72%`), sedangkan pada `RF_Tuned` dan **TreeSHAP**, bobot terdistribusi ke keempat fitur (`35,14%`, `31,15%`, `17,08%`, `14,04%`). Pengacakan serentak ke-4 fitur ini (*Joint Cluster Permutation*) menjatuhkan ROC-AUC seluruh model sebesar **`-0,4835` s.d. `-0,4899`** menuju `~0,50` (acak).
 
 ### 2.6 Uji Kontrol Negatif, Sensitivitas Threshold (`E7`), & Skalabilitas PySpark (`E3–E4`)
 - **Kontrol Negatif (`checkout_abandonments_per_month >= 5`)**: Menghasilkan ROC-AUC **`0,4975`** (`LR` & `DT`) dan **`0,5004`** (`RF`), membuktikan ketiadaan kebocoran data pada pipeline.
-- **Sensitivitas Ambang Target (`35%`, `40%`, `45%`)**: ROC-AUC konsisten pada rentang **`0,9882 – 0,9906`**.
-- **Skalabilitas Komputasi**: Waktu pelatihan `DT_Champion_d10` meningkat secara linier dari `1,93 detik` (`100k` baris) ke `9,45 detik` (`1M` baris), dengan percepatan paralelisme **`2,30x`** dari `local[1]` (`20,68s`) ke `local[2]` (`9,01s`).
+- **Sensitivitas Ambang Target (`35%`, `40%`, `45%`)**: ROC-AUC konsisten pada rentang **`0,9882 – 0,9905`** (uji subsampel) dan `0,9904 – 0,9906` pada data penuh.
+- **Skalabilitas Komputasi**: Waktu pelatihan `DT_Champion_d10` bertumbuh sub-linear/linier dari `5,95 detik` (`20%` Train / `160.127` baris) ke `14,42 detik` (`100%` Train / `799.723` baris) — tetap **`24,6x` lebih cepat** daripada `RF_Tuned` (`354,79s`) dan **`5,27x` lebih cepat** daripada `GBT_Tuned` (`76,01s`) — dengan percepatan paralelisme **`2,30x`** dari `local[1]` (`20,68s`) ke `local[2]` (`9,01s`).
 
 ---
 

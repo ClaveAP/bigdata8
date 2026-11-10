@@ -141,7 +141,7 @@ def run_extraction():
     raw_debug_str = champion_model.toDebugString
     humanized_debug_str = humanize_tree_debug_string(raw_debug_str, ALL_FEATURE_NAMES)
 
-    # Juga latih pohon ringkas (maxDepth=3) pada Train Set untuk evaluasi Fidelity & ekstrak 8 aturan daun murni
+    # Juga latih pohon ringkas (maxDepth=3) pada Train Set untuk evaluasi Fidelity & ekstrak aturan daun murni
     print("\n[STEP 2] Melatih Pohon Dangkal (maxDepth=3) untuk Evaluasi Fidelity & Aturan Operasional (E6)...")
     train_df = spark.read.parquet(str(TRAIN_PARQUET_DIR)).cache()
     test_df = spark.read.parquet(str(TEST_PARQUET_DIR)).cache()
@@ -157,12 +157,13 @@ def run_extraction():
     shallow_model = dt_shallow.fit(train_df)
     shallow_debug_humanized = humanize_tree_debug_string(shallow_model.toDebugString, ALL_FEATURE_NAMES)
 
+    shallow_leaves = (int(shallow_model.numNodes) + 1) // 2
     rules_header = (
         "# ============================================================================\n"
         "# DOKUMEN EKSTRAKSI ATURAN KEPUTUSAN (IF-THEN RULES) — PYSPARK DECISION TREE\n"
         "# Catatan: Seluruh indeks `feature N` telah dipetakan otomatis ke nama kolom asli.\n"
         "# ============================================================================\n\n"
-        "## BAGIAN 1: POHON KEPUTUSAN RINGKAS (maxDepth=3, 15 Nodes, 8 Leaf Rules)\n"
+        f"## BAGIAN 1: POHON KEPUTUSAN RINGKAS (maxDepth=3, {shallow_model.numNodes} Nodes, {shallow_leaves} Leaf Rules)\n"
         "----------------------------------------------------------------------------\n"
         f"{shallow_debug_humanized}\n"
         "## BAGIAN 2: CHAMPION MODEL PENUH (maxDepth=10, minInstancesPerNode=20, Gini)\n"
@@ -184,7 +185,7 @@ def run_extraction():
     agreement_rate = float(np.mean(y_pred_shallow == y_pred_champ))
     disagreement_count = int(np.sum(y_pred_shallow != y_pred_champ))
     print(
-        f"[FIDELITY E6] Shallow Tree (maxDepth=3, 8 aturan daun) mencapai ROC-AUC={shallow_metrics['roc_auc']:.4f}, "
+        f"[FIDELITY E6] Shallow Tree (maxDepth=3, {shallow_leaves} aturan daun) mencapai ROC-AUC={shallow_metrics['roc_auc']:.4f}, "
         f"Akurasi={shallow_metrics['accuracy_pct']:.2f}%, dan Fidelity={agreement_rate * 100:.2f}% "
         f"terhadap Champion Tree (maxDepth=10, {champion_model.numNodes} node)."
     )
@@ -239,7 +240,7 @@ def run_extraction():
         "champion_depth": int(champion_model.depth),
         "shallow_d3_num_nodes": int(shallow_model.numNodes),
         "shallow_d3_depth": int(shallow_model.depth),
-        "shallow_d3_leaf_rules": 8,
+        "shallow_d3_leaf_rules": int(shallow_leaves),
         "champion_test_metrics": champ_metrics,
         "shallow_d3_test_metrics": shallow_metrics,
         "fidelity_shallow_vs_champion": {

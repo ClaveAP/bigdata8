@@ -12,6 +12,7 @@ tanpa satu pun angka yang di-hardcode:
 """
 
 import json
+import re
 import duckdb
 import numpy as np
 import pandas as pd
@@ -175,7 +176,7 @@ def generate_report_plots():
     )
     plt.title(
         f"Profil Persona Konsumen: High Abandonment (N={p_high['user_count']:,}) vs Low Abandonment (N={p_low['user_count']:,})\n"
-        f"(Daya beli identik: Spend ${p_high['avg_monthly_spend']:,.2f} vs ${p_low['avg_monthly_spend']:,.2f} | "
+        f"(Daya beli identik: Spend USD {p_high['avg_monthly_spend']:,.2f} vs USD {p_low['avg_monthly_spend']:,.2f} | "
         f"Sesi {p_high['avg_session_minutes']:.2f} vs {p_low['avg_session_minutes']:.2f} mnt)",
         fontsize=11.5,
         fontweight="bold",
@@ -336,10 +337,13 @@ def generate_report_plots():
     fig, axes = plt.subplots(1, 3, figsize=(16.5, 5.2))
 
     # Panel A: Row Scaling
+    rf_params_str = comp_summary["models"].get("RF_Tuned", {}).get("params", "")
+    rf_trees_match = re.search(r"numTrees=(\d+)", rf_params_str)
+    rf_trees_lbl = rf_trees_match.group(1) if rf_trees_match else "40"
     for m_col, m_lbl, col, mk in [
         ("dt_median_s", "Decision Tree (d=10)", "#27ae60", "o"),
         ("lr_median_s", "Logistic Regression", "#d9534f", "s"),
-        ("rf_median_s", "Random Forest (50 trees)", "#2980b9", "^"),
+        ("rf_median_s", f"Random Forest ({rf_trees_lbl} trees)", "#2980b9", "^"),
         ("gbt_median_s", "Gradient-Boosted Trees", "#8e44ad", "d"),
     ]:
         axes[0].plot(

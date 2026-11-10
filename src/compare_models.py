@@ -319,7 +319,7 @@ def run_model_comparison():
             "key": "DT_Shallow_d3",
             "display_name": "Decision Tree (Shallow d=3)",
             "architecture": "Tree-based Ultra-Compact (White-Box)",
-            "interpretability": "Sangat Tinggi (Hanya 15 node / 8 aturan daun, dapat dihafal langsung)",
+            "interpretability": "Sangat Tinggi (Hanya 7 node / 4 aturan daun, dapat dihafal langsung)",
             "estimator": DecisionTreeClassifier(
                 featuresCol="features", labelCol=TARGET_COL, maxDepth=3, minInstancesPerNode=20, impurity="gini", seed=42
             ),

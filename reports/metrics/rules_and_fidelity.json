@@ -3,7 +3,7 @@
   "champion_depth": 10,
   "shallow_d3_num_nodes": 7,
   "shallow_d3_depth": 3,
-  "shallow_d3_leaf_rules": 8,
+  "shallow_d3_leaf_rules": 4,
   "champion_test_metrics": {
     "roc_auc": 0.990413,
     "pr_auc": 0.990522,
@@ -168,7 +168,7 @@
       "condition": "monthly_spend <= 1220.5"
     }
   ],
-  "shallow_tree_humanized": "DecisionTreeClassificationModel: uid=DecisionTreeClassifier_4125999fb1fb, depth=3, numNodes=7, numClasses=2, numFeatures=57\n  If (impulse_buying_score [f15] <= 4.5)\n   Predict: 0.0\n  Else (impulse_buying_score [f15] > 4.5)\n   If (impulse_buying_score [f15] <= 5.5)\n    If (stress_from_financial_decisions [f22] <= 5.5)\n     Predict: 0.0\n    Else (stress_from_financial_decisions [f22] > 5.5)\n     Predict: 1.0\n   Else (impulse_buying_score [f15] > 5.5)\n    Predict: 1.0\n",
+  "shallow_tree_humanized": "DecisionTreeClassificationModel: uid=DecisionTreeClassifier_1bd1131cb316, depth=3, numNodes=7, numClasses=2, numFeatures=57\n  If (impulse_buying_score [f15] <= 4.5)\n   Predict: 0.0\n  Else (impulse_buying_score [f15] > 4.5)\n   If (impulse_buying_score [f15] <= 5.5)\n    If (stress_from_financial_decisions [f22] <= 5.5)\n     Predict: 0.0\n    Else (stress_from_financial_decisions [f22] > 5.5)\n     Predict: 1.0\n   Else (impulse_buying_score [f15] > 5.5)\n    Predict: 1.0\n",
   "operational_3_tier_rules_test_evaluation": [
     {
       "rule_tier": "Tier 1: Risiko Kritis (Impulse > 5.5 atau [Impulse == 5 & Stress > 5.5])",

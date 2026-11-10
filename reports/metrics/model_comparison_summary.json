@@ -204,7 +204,7 @@
       "display_name": "Decision Tree (Shallow d=3)",
       "architecture": "Tree-based Ultra-Compact (White-Box)",
       "params": "maxDepth=3, minInstancesPerNode=20, impurity=gini",
-      "interpretability": "Sangat Tinggi (Hanya 15 node / 8 aturan daun, dapat dihafal langsung)",
+      "interpretability": "Sangat Tinggi (Hanya 7 node / 4 aturan daun, dapat dihafal langsung)",
       "complexity_desc": "7 Tree Nodes",
       "train_time_s": 8.798,
       "test_metrics": {
@@ -467,7 +467,7 @@
       "model_name": "Decision Tree (Shallow d=3)",
       "architecture": "Tree-based Ultra-Compact (White-Box)",
       "params": "maxDepth=3, minInstancesPerNode=20, impurity=gini",
-      "interpretability": "Sangat Tinggi (Hanya 15 node / 8 aturan daun, dapat dihafal langsung)",
+      "interpretability": "Sangat Tinggi (Hanya 7 node / 4 aturan daun, dapat dihafal langsung)",
       "complexity_desc": "7 Tree Nodes",
       "num_nodes_or_weights": 7,
       "train_time_s": 8.798,
