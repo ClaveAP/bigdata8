@@ -48,6 +48,14 @@ Setiap kali melakukan perubahan kode, pembersihan data, atau pelatihan model, **
 - **DILARANG COMMIT DATA BESAR & KREDENSIAL**: File dataset mentah di `data/raw/*.csv` dan file kredensial (`kaggle.json`, `.env`) tidak boleh masuk ke riwayat Git.
 - Gunakan konvensi commit yang jelas: `feat:`, `fix:`, `docs:`, `refactor:`.
 
+### Rule 6: Integritas Sitasi & Penyusunan Manuskrip Jurnal (JIKO Sinta 4)
+Saat menyusun, mencari referensi, atau meninjau draf jurnal ilmiah pada repositori ini ([`docs/07_JOURNAL_PLAN_JIKO.md`](docs/07_JOURNAL_PLAN_JIKO.md)):
+- **DILARANG MENYITIR DARI ABSTRAK SAJA**: Setiap referensi yang dikutip **WAJIB** dibaca dan diverifikasi dari isi penuh artikel (*full-text*: Pendahuluan, Metode, Hasil, atau Pembahasan). Dilarang keras mengutip klaim, angka, atau metode hanya berdasarkan ringkasan abstrak.
+- **WAJIB JURNAL SINTA / TERAKREDITASI BEREPUTASI**: Seluruh rujukan literatur **WAJIB** bersumber dari jurnal nasional terakreditasi **Sinta (Sinta 1–6, diutamakan pula menyitir artikel relevan dari JIKO)** atau jurnal internasional terakreditasi/bereputasi (**Scopus / Web of Science**). Jangan mengutip blog, laporan tidak terverifikasi, atau *preprint* tanpa tinjauan sejawat.
+- **KETERBARUAN & VERIFIKASI DOI**: Gunakan minimal **15 referensi** format **IEEE** yang terbit **kurang dari 4 tahun terakhir (2022–2026)** lengkap dengan **DOI valid terverifikasi**, dan pastikan 100% daftar pustaka benar-benar disitir di dalam teks naskah.
+- **FOKUS NARASI (ARAHAN DOSEN PEMBIMBING — IBU GEMA)**: Karena dataset Kaggle bersifat statis/sintetis, **JANGAN** membahas hasil sebagai temuan perilaku konsumen dunia nyata. Fokuskan isi jurnal pada **proses rekayasa pipeline Big Data PySpark (*Split-Before-Fit*, Snappy Parquet) serta perbandingan dan interpretabilitas model (*trade-off* LR vs GBT vs DT vs RF, *pre-pruning*, fidelitas aturan 4 daun, dan *Greedy Collinear Masking*)** agar dapat menjadi rujukan eksperimental bagi penelitian Big Data serupa.
+- **KEPATUHAN FORMAT JIKO**: Bahasa Indonesia baku, `5.000–8.500` kata (`<= 16` halaman A4, spasi `1,5`), judul `<= 12` kata *Title Case*, abstrak `150–250` kata, kata kunci `<= 5`, Pendahuluan tanpa sub-bab (`2–3` halaman), Hasil murni objektif terpisah dari Pembahasan kritis, Kesimpulan **1 paragraf utuh tanpa daftar berpoin/bernomor**, serta skor Turnitin AI `< 20%`.
+
 ---
 
 ## 3. Struktur Modul & Pembagian Tugas
