@@ -73,7 +73,7 @@
       "avg_session_minutes": 60.09,
       "avg_conversion_rate": 49.82,
       "persona_rank": 2,
-      "persona_name": "Persona B: Moderate/Threshold Shoppers (Risiko Moderat)",
+      "persona_name": "Persona B: High-Spend Impulsive Shoppers (Risiko Tinggi - Spend Tinggi)",
       "share_pct": 26.49
     },
     {
@@ -90,7 +90,7 @@
       "avg_session_minutes": 59.97,
       "avg_conversion_rate": 50.2,
       "persona_rank": 3,
-      "persona_name": "Persona C: High-Stress Impulsive Browsers (Risiko Kritis)",
+      "persona_name": "Persona C: Conversion-Active Impulsive Browsers (Risiko Tinggi - Trafik Aktif)",
       "share_pct": 26.6
     }
   ],

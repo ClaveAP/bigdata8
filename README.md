@@ -96,7 +96,7 @@ python src/export_looker_data.py
 python src/export_report_plots.py
 python src/generate_showcase_notebook.py
 
-# 4. Jalankan pengujian otomatis integritas pipeline (5 test suites)
+# 4. Jalankan pengujian otomatis integritas pipeline (6 test suites)
 python -m unittest discover -s tests -v
 ```
 
@@ -113,7 +113,9 @@ python -m unittest discover -s tests -v
   - [`05_TIMELINE_TRACKER.md`](docs/05_TIMELINE_TRACKER.md): Pelacak progres 18 aktivitas proyek.
   - [`06_LOOKER_STUDIO_GUIDE.md`](docs/06_LOOKER_STUDIO_GUIDE.md): Blueprint pembuatan dashboard BI.
   - [`07_JOURNAL_PLAN_JIKO.md`](docs/07_JOURNAL_PLAN_JIKO.md): Blueprint penulisan naskah jurnal Sinta 4 JIKO.
-  - [`08_PROJECT_FIX_AND_HARDENING_PLAN.md`](docs/08_PROJECT_FIX_AND_HARDENING_PLAN.md): Log audit & pengerasan ilmiah seluruh repositori.
+  - [`08_PROJECT_FIX_AND_HARDENING_PLAN.md`](docs/08_PROJECT_FIX_AND_HARDENING_PLAN.md): Log audit & pengerasan ilmiah seluruh repositori (`F1–F16`).
+  - [`09_VERIFIED_REFERENCES_JIKO.md`](docs/09_VERIFIED_REFERENCES_JIKO.md): Bedah *full-text* & sitasi IEEE 18 referensi jurnal Sinta/Scopus (`2022–2026`).
+  - [`10_MANUSCRIPT_DRAFT_JIKO.md`](docs/10_MANUSCRIPT_DRAFT_JIKO.md): Naskah lengkap publikasi jurnal ilmiah JIKO Sinta 4.
 - `src/`: Modul produksi PySpark modular.
 - `reports/`: 12 grafik PNG (300 DPI), `reports/metrics/*.json|*.csv`, `reports/looker_data/*.csv`, `decision_tree_rules.txt`, & `dashboard_visualisasi.html`.
 - `tests/`: Suite pengujian otomatis `test_pipeline_integrity.py`.

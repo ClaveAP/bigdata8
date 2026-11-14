@@ -134,8 +134,8 @@ def run_clustering():
     # Beri label persona terurut dari tingkat pembatalan terendah ke tertinggi
     persona_labels = [
         "Persona A: Mindful & Low-Stress Shoppers (Risiko Rendah)",
-        "Persona B: Moderate/Threshold Shoppers (Risiko Moderat)",
-        "Persona C: High-Stress Impulsive Browsers (Risiko Kritis)",
+        "Persona B: High-Spend Impulsive Shoppers (Risiko Tinggi - Spend Tinggi)",
+        "Persona C: Conversion-Active Impulsive Browsers (Risiko Tinggi - Trafik Aktif)",
     ]
     profile_pdf["persona_rank"] = [1, 2, 3][: len(profile_pdf)]
     profile_pdf["persona_name"] = persona_labels[: len(profile_pdf)]
@@ -207,8 +207,8 @@ def run_clustering():
     ax_right = axes[1]
     short_names = [
         f"Persona A\n(Low Risk)\n{profile_pdf.iloc[0]['share_pct']:.1f}%",
-        f"Persona B\n(Moderate)\n{profile_pdf.iloc[1]['share_pct']:.1f}%",
-        f"Persona C\n(Critical Risk)\n{profile_pdf.iloc[2]['share_pct']:.1f}%",
+        f"Persona B\n(High-Spend Impulsive)\n{profile_pdf.iloc[1]['share_pct']:.1f}%",
+        f"Persona C\n(Active Impulsive)\n{profile_pdf.iloc[2]['share_pct']:.1f}%",
     ]
     x_pos = range(len(short_names))
     width = 0.25

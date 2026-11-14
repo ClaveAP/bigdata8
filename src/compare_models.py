@@ -186,6 +186,7 @@ def bootstrap_ci_and_deltas(
         ("RF_Tuned", "DT_Champion_d10"),
         ("GBT_Tuned", "DT_Champion_d10"),
         ("LR_Tuned", "RF_Tuned"),
+        ("DT_Champion_d10", "DT_Shallow_d3"),
     ]
     delta_results = []
     for m_a, m_b in pairs:
@@ -438,8 +439,8 @@ def run_model_comparison():
             f"{complexity_desc} | Time={t_fit:.2f}s"
         )
 
-    # 3. 5-Fold Cross-Validation pada sampel terstratifikasi Train Set (160.000 baris) untuk 4 model utama
-    print("\n[E5-A] Menjalankan 5-Fold Cross-Validation untuk LR, DT Champion, RF, dan GBT...")
+    # 3. 5-Fold Cross-Validation pada sampel terstratifikasi Train Set (160.000 baris) untuk ke-6 model
+    print("\n[E5-A] Menjalankan 5-Fold Cross-Validation untuk ke-6 model benchmark...")
     cv_sample_df = (
         train_df.sample(withReplacement=False, fraction=0.20, seed=42)
         .withColumn("fold_id", F.pmod(F.xxhash64(F.col("user_id")), F.lit(5)))
@@ -447,7 +448,7 @@ def run_model_comparison():
     )
     _ = cv_sample_df.count()
     cv_summary = {}
-    cv_specs = [s for s in models_spec if s["key"] in ("LR_Tuned", "DT_Champion_d10", "RF_Tuned", "GBT_Tuned")]
+    cv_specs = models_spec
     for spec in cv_specs:
         m_key = spec["key"]
         m_name = spec["display_name"]

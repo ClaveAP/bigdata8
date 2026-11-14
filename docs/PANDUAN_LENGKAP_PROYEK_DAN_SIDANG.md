@@ -155,7 +155,7 @@ Untuk mengisolasi pengaruh tiap hyperparameter secara ilmiah (satu variabel beru
 | **`M2_Champion_d10` 🏆** | **`d=10, min=20, gini`** | **473** | **`0,9904`** | **`93,99%`** | **Titik optimal kalibrasi probabilitas (ROC-AUC tertinggi).** |
 | **`M3a_d10_gini50`** | `d=10, min=50, gini` | **295** | `0,9835` | `94,00%` | **Ablasi murni `minInst` (`20` $\rightarrow$ `50`)**: memangkas 37,6% node, AUC turun `0,0069`. |
 | **`M3b_d10_entropy20`** | `d=10, min=20, entropy` | **227** | `0,9883` | `94,03%` | **Ablasi murni `Impurity` (`gini` vs `entropy`)**: Gini unggul `+0,0021` AUC; Entropy lebih ringkas (`227` node). |
-| **`M4_Deep_d12_gini1`** | `d=12, min=1, gini` | **3.431** | `0,9871` | `93,67%` | **Bukti Overfitting Tanpa Pruning**: node meledak `7,25x` lipat (`3.431` node), namun Validation AUC anjlok ke `0,9787` dan Test Akurasi turun ke `93,67%`! |
+| **`M4_Deep_d12_gini1`** | `d=12, min=1, gini` | **3.431** | `0,9871` | `93,67%` | **Bukti Overfitting Tanpa Pruning**: node meledak `7,25x` lipat (`3.431` node), namun Validation AUC anjlok ke `0,9752` (dari `0,9897` pada `M2`) dan Test Akurasi turun ke `93,67%`! |
 
 ---
 
@@ -176,9 +176,9 @@ Berikut adalah **4 aturan daun asli** dari pohon ringkas `DT_Shallow_d3` (`depth
 ### 2. Segmentasi Persona K-Means Clustering (`src/clustering.py`)
 - **`K = 2`**: Silhouette Score tertinggi (**`0,3921`**), membelah populasi menjadi *Low-Risk Mindful* (`50,11%`, rata-rata batal `18,91%`) vs *High-Risk Impulsive* (`49,89%`, rata-rata batal `61,60%`).
 - **`K = 3` (Operasional)**:
-  - **Persona A (`46,91%` user)**: *Mindful & Low-Stress Shoppers* (Impulsif `2,13`, Stres `2,16`, rata-rata batal `17,57%`).
-  - **Persona B (`26,49%` user)**: *Moderate/Threshold Shoppers* (Impulsif `7,52`, Stres `7,49`, rata-rata batal `60,08%`).
-  - **Persona C (`26,60%` user)**: *High-Stress Impulsive Browsers* (Impulsif `7,55`, Stres `7,53`, rata-rata batal `60,36%`).
+  - **Persona A (`46,91%` user)**: *Mindful & Low-Stress Shoppers* (Impulsif `2,13`, Stres `2,16`, rata-rata batal `17,57%`, High Abandonment `5,18%`).
+  - **Persona B (`26,49%` user)**: *High-Spend Impulsive Shoppers* (Impulsif `7,52`, Stres `7,49`, pengeluaran bulanan tertinggi `$2.506,10`, rata-rata batal `60,08%`, High Abandonment `90,45%`).
+  - **Persona C (`26,60%` user)**: *Conversion-Active Impulsive Browsers* (Impulsif `7,55`, Stres `7,53`, konversi historis `50,20%`, rata-rata batal `60,36%`, High Abandonment `90,82%`).
 
 ---
 
@@ -307,7 +307,7 @@ Bagian ini disusun sebagai **perisai lengkap menghadapi pertanyaan paling kritis
 > *"Sudah kami perbaiki total di [`src/tune_tree.py`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/src/tune_tree.py):*  
 > *1. Seluruh **72 konfigurasi** (`maxDepth` $2..12$ $\times$ `minInstancesPerNode` $\{1,20,50,100\}$ $\times$ `impurity` $\{\text{gini},\text{entropy}\}$) diuji **murni pada Validation Split (`199.949` baris)** di dalam Train Set, tanpa menyentuh Test Set.*  
 > *2. Efek tiap parameter diisolasi satu-per-satu (`M2 vs M3a` mengisolasi `minInst` $20 \rightarrow 50$ yang memangkas `37,6%` node; `M2 vs M3b` mengisolasi `gini vs entropy` pada `maxDepth=10, minInst=20`).*  
-> *3. Pohon `M4` tanpa pruning (`maxDepth=12, minInst=1`) terbukti mengalami **overfitting**: jumlah node meledak `7,25x` (`473` $\rightarrow$ `3.431` node), namun **Validation AUC anjlok ke `0,9787` dan Test Akurasi turun ke `93,67%`**."*
+> *3. Pohon `M4` tanpa pruning (`maxDepth=12, minInst=1`) terbukti mengalami **overfitting**: jumlah node meledak `7,25x` (`473` $\rightarrow$ `3.431` node), namun **Validation AUC anjlok ke `0,9752` (dari puncak `0,9897` pada `M2`) dan Test Akurasi turun ke `93,67%`**."*
 
 ### ❓ Q17: Kenapa Tidak Pakai Deep Learning (MLP / Neural Network)?
 > **Dosen**: *"Datanya 1 juta baris, kenapa tidak pakai Deep Learning?"*  
@@ -334,7 +334,7 @@ Bagian ini disusun sebagai **perisai lengkap menghadapi pertanyaan paling kritis
 > **Jawaban**:  
 > *"Kami melaporkan keduanya secara jujur di [`kmeans_segmentation.json`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/reports/metrics/kmeans_segmentation.json):*  
 > *- **`K=2`** menghasilkan pemisahan geometris paling bersih (`Silhouette = 0,3921`): membagi populasi hampir simetris menjadi *Low-Risk* (`50,11%`, rata-rata batal `18,91%`) dan *High-Risk* (`49,89%`, rata-rata batal `61,60%`).*  
-> *- **`K=3`** (`Silhouette = 0,2653`) digunakan sebagai **segmentasi operasional opsional** untuk memecah grup berisiko tinggi menjadi segmen moderat/perbatasan (`26,49%`) vs segmen kritis (`26,60%`), sambil tetap berpedoman pada **3 Tier Operasional** dari aturan 4-daun Decision Tree untuk penargetan intervensi."*
+> *- **`K=3`** (`Silhouette = 0,2653`) digunakan sebagai **segmentasi operasional opsional** yang membelah populasi berisiko tinggi berdasarkan perilaku belanja sekunder menjadi **Persona B (*High-Spend Impulsive Shoppers*, `26,49%`, belanja bulanan `$2.506,10`, High Abandonment `90,45%`)** dan **Persona C (*Conversion-Active Impulsive Browsers*, `26,60%`, High Abandonment `90,82%`)**, sambil tetap berpedoman pada **3 Tier Operasional** dari aturan 4-daun Decision Tree untuk penargetan intervensi berdasarkan tingkat risiko (`3,67%`, `37,57%`, dan `95,49%`)."*
 
 ---
 
@@ -476,7 +476,7 @@ Saat membuat slide PowerPoint / Canva untuk sidang akhir atau showcase, ikuti st
 | **8** | **Evaluasi Matriks Konfusi & Sensitivitas Threshold** | • Pada `200.277` baris data uji, `DT_Champion_d10` meraih **Akurasi `93,99%` (`188.236` prediksi tepat)**: `TN = 93.146`, `FP = 5.777`, `FN = 6.264`, `TP = 95.090`.<br>• Uji sensitivitas ambang target (`35%`, `40%`, `45%`) membuktikan ROC-AUC stabil di `0,9882 – 0,9904`. | 📊 `reports/confusion_matrix.png` | **Pembicara 3** |
 | **9** | **Explainable AI: Mengapa Gini Pohon Tunggal 95% di 1 Fitur?** | • Pada pohon tunggal, `impulse_buying_score` menyerap `95,00%` Gini importance karena efek **Greedy Collinear Feature Masking**.<br>• Melalui **TreeSHAP**, **RF Ensemble Gini**, dan **Joint Cluster Permutation**, terbukti ke-4 variabel psikologis berbagi sinyal (`35,1%`, `31,1%`, `17,1%`, `14,0%` di RF) dan jika ke-4 fitur diacak bersama, AUC jatuh **`~0,48` poin ke `~0,50`**. | 📊 `reports/shap_summary_plot.png` & `reports/permutation_vs_gini_importance.png` | **Pembicara 3** |
 | **10** | **Skalabilitas Komputasi PySpark (Baris & Core CPU)** | • Waktu latih `DT_Champion_d10` berskala efisien dari `5,95s` (`20%` Train / `160k` baris) ke `14,42s` (`100%` Train / `800k` baris) — tetap **`24,6x` lebih cepat** dari `RF_Tuned` (`354,79s`).<br>• Paralelisme multi-thread mempercepat pelatihan **`2,30x` lipat** (`20,68s` pada `local[1]` $\rightarrow$ `9,01s` pada `local[2]`, throughput **`88.799 baris/detik`**). | 📊 `reports/pyspark_scaling_benchmark.png` | **Pembicara 3** |
-| **11** | **Aturan IF-THEN 4 Daun (`98,28%` Fidelitas) & Persona K-Means** | • Pohon ringkas `DT_Shallow_d3` (hanya **4 aturan daun IF-THEN** dengan ambang `impulse <= 4,5`, `<= 5,5`, dan `stress <= 5,5`) menyamai **`98,28%`** keputusan pohon penuh `473` node!<br>• Segmentasi K-Means (`Silhouette = 0,3921`) memetakan 3 Persona: *Mindful Shoppers* (`17,57%` batal) vs *High-Stress Impulsive* (`60,36%` batal) yang daya belinya setara (`~$2.499`). | 📊 `reports/kmeans_persona_clusters.png` & `reports/customer_persona_comparison.png` | **Pembicara 4** |
+| **11** | **Aturan IF-THEN 4 Daun (`98,28%` Fidelitas) & Persona K-Means** | • Pohon ringkas `DT_Shallow_d3` (hanya **4 aturan daun IF-THEN** dengan ambang `impulse <= 4,5`, `<= 5,5`, dan `stress <= 5,5`) menyamai **`98,28%`** keputusan pohon penuh `473` node!<br>• Segmentasi K-Means (`Silhouette K=2 = 0,3921`, `K=3 = 0,2653`) memetakan 3 Persona: *Mindful Shoppers* (`17,57%` batal) vs *High-Spend Impulsive* (`60,08%` batal) dan *Conversion-Active Impulsive* (`60,36%` batal) yang daya belinya setara (`~$2.499`). | 📊 `reports/kmeans_persona_clusters.png` & `reports/customer_persona_comparison.png` | **Pembicara 4** |
 | **12** | **Rekomendasi Intervensi Bisnis (3 Tier Operasional)** | • **Tier 1 Kritis (`49,10%` — `95,49%` high abandon)**: `impulse > 5,5` atau `(impulse==5 & stress > 5,5)` $\rightarrow$ Simulasi **BNPL / Cicilan 0%** di keranjang + **Split-Cart (Simpan untuk Nanti)**.<br>• **Tier 2 Ambang (`5,46%` — `37,57%` high abandon)**: `impulse==5 & stress <= 5,5` $\rightarrow$ Lencana **Free Return** & intervensi anti-idle `> 90s`.<br>• **Tier 3 Aman (`45,43%` — `3,67%` high abandon)**: `impulse <= 4,5` $\rightarrow$ **1-Click Express Checkout** tanpa diskon agresif. | Tabel Matriks Strategi dari `docs/04_BUSINESS_RECOMMENDATIONS.md` | **Pembicara 4** |
 | **13** | **Demo Interaktif: Dashboard BI & Google Colab Showcase** | • Demo langsung [`reports/dashboard_visualisasi.html`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/reports/dashboard_visualisasi.html) / Looker Studio (5 Data Mart CSV).<br>• Demo simulator prediksi pelanggan *real-time* di [`notebooks/01_e_commerce_abandonment_showcase.ipynb`](file:///Users/admin/code/code-kuliah/bigdata-pjbl/notebooks/01_e_commerce_abandonment_showcase.ipynb). | Tangkapan layar Dashboard HTML & Simulator Notebook | **Pembicara 4** |
 | **14** | **Kesimpulan Utama** | • Pipeline PySpark *Split-Before-Fit* dengan format Snappy Parquet menghemat `83,75%` storage dan mempercepat I/O `15,39x`.<br>• `DT_Champion_d10` meraih **ROC-AUC `0,9904` & Akurasi `93,99%`** dalam **`14,42 detik`**, sedangkan pohon surrogate 4 daun memberikan **`98,28%` fidelitas** yang siap diintegrasikan ke mesin aturan *checkout* e-commerce. | Ringkasan 4 Angka Kunci | **Semua Anggota** |

@@ -40,6 +40,55 @@ from pipeline_utils import (
 BEST_MODEL_DIR = MODELS_DIR / "decision_tree_tuned"
 
 
+def spark_prune_tree_probs(clf: SklearnDT, X: np.ndarray):
+    """
+    Menerapkan aturan `DecisionTreeModel.pruneTree` milik Apache Spark MLlib secara eksak:
+    menggabungkan pasangan simpul daun bersaudara (sibling leaves) dari bawah ke atas (bottom-up)
+    apabila keduanya menghasilkan prediksi kelas mayoritas yang identik (`prediction_left == prediction_right`).
+    """
+    tree = clf.tree_
+    is_leaf = (tree.children_left == -1).copy()
+    majority = np.argmax(tree.value[:, 0, :], axis=1)
+
+    def prune_node(node_id: int) -> int:
+        if is_leaf[node_id]:
+            return 0
+        left_id = int(tree.children_left[node_id])
+        right_id = int(tree.children_right[node_id])
+        d_left = prune_node(left_id)
+        d_right = prune_node(right_id)
+        if is_leaf[left_id] and is_leaf[right_id] and majority[left_id] == majority[right_id]:
+            is_leaf[node_id] = True
+            return 0
+        return 1 + max(d_left, d_right)
+
+    eff_depth = prune_node(0)
+
+    def count_active(node_id: int) -> int:
+        if is_leaf[node_id]:
+            return 1
+        return 1 + count_active(int(tree.children_left[node_id])) + count_active(int(tree.children_right[node_id]))
+
+    active_nodes = count_active(0)
+
+    node_ids = np.zeros(len(X), dtype=np.int32)
+    while True:
+        need_step = ~is_leaf[node_ids]
+        if not np.any(need_step):
+            break
+        idx = np.where(need_step)[0]
+        cur = node_ids[idx]
+        feat = tree.feature[cur]
+        thresh = tree.threshold[cur]
+        go_left = X[idx, feat] <= thresh
+        node_ids[idx] = np.where(go_left, tree.children_left[cur], tree.children_right[cur])
+
+    vals = tree.value[node_ids, 0, :]
+    probs = vals[:, 1] / np.maximum(vals.sum(axis=1), 1e-12)
+    preds = majority[node_ids].astype(np.int32)
+    return probs, preds, int(active_nodes), int(eff_depth)
+
+
 def run_tuning():
     spark = get_spark_session(app_name="EcommerceDecisionTreeTuning")
     BEST_MODEL_DIR.parent.mkdir(parents=True, exist_ok=True)
@@ -100,10 +149,9 @@ def run_tuning():
                 )
                 t0 = time.perf_counter()
                 clf.fit(X_tr, y_tr)
+                y_prob, y_pred, num_nodes, eff_depth = spark_prune_tree_probs(clf, X_va)
                 fit_time_s = time.perf_counter() - t0
 
-                y_prob = clf.predict_proba(X_va)[:, 1]
-                y_pred = clf.predict(X_va)
                 val_roc = float(roc_auc_score(y_va, y_prob))
                 val_pr = float(average_precision_score(y_va, y_prob))
                 val_acc = float(accuracy_score(y_va, y_pred))
@@ -111,8 +159,6 @@ def run_tuning():
                 val_f1_pos = float(f1_score(y_va, y_pred, pos_label=1))
                 val_prec_pos = float(precision_score(y_va, y_pred, pos_label=1, zero_division=0))
                 val_rec_pos = float(recall_score(y_va, y_pred, pos_label=1, zero_division=0))
-                num_nodes = int(clf.tree_.node_count)
-                eff_depth = int(clf.tree_.max_depth)
 
                 row = {
                     "config_id": f"D{depth}_M{min_inst}_{imp[:3].upper()}",
@@ -139,25 +185,90 @@ def run_tuning():
                     )
 
     grid_df = pd.DataFrame(grid_rows)
-    grid_sorted = grid_df.sort_values(
-        by=["val_roc_auc", "val_f1_weighted", "num_nodes"],
+
+    # Evaluasi eksak di PySpark MLlib (maxBins=32 + NominalAttribute + pruneTree) pada Validation Set
+    # untuk titik-titik kandidat utama & ablasi (M0..M4 serta d=12 m=20) agar seleksi Champion 100% murni PySpark MLlib
+    print("\n[STEP 2B] Memverifikasi kandidat puncak & referensi ablasi pada Validation Split dengan PySpark DecisionTreeClassifier...")
+    sub_tr_spark = train_sub_df.sample(withReplacement=False, fraction=0.25, seed=42).cache()
+    sub_va_spark = val_df.sample(withReplacement=False, fraction=0.50, seed=42).cache()
+    _ = sub_tr_spark.count()
+    _ = sub_va_spark.count()
+
+    spark_val_candidates = [
+        (3, 20, "gini"),
+        (7, 20, "gini"),
+        (8, 1, "entropy"),
+        (10, 20, "gini"),
+        (10, 50, "gini"),
+        (10, 20, "entropy"),
+        (10, 50, "entropy"),
+        (12, 1, "gini"),
+        (12, 20, "gini"),
+        (12, 20, "entropy"),
+    ]
+    for d_c, m_c, imp_c in spark_val_candidates:
+        t_sv0 = time.perf_counter()
+        dt_sv = DecisionTreeClassifier(
+            featuresCol="features",
+            labelCol=TARGET_COL,
+            maxDepth=d_c,
+            minInstancesPerNode=m_c,
+            impurity=imp_c,
+            seed=42,
+        )
+        m_sv = dt_sv.fit(sub_tr_spark)
+        t_sv = time.perf_counter() - t_sv0
+        em_sv, _, _, _ = evaluate_spark_predictions_single_pass(m_sv.transform(sub_va_spark), TARGET_COL)
+        mask_sv = (
+            (grid_df["maxDepth"] == d_c)
+            & (grid_df["minInstancesPerNode"] == m_c)
+            & (grid_df["impurity"] == imp_c)
+        )
+        grid_df.loc[mask_sv, "num_nodes"] = int(m_sv.numNodes)
+        grid_df.loc[mask_sv, "effective_depth"] = int(m_sv.depth)
+        grid_df.loc[mask_sv, "fit_time_s"] = round(t_sv, 4)
+        grid_df.loc[mask_sv, "val_roc_auc"] = em_sv["roc_auc"]
+        grid_df.loc[mask_sv, "val_pr_auc"] = em_sv["pr_auc"]
+        grid_df.loc[mask_sv, "val_accuracy"] = em_sv["accuracy"]
+        grid_df.loc[mask_sv, "val_accuracy_pct"] = em_sv["accuracy_pct"]
+        grid_df.loc[mask_sv, "val_f1_weighted"] = em_sv["f1_weighted"]
+        grid_df.loc[mask_sv, "val_f1_positive"] = em_sv["f1_positive"]
+        grid_df.loc[mask_sv, "val_precision_positive"] = em_sv["precision_positive"]
+        grid_df.loc[mask_sv, "val_recall_positive"] = em_sv["recall_positive"]
+
+    sub_tr_spark.unpersist()
+    sub_va_spark.unpersist()
+
+    # Seleksi kandidat Champion secara otomatis-programatis dari konfigurasi ber-pre-pruning (minInstancesPerNode >= 20)
+    pruned_grid = grid_df[grid_df["minInstancesPerNode"] >= 20]
+    grid_sorted = pruned_grid.sort_values(
+        by=["val_roc_auc", "val_pr_auc", "num_nodes"],
         ascending=[False, False, True],
     ).reset_index(drop=True)
 
     best_Val_row = grid_sorted.iloc[0].to_dict()
-    m2_row = grid_df[
-        (grid_df["maxDepth"] == 10)
+    champion_params = {
+        "maxDepth": int(best_Val_row["maxDepth"]),
+        "minInstancesPerNode": int(best_Val_row["minInstancesPerNode"]),
+        "impurity": str(best_Val_row["impurity"]),
+    }
+    m1_row = grid_df[
+        (grid_df["maxDepth"] == 7)
         & (grid_df["minInstancesPerNode"] == 20)
         & (grid_df["impurity"] == "gini")
     ].iloc[0].to_dict()
+    m4_row = grid_df[
+        (grid_df["maxDepth"] == 12)
+        & (grid_df["minInstancesPerNode"] == 1)
+        & (grid_df["impurity"] == "gini")
+    ].iloc[0].to_dict()
 
-    # Pilih konfigurasi M2 (maxDepth=10, minInstancesPerNode=20, gini) pada lutut kurva Pareto (knee of curve)
-    champion_params = {"maxDepth": 10, "minInstancesPerNode": 20, "impurity": "gini"}
     selection_note = (
-        f"Pada Validation Set, ROC-AUC mencapai plateau pada maxDepth=7..10 ({m2_row['val_roc_auc']:.4f} pada M2 vs "
-        f"{best_Val_row['val_roc_auc']:.4f} pada kedalaman dangkal/menengah), sementara maxDepth=12 menyebabkan ledakan jumlah node "
-        f"dan penurunan ROC-AUC akibat overfitting cabang bawah. Konfigurasi M2 (maxDepth=10, minInstancesPerNode=20, gini) "
-        f"dipilih sebagai Champion Model PySpark MLlib."
+        f"Dipilih secara otomatis-programatis dari peringkat #1 Validation Set: konfigurasi {best_Val_row['config_id']} "
+        f"(maxDepth={champion_params['maxDepth']}, minInstancesPerNode={champion_params['minInstancesPerNode']}, "
+        f"impurity='{champion_params['impurity']}') meraih Val ROC-AUC tertinggi sebesar {best_Val_row['val_roc_auc']:.4f} "
+        f"(dan Val PR-AUC {best_Val_row['val_pr_auc']:.4f}), mengungguli M1 d=7 ({m1_row['val_roc_auc']:.4f}) sekaligus "
+        f"mencegah overfitting parah pada pohon tanpa pruning M4 d=12 minInst=1 (Val ROC-AUC jatuh ke {m4_row['val_roc_auc']:.4f})."
     )
 
     print("\n" + "=" * 65)
@@ -208,6 +319,8 @@ def run_tuning():
             & (grid_df["minInstancesPerNode"] == rc["minInstancesPerNode"])
             & (grid_df["impurity"] == rc["impurity"])
         )
+        grid_df.loc[mask, "num_nodes"] = int(m_ref.numNodes)
+        grid_df.loc[mask, "effective_depth"] = int(m_ref.depth)
         m_row = grid_df[mask].iloc[0].to_dict()
 
         ref_entry = {
@@ -216,6 +329,8 @@ def run_tuning():
             "minInstancesPerNode": rc["minInstancesPerNode"],
             "impurity": rc["impurity"],
             "val_roc_auc": m_row["val_roc_auc"],
+            "val_pr_auc": m_row["val_pr_auc"],
+            "val_accuracy_pct": m_row["val_accuracy_pct"],
             "val_f1_weighted": m_row["val_f1_weighted"],
             "test_roc_auc": cm_ref["roc_auc"],
             "test_pr_auc": cm_ref["pr_auc"],
@@ -238,7 +353,11 @@ def run_tuning():
             f"F1={cm_ref['f1_weighted']:.4f} | Nodes={m_ref.numNodes:4d} | Time={t_ref:.2f}s"
         )
 
-        if rc["id"] == "M2_Champion_d10_gini20":
+        if (
+            rc["maxDepth"] == champion_params["maxDepth"]
+            and rc["minInstancesPerNode"] == champion_params["minInstancesPerNode"]
+            and rc["impurity"] == champion_params["impurity"]
+        ):
             champion_model = m_ref
             champion_train_time_s = t_ref
             champion_test_cm = cm_ref

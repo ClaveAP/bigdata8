@@ -28,19 +28,19 @@ Untuk menjawab pertanyaan penguji mengenai pengaruh murni `maxDepth`, `minInstan
 
 | ID Model | `maxDepth` | `minInst` | `Impurity` | Jumlah Node | Val ROC-AUC (`199.949`) | Test ROC-AUC (`200.277`) | Test PR-AUC | Test Akurasi | Test F1-Weighted | Waktu Latih (s) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **`M0_Shallow_d3`** | 3 | 20 | `gini` | 7 | 0,9848 | 0,9651 | 0,9524 | 94,06% | 0,9406 | 20,87s |
+| **`M0_Shallow_d3`** | 3 | 20 | `gini` | 7 | 0,9660 | 0,9651 | 0,9524 | 94,06% | 0,9406 | 8,80s |
 | **`DT_Baseline_d5`** (`train_classifier.py`) | 5 | 20 | `gini` | 11 | — | 0,9318 | 0,9447 | 94,09% | 0,9409 | 12,18s |
-| **`M1_Baseline_d7`** | 7 | 20 | `gini` | 41 | 0,9905 | 0,9773 | 0,9643 | 94,09% | 0,9409 | 11,18s |
-| **`M2_Champion_d10_gini20` (CHAMPION)** | **10** | **20** | **`gini`** | **473** | **0,9889** | **0,9904** | **0,9905** | **93,99%** | **0,9399** | **14,42s** |
-| **`M3a_d10_gini50`** *(Ablasi `minInst`)* | 10 | 50 | `gini` | 295 | 0,9896 | 0,9835 | 0,9779 | 94,00% | 0,9400 | 10,07s |
-| **`M3b_d10_entropy20`** *(Ablasi `Impurity`)* | 10 | 20 | `entropy` | 227 | 0,9890 | 0,9883 | 0,9887 | 94,03% | 0,9403 | 9,17s |
-| **`M3c_d10_entropy50`** *(Kombinasi)* | 10 | 50 | `entropy` | 161 | 0,9898 | 0,9883 | 0,9883 | 94,04% | 0,9404 | 10,72s |
-| **`M4_Deep_d12_gini1`** *(Tanpa Pruning)* | 12 | 1 | `gini` | 3.431 | 0,9787 | 0,9871 | 0,9863 | 93,67% | 0,9367 | 10,47s |
+| **`M1_Baseline_d7`** | 7 | 20 | `gini` | 41 | 0,9840 | 0,9773 | 0,9643 | 94,09% | 0,9409 | 8,34s |
+| **`M2_Champion_d10_gini20` (CHAMPION)** | **10** | **20** | **`gini`** | **473** | **0,9897** | **0,9904** | **0,9905** | **93,99%** | **0,9399** | **14,42s** |
+| **`M3a_d10_gini50`** *(Ablasi `minInst`)* | 10 | 50 | `gini` | 295 | 0,9884 | 0,9835 | 0,9779 | 94,00% | 0,9400 | 10,07s |
+| **`M3b_d10_entropy20`** *(Ablasi `Impurity`)* | 10 | 20 | `entropy` | 227 | 0,9883 | 0,9883 | 0,9887 | 94,03% | 0,9403 | 9,17s |
+| **`M3c_d10_entropy50`** *(Kombinasi)* | 10 | 50 | `entropy` | 161 | 0,9885 | 0,9883 | 0,9883 | 94,04% | 0,9404 | 10,72s |
+| **`M4_Deep_d12_gini1`** *(Tanpa Pruning)* | 12 | 1 | `gini` | 3.431 | 0,9752 | 0,9871 | 0,9863 | 93,67% | 0,9367 | 18,64s |
 
 ### 2.2 Temuan Ilmiah dari Ablasi Pohon Keputusan
 1. **Efek `maxDepth` & Overfitting Cabang Bawah (`M2` vs `M4`)**:
-   - Meningkatkan kedalaman dari `maxDepth=3` (`7` node, Test ROC-AUC `0,9651`) ke `maxDepth=10` (`473` node, Test ROC-AUC **`0,9904`**) memperbaiki kalibrasi probabilitas pada sampel perbatasan (*boundary users*).
-   - Namun ketika pohon dibiarkan tumbuh ke `maxDepth=12` tanpa *pre-pruning* (`minInstancesPerNode=1` pada `M4`), jumlah node meledak **`7,25x` lipat** (`473` $\rightarrow$ `3.431` node), sedangkan **Validation ROC-AUC anjlok ke `0,9787`** dan **Test Akurasi turun ke `93,67%`**. Ini membuktikan secara empiris bahwa cabang bawah menghafal *noise* demografis/gaya hidup yang tidak memiliki sinyal sejati.
+   - Meningkatkan kedalaman dari `maxDepth=3` (`7` node, Val ROC-AUC `0,9660`, Test ROC-AUC `0,9651`) ke `maxDepth=10` (`473` node, Val ROC-AUC **`0,9897`** — peringkat #1 pada Validation Set, Test ROC-AUC **`0,9904`**) memperbaiki kalibrasi probabilitas pada sampel perbatasan (*boundary users*).
+   - Namun ketika pohon dibiarkan tumbuh ke `maxDepth=12` tanpa *pre-pruning* (`minInstancesPerNode=1` pada `M4`), jumlah node meledak **`7,25x` lipat** (`473` $\rightarrow$ `3.431` node), sedangkan **Validation ROC-AUC anjlok ke `0,9752`** dan **Test Akurasi turun ke `93,67%`**. Ini membuktikan secara empiris bahwa cabang bawah menghafal *noise* demografis/gaya hidup yang tidak memiliki sinyal sejati.
 2. **Efek Murni `minInstancesPerNode` (`M2` vs `M3a` pada `maxDepth=10, gini`)**:
    - Menaikkan batas sampel minimum daun dari `20` (`M2`) menjadi `50` (`M3a`) memangkas ukuran pohon sebesar **37,6%** (`473` $\rightarrow$ `295` node), dengan penurunan Test ROC-AUC dari `0,9904` ke `0,9835` tetapi akurasi titik tetap stabil (`94,00%`).
 3. **Efek Murni Kriteria `impurity` (`M2` vs `M3b` pada `maxDepth=10, minInst=20`)**:
@@ -133,8 +133,8 @@ Evaluasi `KMeans` (`StandardScaler` pada 10 fitur perilaku dan psikologis di sel
 - **`K = 2`**: Silhouette Score tertinggi = **`0,3921`** (`WSSSE = 7.306.470,89`), memisahkan populasi secara alami menjadi segmen *Low-Stress/Low-Impulse* (`50,11%`, rata-rata pembatalan `18,91%`) dan *High-Stress/High-Impulse* (`49,89%`, rata-rata pembatalan `61,60%`).
 - **`K = 3` (Segmentasi Operasional Bisnis)**: Silhouette Score = **`0,2653`** (`WSSSE = 6.911.854,61`), menghasilkan 3 Persona Pelanggan:
   1. **Persona A — Mindful & Low-Stress Shoppers (`469.105` user / `46,91%`)**: Rata-rata `impulse_buying_score = 2,13`, `stress_from_financial_decisions = 2,16`, rata-rata `cart_abandonment_rate = 17,57%` (`5,18%` High Abandonment).
-  2. **Persona B — Moderate/Threshold Shoppers (`264.941` user / `26,49%`)**: Rata-rata `impulse_buying_score = 7,52`, `stress_from_financial_decisions = 7,49`, rata-rata `cart_abandonment_rate = 60,08%` (`90,45%` High Abandonment).
-  3. **Persona C — High-Stress Impulsive Browsers (`265.954` user / `26,60%`)**: Rata-rata `impulse_buying_score = 7,55`, `stress_from_financial_decisions = 7,53`, rata-rata `cart_abandonment_rate = 60,36%` (`90,82%` High Abandonment).
+  2. **Persona B — High-Spend Impulsive Shoppers (`264.941` user / `26,49%`)**: Rata-rata `impulse_buying_score = 7,52`, `stress_from_financial_decisions = 7,49`, pengeluaran bulanan tertinggi (`$2.506,10`), rata-rata `cart_abandonment_rate = 60,08%` (`90,45%` High Abandonment).
+  3. **Persona C — Conversion-Active Impulsive Browsers (`265.954` user / `26,60%`)**: Rata-rata `impulse_buying_score = 7,55`, `stress_from_financial_decisions = 7,53`, konversi historis `50,20%`, rata-rata `cart_abandonment_rate = 60,36%` (`90,82%` High Abandonment).
 
 ---
 

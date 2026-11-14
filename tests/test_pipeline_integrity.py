@@ -156,6 +156,35 @@ class TestPipelineIntegrity(unittest.TestCase):
             self.assertNotIn("4.951 pengguna", content, f"Angka FN lama 4.951 ditemukan di {doc_path.name}")
             self.assertNotIn("5 negara utama", content, f"Klaim salah '5 negara utama' ditemukan di {doc_path.name}")
 
+    def test_06_audit_remediation_invariants(self):
+        """Pastikan pemilihan Champion bebas hardcode, Val ROC-AUC M2 tertinggi, node PySpark sinkron, dan CV/Bootstrap/K-Means utuh."""
+        tune_src = (BASE_DIR / "src" / "tune_tree.py").read_text(encoding="utf-8")
+        self.assertNotIn('champion_params = {"maxDepth": 10', tune_src, "Masih ada hardcode champion_params di tune_tree.py")
+
+        champ_summary = json.loads((METRICS_DIR / "dt_champion_summary.json").read_text(encoding="utf-8"))
+        best_val = champ_summary["best_validation_row"]
+        self.assertEqual(best_val["config_id"], "D10_M20_GIN")
+        self.assertEqual(best_val["maxDepth"], 10)
+        self.assertEqual(best_val["minInstancesPerNode"], 20)
+        self.assertEqual(best_val["impurity"], "gini")
+        self.assertEqual(best_val["num_nodes"], 473)
+
+        ablation = {r["model_id"]: r for r in champ_summary["ablation_reference_models"]}
+        self.assertGreater(ablation["M2_Champion_d10_gini20"]["val_roc_auc"], ablation["M1_Baseline_d7"]["val_roc_auc"])
+        self.assertGreater(ablation["M2_Champion_d10_gini20"]["val_roc_auc"], ablation["M3c_d10_entropy50"]["val_roc_auc"])
+        self.assertEqual(ablation["M2_Champion_d10_gini20"]["num_nodes"], 473)
+        self.assertEqual(ablation["M4_Deep_d12_gini1"]["num_nodes"], 3431)
+
+        km_data = json.loads((METRICS_DIR / "kmeans_segmentation.json").read_text(encoding="utf-8"))
+        persona_names = [p["persona_name"] for p in km_data["personas_k3"]]
+        self.assertTrue(any("High-Spend Impulsive Shoppers" in n for n in persona_names))
+        self.assertTrue(any("Conversion-Active Impulsive Browsers" in n for n in persona_names))
+
+        mc_data = json.loads((METRICS_DIR / "model_comparison_summary.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(mc_data["bootstrap_paired_auc_deltas"]), 5)
+        for m_key, m_obj in mc_data["models"].items():
+            self.assertIsNotNone(m_obj["cv5_metrics"]["cv5_roc_auc_mean"], f"CV5 kosong pada {m_key}")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -224,6 +224,21 @@
         "tp": 93902,
         "total_test": 200277
       },
+      "cv5_metrics": {
+        "cv5_roc_auc_mean": 0.968812,
+        "cv5_roc_auc_sd": 0.006415,
+        "cv5_f1_mean": 0.940581,
+        "cv5_f1_sd": 0.000842,
+        "cv5_acc_mean": 0.940584,
+        "cv5_acc_sd": 0.000841,
+        "fold_roc_aucs": [
+          0.965102,
+          0.965318,
+          0.980241,
+          0.966892,
+          0.966507
+        ]
+      },
       "bootstrap_ci95": {
         "roc_auc_ci95_low": 0.962917,
         "roc_auc_ci95_high": 0.966488,
@@ -257,6 +272,21 @@
         "fn": 5789,
         "tp": 95565,
         "total_test": 200277
+      },
+      "cv5_metrics": {
+        "cv5_roc_auc_mean": 0.979314,
+        "cv5_roc_auc_sd": 0.004318,
+        "cv5_f1_mean": 0.940812,
+        "cv5_f1_sd": 0.000815,
+        "cv5_acc_mean": 0.940815,
+        "cv5_acc_sd": 0.000814,
+        "fold_roc_aucs": [
+          0.977105,
+          0.977412,
+          0.986985,
+          0.977624,
+          0.977444
+        ]
       },
       "bootstrap_ci95": {
         "roc_auc_ci95_low": 0.976054,
@@ -492,7 +522,20 @@
       "pr_auc_ci95_low": 0.949024,
       "pr_auc_ci95_high": 0.954402,
       "f1_ci95_low": 0.9385,
-      "f1_ci95_high": 0.942948
+      "f1_ci95_high": 0.942948,
+      "cv5_roc_auc_mean": 0.968812,
+      "cv5_roc_auc_sd": 0.006415,
+      "cv5_f1_mean": 0.940581,
+      "cv5_f1_sd": 0.000842,
+      "cv5_acc_mean": 0.940584,
+      "cv5_acc_sd": 0.000841,
+      "fold_roc_aucs": [
+        0.965102,
+        0.965318,
+        0.980241,
+        0.966892,
+        0.966507
+      ]
     },
     {
       "model_key": "DT_Default_d7",
@@ -524,7 +567,20 @@
       "pr_auc_ci95_low": 0.961871,
       "pr_auc_ci95_high": 0.966705,
       "f1_ci95_low": 0.938308,
-      "f1_ci95_high": 0.942913
+      "f1_ci95_high": 0.942913,
+      "cv5_roc_auc_mean": 0.979314,
+      "cv5_roc_auc_sd": 0.004318,
+      "cv5_f1_mean": 0.940812,
+      "cv5_f1_sd": 0.000815,
+      "cv5_acc_mean": 0.940815,
+      "cv5_acc_sd": 0.000814,
+      "fold_roc_aucs": [
+        0.977105,
+        0.977412,
+        0.986985,
+        0.977624,
+        0.977444
+      ]
     },
     {
       "model_key": "DT_Champion_d10",
@@ -765,6 +821,14 @@
       "delta_roc_auc_mean": 0.00133,
       "delta_roc_auc_ci95_low": 0.001143,
       "delta_roc_auc_ci95_high": 0.00151,
+      "bootstrap_p_value": 0.0
+    },
+    {
+      "model_a": "DT_Champion_d10",
+      "model_b": "DT_Shallow_d3",
+      "delta_roc_auc_mean": 0.025286,
+      "delta_roc_auc_ci95_low": 0.023512,
+      "delta_roc_auc_ci95_high": 0.027084,
       "bootstrap_p_value": 0.0
     }
   ],

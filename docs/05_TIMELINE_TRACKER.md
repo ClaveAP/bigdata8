@@ -35,7 +35,7 @@
 | **12** | Perumusan Rekomendasi Tim UI/UX & Pemasaran | Business Insights | Sedang | **Selesai** | W10 - W11 | Matriks Intervensi 3-Tier Operasional, BNPL, Split-Cart, & Free Return |
 | **13** | Pengembangan Dashboard Visualisasi Interaktif | BI & Visualisasi | Tinggi | **Selesai** | W10 - W11 | 5 Data Marts Looker Studio, Dashboard HTML Mandiri, 12 Grafik 300 DPI, & Notebook Showcase |
 | **14** | Rencana & Blueprint Manuskrip Jurnal Ilmiah (JIKO Sinta 4) | Publikasi Ilmiah | Tinggi | **Selesai** | W10 - W11 | Blueprint lengkap JIKO (`07_JOURNAL_PLAN_JIKO.md` & Google Docs) terverifikasi dengan eksperimen `E0–E9` |
-| **15** | Pengujian Otomatis Integritas Pipeline (`unittest`) | Quality Assurance | Tinggi | **Selesai** | W11 | 5 Suite pengujian otomatis (`tests/test_pipeline_integrity.py`) lulus 100% |
-| **16** | Penulisan Naskah Lengkap Jurnal Ilmiah JIKO | Publikasi Ilmiah | Tinggi | **Sedang Berjalan** | W11 - W12 | Penyusunan naskah esai Bahasa Indonesia 5.000–8.500 kata sesuai template JIKO |
+| **15** | Pengujian Otomatis Integritas Pipeline (`unittest`) | Quality Assurance | Tinggi | **Selesai** | W11 | 6 Suite pengujian otomatis (`tests/test_pipeline_integrity.py`) lulus 100% |
+| **16** | Penulisan Naskah Lengkap Jurnal Ilmiah JIKO | Publikasi Ilmiah | Tinggi | **Selesai** | W11 - W12 | Draf lengkap Bahasa Indonesia (`docs/10_MANUSCRIPT_DRAFT_JIKO.md` & `docs/09_VERIFIED_REFERENCES_JIKO.md`) telah selesai & teraudit |
 | **17** | Persiapan Laporan Akhir, Slide Presentasi & Demo | Presentasi & Demo | Tinggi | **Sedang Berjalan** | W11 - W12 | Mengacu pada `docs/PANDUAN_LENGKAP_PROYEK_DAN_SIDANG.md` |
 | **18** | Final Showcase, Demo Produk & Submisi Berkas Proyek | Showcase & Penyerahan | Tinggi | **Sedang Berjalan** | W12 | Penyerahan seluruh berkas proyek & naskah publikasi |
