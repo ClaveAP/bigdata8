@@ -12,7 +12,7 @@
   "lr_validation_grid": [
     {
       "regParam": 0.0,
-      "fit_time_s": 36.122,
+      "fit_time_s": 16.765,
       "roc_auc": 0.990505,
       "pr_auc": 0.99107,
       "accuracy": 0.940595,
@@ -31,7 +31,7 @@
     },
     {
       "regParam": 0.01,
-      "fit_time_s": 8.062,
+      "fit_time_s": 5.248,
       "roc_auc": 0.988748,
       "pr_auc": 0.989406,
       "accuracy": 0.935273,
@@ -50,7 +50,7 @@
     },
     {
       "regParam": 0.1,
-      "fit_time_s": 4.556,
+      "fit_time_s": 3.958,
       "roc_auc": 0.986392,
       "pr_auc": 0.98719,
       "accuracy": 0.932381,
@@ -72,7 +72,7 @@
     {
       "numTrees": 20,
       "maxDepth": 7,
-      "fit_time_s": 14.02,
+      "fit_time_s": 16.293,
       "roc_auc": 0.987736,
       "pr_auc": 0.988104,
       "accuracy": 0.936699,
@@ -92,7 +92,7 @@
     {
       "numTrees": 20,
       "maxDepth": 10,
-      "fit_time_s": 17.265,
+      "fit_time_s": 22.09,
       "roc_auc": 0.989163,
       "pr_auc": 0.989729,
       "accuracy": 0.938065,
@@ -112,7 +112,7 @@
     {
       "numTrees": 40,
       "maxDepth": 7,
-      "fit_time_s": 21.283,
+      "fit_time_s": 20.883,
       "roc_auc": 0.988253,
       "pr_auc": 0.988538,
       "accuracy": 0.937924,
@@ -132,7 +132,7 @@
     {
       "numTrees": 40,
       "maxDepth": 10,
-      "fit_time_s": 64.127,
+      "fit_time_s": 42.1,
       "roc_auc": 0.989475,
       "pr_auc": 0.990049,
       "accuracy": 0.938848,
@@ -157,7 +157,7 @@
       "params": "regParam=0.0, maxIter=50, OHE+StandardScaler (132 dims)",
       "interpretability": "Moderat (Bobot log-odds aditif global, tanpa aturan ambang bertingkat)",
       "complexity_desc": "132 Linear Weights",
-      "train_time_s": 18.258,
+      "train_time_s": 16.706,
       "test_metrics": {
         "roc_auc": 0.990642,
         "pr_auc": 0.991206,
@@ -206,7 +206,7 @@
       "params": "maxDepth=3, minInstancesPerNode=20, impurity=gini",
       "interpretability": "Sangat Tinggi (Hanya 7 node / 4 aturan daun, dapat dihafal langsung)",
       "complexity_desc": "7 Tree Nodes",
-      "train_time_s": 8.798,
+      "train_time_s": 5.987,
       "test_metrics": {
         "roc_auc": 0.965127,
         "pr_auc": 0.952364,
@@ -225,18 +225,18 @@
         "total_test": 200277
       },
       "cv5_metrics": {
-        "cv5_roc_auc_mean": 0.968812,
-        "cv5_roc_auc_sd": 0.006415,
-        "cv5_f1_mean": 0.940581,
-        "cv5_f1_sd": 0.000842,
-        "cv5_acc_mean": 0.940584,
-        "cv5_acc_sd": 0.000841,
+        "cv5_roc_auc_mean": 0.965576,
+        "cv5_roc_auc_sd": 0.000955,
+        "cv5_f1_mean": 0.940607,
+        "cv5_f1_sd": 0.000773,
+        "cv5_acc_mean": 0.940609,
+        "cv5_acc_sd": 0.000773,
         "fold_roc_aucs": [
-          0.965102,
-          0.965318,
-          0.980241,
-          0.966892,
-          0.966507
+          0.966302,
+          0.965535,
+          0.964056,
+          0.966473,
+          0.965514
         ]
       },
       "bootstrap_ci95": {
@@ -255,7 +255,7 @@
       "params": "maxDepth=7, minInstancesPerNode=20, impurity=gini",
       "interpretability": "Tinggi (Pohon menengah)",
       "complexity_desc": "41 Tree Nodes",
-      "train_time_s": 8.338,
+      "train_time_s": 7.048,
       "test_metrics": {
         "roc_auc": 0.977342,
         "pr_auc": 0.964329,
@@ -274,18 +274,18 @@
         "total_test": 200277
       },
       "cv5_metrics": {
-        "cv5_roc_auc_mean": 0.979314,
-        "cv5_roc_auc_sd": 0.004318,
-        "cv5_f1_mean": 0.940812,
-        "cv5_f1_sd": 0.000815,
-        "cv5_acc_mean": 0.940815,
-        "cv5_acc_sd": 0.000814,
+        "cv5_roc_auc_mean": 0.985308,
+        "cv5_roc_auc_sd": 0.001351,
+        "cv5_f1_mean": 0.939478,
+        "cv5_f1_sd": 0.000444,
+        "cv5_acc_mean": 0.939478,
+        "cv5_acc_sd": 0.000442,
         "fold_roc_aucs": [
-          0.977105,
-          0.977412,
-          0.986985,
-          0.977624,
-          0.977444
+          0.986154,
+          0.98662,
+          0.984547,
+          0.985895,
+          0.983323
         ]
       },
       "bootstrap_ci95": {
@@ -304,7 +304,7 @@
       "params": "maxDepth=10, minInstancesPerNode=20, impurity=gini",
       "interpretability": "Sangat Tinggi (Eksplisit IF-THEN Rules & threshold fitur)",
       "complexity_desc": "473 Tree Nodes",
-      "train_time_s": 14.416,
+      "train_time_s": 7.235,
       "test_metrics": {
         "roc_auc": 0.990413,
         "pr_auc": 0.990522,
@@ -353,7 +353,7 @@
       "params": "numTrees=40, maxDepth=10, minInstancesPerNode=20",
       "interpretability": "Rendah (Gabungan puluhan pohon acak, tanpa aturan tunggal)",
       "complexity_desc": "24944 Tree Nodes",
-      "train_time_s": 354.787,
+      "train_time_s": 158.939,
       "test_metrics": {
         "roc_auc": 0.989412,
         "pr_auc": 0.989974,
@@ -402,7 +402,7 @@
       "params": "maxIter=20, maxDepth=5",
       "interpretability": "Rendah (Sekuens pohon residu aditif)",
       "complexity_desc": "958 Tree Nodes",
-      "train_time_s": 76.009,
+      "train_time_s": 67.12,
       "test_metrics": {
         "roc_auc": 0.990621,
         "pr_auc": 0.991186,
@@ -455,7 +455,7 @@
       "interpretability": "Moderat (Bobot log-odds aditif global, tanpa aturan ambang bertingkat)",
       "complexity_desc": "132 Linear Weights",
       "num_nodes_or_weights": 132,
-      "train_time_s": 18.258,
+      "train_time_s": 16.706,
       "roc_auc": 0.990642,
       "pr_auc": 0.991206,
       "accuracy": 0.940957,
@@ -500,7 +500,7 @@
       "interpretability": "Sangat Tinggi (Hanya 7 node / 4 aturan daun, dapat dihafal langsung)",
       "complexity_desc": "7 Tree Nodes",
       "num_nodes_or_weights": 7,
-      "train_time_s": 8.798,
+      "train_time_s": 5.987,
       "roc_auc": 0.965127,
       "pr_auc": 0.952364,
       "accuracy": 0.940627,
@@ -523,18 +523,18 @@
       "pr_auc_ci95_high": 0.954402,
       "f1_ci95_low": 0.9385,
       "f1_ci95_high": 0.942948,
-      "cv5_roc_auc_mean": 0.968812,
-      "cv5_roc_auc_sd": 0.006415,
-      "cv5_f1_mean": 0.940581,
-      "cv5_f1_sd": 0.000842,
-      "cv5_acc_mean": 0.940584,
-      "cv5_acc_sd": 0.000841,
+      "cv5_roc_auc_mean": 0.965576,
+      "cv5_roc_auc_sd": 0.000955,
+      "cv5_f1_mean": 0.940607,
+      "cv5_f1_sd": 0.000773,
+      "cv5_acc_mean": 0.940609,
+      "cv5_acc_sd": 0.000773,
       "fold_roc_aucs": [
-        0.965102,
-        0.965318,
-        0.980241,
-        0.966892,
-        0.966507
+        0.966302,
+        0.965535,
+        0.964056,
+        0.966473,
+        0.965514
       ]
     },
     {
@@ -545,7 +545,7 @@
       "interpretability": "Tinggi (Pohon menengah)",
       "complexity_desc": "41 Tree Nodes",
       "num_nodes_or_weights": 41,
-      "train_time_s": 8.338,
+      "train_time_s": 7.048,
       "roc_auc": 0.977342,
       "pr_auc": 0.964329,
       "accuracy": 0.940927,
@@ -568,18 +568,18 @@
       "pr_auc_ci95_high": 0.966705,
       "f1_ci95_low": 0.938308,
       "f1_ci95_high": 0.942913,
-      "cv5_roc_auc_mean": 0.979314,
-      "cv5_roc_auc_sd": 0.004318,
-      "cv5_f1_mean": 0.940812,
-      "cv5_f1_sd": 0.000815,
-      "cv5_acc_mean": 0.940815,
-      "cv5_acc_sd": 0.000814,
+      "cv5_roc_auc_mean": 0.985308,
+      "cv5_roc_auc_sd": 0.001351,
+      "cv5_f1_mean": 0.939478,
+      "cv5_f1_sd": 0.000444,
+      "cv5_acc_mean": 0.939478,
+      "cv5_acc_sd": 0.000442,
       "fold_roc_aucs": [
-        0.977105,
-        0.977412,
-        0.986985,
-        0.977624,
-        0.977444
+        0.986154,
+        0.98662,
+        0.984547,
+        0.985895,
+        0.983323
       ]
     },
     {
@@ -590,7 +590,7 @@
       "interpretability": "Sangat Tinggi (Eksplisit IF-THEN Rules & threshold fitur)",
       "complexity_desc": "473 Tree Nodes",
       "num_nodes_or_weights": 473,
-      "train_time_s": 14.416,
+      "train_time_s": 7.235,
       "roc_auc": 0.990413,
       "pr_auc": 0.990522,
       "accuracy": 0.939878,
@@ -635,7 +635,7 @@
       "interpretability": "Rendah (Gabungan puluhan pohon acak, tanpa aturan tunggal)",
       "complexity_desc": "24944 Tree Nodes",
       "num_nodes_or_weights": 24944,
-      "train_time_s": 354.787,
+      "train_time_s": 158.939,
       "roc_auc": 0.989412,
       "pr_auc": 0.989974,
       "accuracy": 0.939219,
@@ -680,7 +680,7 @@
       "interpretability": "Rendah (Sekuens pohon residu aditif)",
       "complexity_desc": "958 Tree Nodes",
       "num_nodes_or_weights": 958,
-      "train_time_s": 76.009,
+      "train_time_s": 67.12,
       "roc_auc": 0.990621,
       "pr_auc": 0.991186,
       "accuracy": 0.940952,
@@ -826,9 +826,9 @@
     {
       "model_a": "DT_Champion_d10",
       "model_b": "DT_Shallow_d3",
-      "delta_roc_auc_mean": 0.025286,
-      "delta_roc_auc_ci95_low": 0.023512,
-      "delta_roc_auc_ci95_high": 0.027084,
+      "delta_roc_auc_mean": 0.025945,
+      "delta_roc_auc_ci95_low": 0.024486,
+      "delta_roc_auc_ci95_high": 0.027363,
       "bootstrap_p_value": 0.0
     }
   ],
@@ -959,42 +959,42 @@
       {
         "fraction": 0.2,
         "train_rows": 160127,
-        "dt_median_s": 5.946,
-        "lr_median_s": 7.565,
-        "rf_median_s": 70.886,
-        "gbt_median_s": 42.063
+        "dt_median_s": 3.604,
+        "lr_median_s": 4.149,
+        "rf_median_s": 50.928,
+        "gbt_median_s": 20.339
       },
       {
         "fraction": 0.4,
         "train_rows": 320208,
-        "dt_median_s": 8.079,
-        "lr_median_s": 10.562,
-        "rf_median_s": 95.172,
-        "gbt_median_s": 78.353
+        "dt_median_s": 5.372,
+        "lr_median_s": 6.916,
+        "rf_median_s": 72.037,
+        "gbt_median_s": 31.433
       },
       {
         "fraction": 0.6,
         "train_rows": 480074,
-        "dt_median_s": 8.981,
-        "lr_median_s": 26.316,
-        "rf_median_s": 188.853,
-        "gbt_median_s": 48.283
+        "dt_median_s": 5.906,
+        "lr_median_s": 8.943,
+        "rf_median_s": 94.165,
+        "gbt_median_s": 43.987
       },
       {
         "fraction": 0.8,
         "train_rows": 639563,
-        "dt_median_s": 6.918,
-        "lr_median_s": 13.377,
-        "rf_median_s": 132.279,
-        "gbt_median_s": 56.114
+        "dt_median_s": 9.493,
+        "lr_median_s": 12.355,
+        "rf_median_s": 121.817,
+        "gbt_median_s": 59.24
       },
       {
         "fraction": 1.0,
         "train_rows": 799723,
-        "dt_median_s": 14.416,
-        "lr_median_s": 18.258,
-        "rf_median_s": 354.787,
-        "gbt_median_s": 76.009
+        "dt_median_s": 7.235,
+        "lr_median_s": 16.706,
+        "rf_median_s": 158.939,
+        "gbt_median_s": 67.12
       }
     ],
     "row_scaling_long": [
@@ -1002,162 +1002,162 @@
         "fraction": 0.2,
         "train_rows": 160127,
         "model_key": "DT_Champion_d10",
-        "fit_time_s": 5.946
+        "fit_time_s": 3.604
       },
       {
         "fraction": 0.2,
         "train_rows": 160127,
         "model_key": "LR_Tuned",
-        "fit_time_s": 7.565
+        "fit_time_s": 4.149
       },
       {
         "fraction": 0.2,
         "train_rows": 160127,
         "model_key": "RF_Tuned",
-        "fit_time_s": 70.886
+        "fit_time_s": 50.928
       },
       {
         "fraction": 0.2,
         "train_rows": 160127,
         "model_key": "GBT_Tuned",
-        "fit_time_s": 42.063
+        "fit_time_s": 20.339
       },
       {
         "fraction": 0.4,
         "train_rows": 320208,
         "model_key": "DT_Champion_d10",
-        "fit_time_s": 8.079
+        "fit_time_s": 5.372
       },
       {
         "fraction": 0.4,
         "train_rows": 320208,
         "model_key": "LR_Tuned",
-        "fit_time_s": 10.562
+        "fit_time_s": 6.916
       },
       {
         "fraction": 0.4,
         "train_rows": 320208,
         "model_key": "RF_Tuned",
-        "fit_time_s": 95.172
+        "fit_time_s": 72.037
       },
       {
         "fraction": 0.4,
         "train_rows": 320208,
         "model_key": "GBT_Tuned",
-        "fit_time_s": 78.353
+        "fit_time_s": 31.433
       },
       {
         "fraction": 0.6,
         "train_rows": 480074,
         "model_key": "DT_Champion_d10",
-        "fit_time_s": 8.981
+        "fit_time_s": 5.906
       },
       {
         "fraction": 0.6,
         "train_rows": 480074,
         "model_key": "LR_Tuned",
-        "fit_time_s": 26.316
+        "fit_time_s": 8.943
       },
       {
         "fraction": 0.6,
         "train_rows": 480074,
         "model_key": "RF_Tuned",
-        "fit_time_s": 188.853
+        "fit_time_s": 94.165
       },
       {
         "fraction": 0.6,
         "train_rows": 480074,
         "model_key": "GBT_Tuned",
-        "fit_time_s": 48.283
+        "fit_time_s": 43.987
       },
       {
         "fraction": 0.8,
         "train_rows": 639563,
         "model_key": "DT_Champion_d10",
-        "fit_time_s": 6.918
+        "fit_time_s": 9.493
       },
       {
         "fraction": 0.8,
         "train_rows": 639563,
         "model_key": "LR_Tuned",
-        "fit_time_s": 13.377
+        "fit_time_s": 12.355
       },
       {
         "fraction": 0.8,
         "train_rows": 639563,
         "model_key": "RF_Tuned",
-        "fit_time_s": 132.279
+        "fit_time_s": 121.817
       },
       {
         "fraction": 0.8,
         "train_rows": 639563,
         "model_key": "GBT_Tuned",
-        "fit_time_s": 56.114
+        "fit_time_s": 59.24
       },
       {
         "fraction": 1.0,
         "train_rows": 799723,
         "model_key": "DT_Champion_d10",
-        "fit_time_s": 14.416
+        "fit_time_s": 7.235
       },
       {
         "fraction": 1.0,
         "train_rows": 799723,
         "model_key": "LR_Tuned",
-        "fit_time_s": 18.258
+        "fit_time_s": 16.706
       },
       {
         "fraction": 1.0,
         "train_rows": 799723,
         "model_key": "RF_Tuned",
-        "fit_time_s": 354.787
+        "fit_time_s": 158.939
       },
       {
         "fraction": 1.0,
         "train_rows": 799723,
         "model_key": "GBT_Tuned",
-        "fit_time_s": 76.009
+        "fit_time_s": 67.12
       }
     ],
     "core_scaling": [
       {
         "cores": 1,
         "master": "local[1]",
-        "dt_fit_median_s": 20.677,
+        "dt_fit_median_s": 17.966,
         "runs_s": [
-          25.69,
-          15.663
+          23.513,
+          12.42
         ],
         "speedup_vs_1core": 1.0
       },
       {
         "cores": 2,
         "master": "local[2]",
-        "dt_fit_median_s": 9.006,
+        "dt_fit_median_s": 8.293,
         "runs_s": [
-          8.488,
-          9.523
+          8.855,
+          7.731
         ],
-        "speedup_vs_1core": 2.296
+        "speedup_vs_1core": 2.166
       },
       {
         "cores": 4,
         "master": "local[4]",
-        "dt_fit_median_s": 9.452,
+        "dt_fit_median_s": 8.198,
         "runs_s": [
-          8.351,
-          10.553
+          7.647,
+          8.748
         ],
-        "speedup_vs_1core": 2.188
+        "speedup_vs_1core": 2.192
       }
     ],
     "storage_io_benchmark": {
       "csv_size_mb": 233.6,
       "parquet_size_mb": 37.96,
       "size_reduction_pct": 83.75,
-      "csv_read_agg_median_s": 10.847,
-      "parquet_read_agg_median_s": 0.705,
-      "io_speedup_factor": 15.39
+      "csv_read_agg_median_s": 29.871,
+      "parquet_read_agg_median_s": 2.498,
+      "io_speedup_factor": 11.96
     }
   }
 }

@@ -4,7 +4,9 @@
     "impulse_buying_score",
     "stress_from_financial_decisions",
     "overall_stress_level",
-    "impulse_purchases_per_month",
+    "impulse_purchases_per_month"
+  ],
+  "descriptive_features": [
     "monthly_spend",
     "average_order_value",
     "daily_session_time_minutes",
@@ -15,83 +17,83 @@
   "k_evaluation": [
     {
       "k": 2,
-      "silhouette_score": 0.392124,
-      "wssse": 7306470.89,
-      "fit_time_s": 20.245
+      "silhouette_score": 0.736992,
+      "wssse": 1306480.58,
+      "fit_time_s": 19.996
     },
     {
       "k": 3,
-      "silhouette_score": 0.265317,
-      "wssse": 6911854.61,
-      "fit_time_s": 28.229
+      "silhouette_score": 0.630898,
+      "wssse": 823094.13,
+      "fit_time_s": 13.151
     },
     {
       "k": 4,
-      "silhouette_score": 0.172684,
-      "wssse": 6539460.39,
-      "fit_time_s": 33.425
+      "silhouette_score": 0.53959,
+      "wssse": 656474.52,
+      "fit_time_s": 13.7
     },
     {
       "k": 5,
-      "silhouette_score": 0.171428,
-      "wssse": 6262166.67,
-      "fit_time_s": 29.389
+      "silhouette_score": 0.514704,
+      "wssse": 593789.4,
+      "fit_time_s": 17.43
     }
   ],
   "best_silhouette_k": 2,
-  "best_silhouette_score": 0.392124,
+  "best_silhouette_score": 0.736992,
   "selected_operational_k": 3,
   "personas_k3": [
     {
-      "cluster_id": 2,
-      "user_count": 469105,
-      "avg_cart_abandonment_rate": 17.57,
-      "high_abandonment_pct": 5.18,
-      "avg_impulse_score": 2.13,
-      "avg_financial_stress": 2.16,
-      "avg_overall_stress": 2.22,
-      "avg_impulse_purchases": 1.8,
-      "avg_monthly_spend": 2500.58,
-      "avg_order_value": 255.07,
-      "avg_session_minutes": 60.0,
+      "cluster_id": 0,
+      "user_count": 351847,
+      "avg_cart_abandonment_rate": 12.69,
+      "high_abandonment_pct": 0.35,
+      "avg_impulse_score": 1.49,
+      "avg_financial_stress": 1.53,
+      "avg_overall_stress": 1.6,
+      "avg_impulse_purchases": 1.48,
+      "avg_monthly_spend": 2499.91,
+      "avg_order_value": 255.3,
+      "avg_session_minutes": 59.97,
       "avg_conversion_rate": 49.99,
       "persona_rank": 1,
       "persona_name": "Persona A: Mindful & Low-Stress Shoppers (Risiko Rendah)",
-      "share_pct": 46.91
+      "share_pct": 35.18
     },
     {
-      "cluster_id": 0,
-      "user_count": 264941,
-      "avg_cart_abandonment_rate": 60.08,
-      "high_abandonment_pct": 90.45,
-      "avg_impulse_score": 7.52,
-      "avg_financial_stress": 7.49,
-      "avg_overall_stress": 7.44,
-      "avg_impulse_purchases": 4.6,
-      "avg_monthly_spend": 2506.1,
-      "avg_order_value": 255.42,
-      "avg_session_minutes": 60.09,
-      "avg_conversion_rate": 49.82,
+      "cluster_id": 2,
+      "user_count": 324476,
+      "avg_cart_abandonment_rate": 41.22,
+      "high_abandonment_pct": 55.68,
+      "avg_impulse_score": 5.15,
+      "avg_financial_stress": 5.15,
+      "avg_overall_stress": 5.16,
+      "avg_impulse_purchases": 3.32,
+      "avg_monthly_spend": 2499.45,
+      "avg_order_value": 254.78,
+      "avg_session_minutes": 60.06,
+      "avg_conversion_rate": 50.0,
       "persona_rank": 2,
-      "persona_name": "Persona B: High-Spend Impulsive Shoppers (Risiko Tinggi - Spend Tinggi)",
-      "share_pct": 26.49
+      "persona_name": "Persona B: Threshold-Zone Hesitant Shoppers (Risiko Ambang Moderat)",
+      "share_pct": 32.45
     },
     {
       "cluster_id": 1,
-      "user_count": 265954,
-      "avg_cart_abandonment_rate": 60.36,
-      "high_abandonment_pct": 90.82,
-      "avg_impulse_score": 7.55,
-      "avg_financial_stress": 7.53,
-      "avg_overall_stress": 7.48,
-      "avg_impulse_purchases": 4.62,
-      "avg_monthly_spend": 2488.3,
-      "avg_order_value": 254.58,
-      "avg_session_minutes": 59.97,
-      "avg_conversion_rate": 50.2,
+      "user_count": 323677,
+      "avg_cart_abandonment_rate": 69.11,
+      "high_abandonment_pct": 99.97,
+      "avg_impulse_score": 8.65,
+      "avg_financial_stress": 8.61,
+      "avg_overall_stress": 8.53,
+      "avg_impulse_purchases": 5.23,
+      "avg_monthly_spend": 2496.87,
+      "avg_order_value": 254.99,
+      "avg_session_minutes": 60.01,
+      "avg_conversion_rate": 50.02,
       "persona_rank": 3,
-      "persona_name": "Persona C: Conversion-Active Impulsive Browsers (Risiko Tinggi - Trafik Aktif)",
-      "share_pct": 26.6
+      "persona_name": "Persona C: High-Stress Impulsive Abandoners (Risiko Kritis)",
+      "share_pct": 32.37
     }
   ],
   "personas_k2": [

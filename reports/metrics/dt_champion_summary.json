@@ -10,14 +10,14 @@
     "maxDepth": 10,
     "minInstancesPerNode": 20,
     "impurity": "gini",
-    "num_nodes": 473,
+    "num_nodes": 419,
     "effective_depth": 10,
-    "fit_time_s": 6.2439,
+    "fit_time_s": 3.4182,
     "val_roc_auc": 0.989745,
     "val_pr_auc": 0.989898,
-    "val_accuracy": 0.939318,
-    "val_accuracy_pct": 93.93,
-    "val_f1_weighted": 0.939318,
+    "val_accuracy": 0.934926,
+    "val_accuracy_pct": 93.49,
+    "val_f1_weighted": 0.934924,
     "val_f1_positive": 0.935822,
     "val_precision_positive": 0.933807,
     "val_recall_positive": 0.937846
@@ -31,7 +31,7 @@
   "champion_test_metrics": {
     "num_nodes": 473,
     "effective_depth": 10,
-    "train_time_s": 14.416,
+    "train_time_s": 7.235,
     "roc_auc": 0.990413,
     "pr_auc": 0.990522,
     "accuracy": 0.939878,
@@ -58,6 +58,7 @@
       "val_pr_auc": 0.953018,
       "val_accuracy_pct": 94.15,
       "val_f1_weighted": 0.941456,
+      "val_num_nodes": 7,
       "test_roc_auc": 0.965127,
       "test_pr_auc": 0.952364,
       "test_accuracy": 0.940627,
@@ -71,7 +72,7 @@
       "tp": 93902,
       "num_nodes": 7,
       "effective_depth": 3,
-      "full_train_time_s": 8.798
+      "full_train_time_s": 5.028
     },
     {
       "model_id": "M1_Baseline_d7",
@@ -82,6 +83,7 @@
       "val_pr_auc": 0.977731,
       "val_accuracy_pct": 94.06,
       "val_f1_weighted": 0.940633,
+      "val_num_nodes": 73,
       "test_roc_auc": 0.977342,
       "test_pr_auc": 0.964329,
       "test_accuracy": 0.940927,
@@ -95,7 +97,7 @@
       "tp": 95565,
       "num_nodes": 41,
       "effective_depth": 7,
-      "full_train_time_s": 8.338
+      "full_train_time_s": 5.69
     },
     {
       "model_id": "M2_Champion_d10_gini20",
@@ -104,8 +106,9 @@
       "impurity": "gini",
       "val_roc_auc": 0.989745,
       "val_pr_auc": 0.989898,
-      "val_accuracy_pct": 93.93,
-      "val_f1_weighted": 0.939318,
+      "val_accuracy_pct": 93.49,
+      "val_f1_weighted": 0.934924,
+      "val_num_nodes": 419,
       "test_roc_auc": 0.990413,
       "test_pr_auc": 0.990522,
       "test_accuracy": 0.939878,
@@ -119,7 +122,7 @@
       "tp": 95090,
       "num_nodes": 473,
       "effective_depth": 10,
-      "full_train_time_s": 14.416
+      "full_train_time_s": 7.235
     },
     {
       "model_id": "M3a_d10_gini50",
@@ -128,8 +131,9 @@
       "impurity": "gini",
       "val_roc_auc": 0.988437,
       "val_pr_auc": 0.988765,
-      "val_accuracy_pct": 93.94,
-      "val_f1_weighted": 0.93941,
+      "val_accuracy_pct": 93.61,
+      "val_f1_weighted": 0.936076,
+      "val_num_nodes": 231,
       "test_roc_auc": 0.983541,
       "test_pr_auc": 0.97786,
       "test_accuracy": 0.940043,
@@ -143,7 +147,7 @@
       "tp": 95125,
       "num_nodes": 295,
       "effective_depth": 10,
-      "full_train_time_s": 10.073
+      "full_train_time_s": 7.347
     },
     {
       "model_id": "M3b_d10_entropy20",
@@ -152,8 +156,9 @@
       "impurity": "entropy",
       "val_roc_auc": 0.988315,
       "val_pr_auc": 0.98864,
-      "val_accuracy_pct": 93.96,
-      "val_f1_weighted": 0.939584,
+      "val_accuracy_pct": 93.69,
+      "val_f1_weighted": 0.936942,
+      "val_num_nodes": 261,
       "test_roc_auc": 0.988326,
       "test_pr_auc": 0.988699,
       "test_accuracy": 0.940338,
@@ -167,7 +172,7 @@
       "tp": 95281,
       "num_nodes": 227,
       "effective_depth": 10,
-      "full_train_time_s": 9.165
+      "full_train_time_s": 7.292
     },
     {
       "model_id": "M3c_d10_entropy50",
@@ -176,8 +181,9 @@
       "impurity": "entropy",
       "val_roc_auc": 0.988543,
       "val_pr_auc": 0.988761,
-      "val_accuracy_pct": 93.95,
-      "val_f1_weighted": 0.939509,
+      "val_accuracy_pct": 93.68,
+      "val_f1_weighted": 0.936752,
+      "val_num_nodes": 179,
       "test_roc_auc": 0.988262,
       "test_pr_auc": 0.988326,
       "test_accuracy": 0.940413,
@@ -191,7 +197,7 @@
       "tp": 95341,
       "num_nodes": 161,
       "effective_depth": 10,
-      "full_train_time_s": 10.72
+      "full_train_time_s": 6.634
     },
     {
       "model_id": "M4_Deep_d12_gini1",
@@ -200,8 +206,9 @@
       "impurity": "gini",
       "val_roc_auc": 0.975154,
       "val_pr_auc": 0.968638,
-      "val_accuracy_pct": 93.53,
-      "val_f1_weighted": 0.935312,
+      "val_accuracy_pct": 93.07,
+      "val_f1_weighted": 0.930676,
+      "val_num_nodes": 2461,
       "test_roc_auc": 0.987112,
       "test_pr_auc": 0.986261,
       "test_accuracy": 0.936658,
@@ -215,7 +222,7 @@
       "tp": 94953,
       "num_nodes": 3431,
       "effective_depth": 12,
-      "full_train_time_s": 18.64
+      "full_train_time_s": 8.452
     }
   ],
   "top_15_feature_importances": [

@@ -5,7 +5,7 @@
 
 ## BAGIAN 1: POHON KEPUTUSAN RINGKAS (maxDepth=3, 7 Nodes, 4 Leaf Rules)
 ----------------------------------------------------------------------------
-DecisionTreeClassificationModel: uid=DecisionTreeClassifier_1bd1131cb316, depth=3, numNodes=7, numClasses=2, numFeatures=57
+DecisionTreeClassificationModel: uid=DecisionTreeClassifier_206233fde1bb, depth=3, numNodes=7, numClasses=2, numFeatures=57
   If (impulse_buying_score [f15] <= 4.5)
    Predict: 0.0
   Else (impulse_buying_score [f15] > 4.5)
@@ -19,7 +19,7 @@ DecisionTreeClassificationModel: uid=DecisionTreeClassifier_1bd1131cb316, depth=
 
 ## BAGIAN 2: CHAMPION MODEL PENUH (maxDepth=10, minInstancesPerNode=20, Gini)
 ----------------------------------------------------------------------------
-DecisionTreeClassificationModel: uid=DecisionTreeClassifier_8d19f033eff4, depth=10, numNodes=473, numClasses=2, numFeatures=57
+DecisionTreeClassificationModel: uid=DecisionTreeClassifier_8e493a81f2d6, depth=10, numNodes=473, numClasses=2, numFeatures=57
   If (impulse_buying_score [f15] <= 4.5)
    If (stress_from_financial_decisions [f22] <= 4.5)
     If (impulse_buying_score [f15] <= 3.5)
