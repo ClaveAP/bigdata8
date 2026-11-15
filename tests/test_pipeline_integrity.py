@@ -10,6 +10,7 @@ Memastikan:
    konsisten dengan Single Source of Truth (`reports/metrics/*.json`) dan bebas dari angka usang.
 """
 
+import csv
 import json
 import sys
 import unittest
@@ -157,9 +158,11 @@ class TestPipelineIntegrity(unittest.TestCase):
             self.assertNotIn("5 negara utama", content, f"Klaim salah '5 negara utama' ditemukan di {doc_path.name}")
 
     def test_06_audit_remediation_invariants(self):
-        """Pastikan pemilihan Champion bebas hardcode, Val ROC-AUC M2 tertinggi, node PySpark sinkron, dan CV/Bootstrap/K-Means utuh."""
+        """Pastikan seluruh 72 grid murni PySpark bebas hardcode/SklearnDT, Val ROC-AUC M2 tertinggi, node konsisten, & K-Means/CV/Bootstrap utuh."""
         tune_src = (BASE_DIR / "src" / "tune_tree.py").read_text(encoding="utf-8")
         self.assertNotIn('champion_params = {"maxDepth": 10', tune_src, "Masih ada hardcode champion_params di tune_tree.py")
+        self.assertNotIn("SklearnDT", tune_src, "Masih ada fallback SklearnDT pada validasi grid di tune_tree.py")
+        self.assertNotIn("spark_val_candidates", tune_src, "Masih ada daftar kandidat Spark manual di tune_tree.py")
 
         champ_summary = json.loads((METRICS_DIR / "dt_champion_summary.json").read_text(encoding="utf-8"))
         best_val = champ_summary["best_validation_row"]
@@ -167,18 +170,29 @@ class TestPipelineIntegrity(unittest.TestCase):
         self.assertEqual(best_val["maxDepth"], 10)
         self.assertEqual(best_val["minInstancesPerNode"], 20)
         self.assertEqual(best_val["impurity"], "gini")
-        self.assertEqual(best_val["num_nodes"], 473)
+        self.assertEqual(best_val["num_nodes"], 419)
+
+        with open(METRICS_DIR / "dt_tuning_grid.csv", encoding="utf-8") as f:
+            grid_rows = {row["config_id"]: row for row in csv.DictReader(f)}
+        self.assertEqual(len(grid_rows), 72)
+        self.assertEqual(int(grid_rows["D10_M20_GIN"]["num_nodes"]), 419)
 
         ablation = {r["model_id"]: r for r in champ_summary["ablation_reference_models"]}
         self.assertGreater(ablation["M2_Champion_d10_gini20"]["val_roc_auc"], ablation["M1_Baseline_d7"]["val_roc_auc"])
         self.assertGreater(ablation["M2_Champion_d10_gini20"]["val_roc_auc"], ablation["M3c_d10_entropy50"]["val_roc_auc"])
+        self.assertEqual(ablation["M2_Champion_d10_gini20"]["val_num_nodes"], 419)
         self.assertEqual(ablation["M2_Champion_d10_gini20"]["num_nodes"], 473)
         self.assertEqual(ablation["M4_Deep_d12_gini1"]["num_nodes"], 3431)
 
         km_data = json.loads((METRICS_DIR / "kmeans_segmentation.json").read_text(encoding="utf-8"))
-        persona_names = [p["persona_name"] for p in km_data["personas_k3"]]
-        self.assertTrue(any("High-Spend Impulsive Shoppers" in n for n in persona_names))
-        self.assertTrue(any("Conversion-Active Impulsive Browsers" in n for n in persona_names))
+        personas = km_data["personas_k3"]
+        persona_names = [p["persona_name"] for p in personas]
+        self.assertTrue(any("Threshold-Zone Hesitant Shoppers" in n for n in persona_names))
+        self.assertTrue(any("High-Stress Impulsive Abandoners" in n for n in persona_names))
+        rates = sorted(p["avg_cart_abandonment_rate"] for p in personas)
+        self.assertLess(rates[0], 20.0)
+        self.assertTrue(35.0 < rates[1] < 50.0)
+        self.assertGreater(rates[2], 65.0)
 
         mc_data = json.loads((METRICS_DIR / "model_comparison_summary.json").read_text(encoding="utf-8"))
         self.assertEqual(len(mc_data["bootstrap_paired_auc_deltas"]), 5)
