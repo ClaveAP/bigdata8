@@ -136,19 +136,23 @@ class TestPipelineIntegrity(unittest.TestCase):
         nb_txt = nb_path.read_text(encoding="utf-8")
         self.assertIn("orderBy(F.desc('is_high_abandonment'))", nb_txt)
 
+        docs_dir = BASE_DIR / "docs"
         docs_to_check = [
             BASE_DIR / "README.md",
             BASE_DIR / "AGENTS.md",
             BASE_DIR / "reports" / "README.md",
-            BASE_DIR / "docs" / "00_PROJECT_CHARTER.md",
-            BASE_DIR / "docs" / "01_DATA_DICTIONARY.md",
-            BASE_DIR / "docs" / "02_DATA_PIPELINE_LOG.md",
-            BASE_DIR / "docs" / "03_MODEL_EXPERIMENTS.md",
-            BASE_DIR / "docs" / "04_BUSINESS_RECOMMENDATIONS.md",
-            BASE_DIR / "docs" / "05_TIMELINE_TRACKER.md",
-            BASE_DIR / "docs" / "06_LOOKER_STUDIO_GUIDE.md",
-            BASE_DIR / "docs" / "07_JOURNAL_PLAN_JIKO.md",
-            BASE_DIR / "docs" / "PANDUAN_LENGKAP_PROYEK_DAN_SIDANG.md",
+            docs_dir / "00_PROJECT_CHARTER.md",
+            docs_dir / "01_DATA_DICTIONARY.md",
+            docs_dir / "02_DATA_PIPELINE_LOG.md",
+            docs_dir / "03_MODEL_EXPERIMENTS.md",
+            docs_dir / "04_BUSINESS_RECOMMENDATIONS.md",
+            docs_dir / "05_TIMELINE_TRACKER.md",
+            docs_dir / "06_LOOKER_STUDIO_GUIDE.md",
+            docs_dir / "07_JOURNAL_PLAN_JIKO.md",
+            docs_dir / "08_PROJECT_FIX_AND_HARDENING_PLAN.md",
+            docs_dir / "09_VERIFIED_REFERENCES_JIKO.md",
+            docs_dir / "10_MANUSCRIPT_DRAFT_JIKO.md",
+            docs_dir / "PANDUAN_LENGKAP_PROYEK_DAN_SIDANG.md",
         ]
         for doc_path in docs_to_check:
             self.assertTrue(doc_path.exists(), f"Dokumen {doc_path.name} tidak ditemukan")
@@ -156,6 +160,7 @@ class TestPipelineIntegrity(unittest.TestCase):
             self.assertNotIn("7.170 pengguna", content, f"Angka FP lama 7.170 ditemukan di {doc_path.name}")
             self.assertNotIn("4.951 pengguna", content, f"Angka FN lama 4.951 ditemukan di {doc_path.name}")
             self.assertNotIn("5 negara utama", content, f"Klaim salah '5 negara utama' ditemukan di {doc_path.name}")
+            self.assertNotIn("treeshap", content.lower(), f"Klaim metode keliru 'TreeSHAP' ditemukan di {doc_path.name}")
 
     def test_06_audit_remediation_invariants(self):
         """Pastikan seluruh 72 grid murni PySpark bebas hardcode/SklearnDT, Val ROC-AUC M2 tertinggi, node konsisten, & K-Means/CV/Bootstrap utuh."""
@@ -165,6 +170,15 @@ class TestPipelineIntegrity(unittest.TestCase):
         self.assertNotIn("spark_val_candidates", tune_src, "Masih ada daftar kandidat Spark manual di tune_tree.py")
 
         champ_summary = json.loads((METRICS_DIR / "dt_champion_summary.json").read_text(encoding="utf-8"))
+        self.assertIn("150,269", champ_summary["protocol"])
+        self.assertIn("100,086", champ_summary["protocol"])
+        self.assertIn("D8_M1_ENT", champ_summary["selection_note"])
+        self.assertIn("0.0007", champ_summary["selection_note"])
+        self.assertEqual(champ_summary["best_unpruned_validation_row"]["config_id"], "D8_M1_ENT")
+
+        shap_src = (BASE_DIR / "src" / "explainability_shap.py").read_text(encoding="utf-8")
+        self.assertNotIn("treeshap", shap_src.lower(), "Masih ada penyebutan TreeSHAP keliru di explainability_shap.py")
+
         best_val = champ_summary["best_validation_row"]
         self.assertEqual(best_val["config_id"], "D10_M20_GIN")
         self.assertEqual(best_val["maxDepth"], 10)
@@ -185,6 +199,8 @@ class TestPipelineIntegrity(unittest.TestCase):
         self.assertEqual(ablation["M4_Deep_d12_gini1"]["num_nodes"], 3431)
 
         km_data = json.loads((METRICS_DIR / "kmeans_segmentation.json").read_text(encoding="utf-8"))
+        self.assertIn("k_selection_rationale", km_data)
+        self.assertIn("methodological_note", km_data)
         personas = km_data["personas_k3"]
         persona_names = [p["persona_name"] for p in personas]
         self.assertTrue(any("Threshold-Zone Hesitant Shoppers" in n for n in persona_names))
