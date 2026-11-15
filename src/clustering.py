@@ -27,6 +27,9 @@ CLUSTER_FEATURES = [
     "stress_from_financial_decisions",
     "overall_stress_level",
     "impulse_purchases_per_month",
+]
+
+DESCRIPTIVE_FEATURES = [
     "monthly_spend",
     "average_order_value",
     "daily_session_time_minutes",
@@ -42,10 +45,10 @@ def run_clustering():
 
     print(f"\n[INFO] Membaca dataset Parquet 1M baris dari: {PROCESSED_PARQUET_DIR}")
     df = spark.read.parquet(str(PROCESSED_PARQUET_DIR)).select(
-        *CLUSTER_FEATURES, TARGET_SOURCE_COL, TARGET_COL
+        *CLUSTER_FEATURES, *DESCRIPTIVE_FEATURES, TARGET_SOURCE_COL, TARGET_COL
     )
 
-    print("[STEP 1] Merakit dan menstandarisasi (Z-score) fitur perilaku & psikologis...")
+    print("[STEP 1] Merakit dan menstandarisasi (Z-score) 4 fitur inti psikologis & impulsivitas...")
     assembler = VectorAssembler(inputCols=CLUSTER_FEATURES, outputCol="raw_cluster_features")
     assembled_df = assembler.transform(df)
 
@@ -57,7 +60,7 @@ def run_clustering():
     )
     scaler_model = scaler.fit(assembled_df)
     scaled_df = scaler_model.transform(assembled_df).select(
-        *CLUSTER_FEATURES, TARGET_SOURCE_COL, TARGET_COL, "scaled_cluster_features"
+        *CLUSTER_FEATURES, *DESCRIPTIVE_FEATURES, TARGET_SOURCE_COL, TARGET_COL, "scaled_cluster_features"
     ).cache()
 
     total_rows = scaled_df.count()
@@ -134,8 +137,8 @@ def run_clustering():
     # Beri label persona terurut dari tingkat pembatalan terendah ke tertinggi
     persona_labels = [
         "Persona A: Mindful & Low-Stress Shoppers (Risiko Rendah)",
-        "Persona B: High-Spend Impulsive Shoppers (Risiko Tinggi - Spend Tinggi)",
-        "Persona C: Conversion-Active Impulsive Browsers (Risiko Tinggi - Trafik Aktif)",
+        "Persona B: Threshold-Zone Hesitant Shoppers (Risiko Ambang Moderat)",
+        "Persona C: High-Stress Impulsive Abandoners (Risiko Kritis)",
     ]
     profile_pdf["persona_rank"] = [1, 2, 3][: len(profile_pdf)]
     profile_pdf["persona_name"] = persona_labels[: len(profile_pdf)]
@@ -207,8 +210,8 @@ def run_clustering():
     ax_right = axes[1]
     short_names = [
         f"Persona A\n(Low Risk)\n{profile_pdf.iloc[0]['share_pct']:.1f}%",
-        f"Persona B\n(High-Spend Impulsive)\n{profile_pdf.iloc[1]['share_pct']:.1f}%",
-        f"Persona C\n(Active Impulsive)\n{profile_pdf.iloc[2]['share_pct']:.1f}%",
+        f"Persona B\n(Threshold Zone)\n{profile_pdf.iloc[1]['share_pct']:.1f}%",
+        f"Persona C\n(Critical Risk)\n{profile_pdf.iloc[2]['share_pct']:.1f}%",
     ]
     x_pos = range(len(short_names))
     width = 0.25
@@ -238,7 +241,7 @@ def run_clustering():
     ax_right.set_xticks(list(x_pos))
     ax_right.set_xticklabels(short_names, fontsize=9.5, fontweight="bold")
     ax_right.set_ylabel("Nilai Rata-rata (Skala 0 - 100)", fontsize=10)
-    ax_right.set_ylim(0, 88)
+    ax_right.set_ylim(0, 105)
     ax_right.legend(loc="upper left", frameon=True, fontsize=9)
 
     for b in list(bars1) + list(bars2) + list(bars3):
@@ -263,6 +266,7 @@ def run_clustering():
     payload = {
         "total_rows": int(total_rows),
         "cluster_features": CLUSTER_FEATURES,
+        "descriptive_features": DESCRIPTIVE_FEATURES,
         "k_evaluation": k_eval_rows,
         "best_silhouette_k": int(best_sil_row["k"]),
         "best_silhouette_score": float(best_sil_row["silhouette_score"]),
