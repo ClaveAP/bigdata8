@@ -16,8 +16,8 @@ Folder `reports/` menyimpan seluruh keluaran visual beresolusi publikasi (**300 
 | **6** | **`eda_stress_vs_abandonment.png`** | `src/eda_profiling.py` | Kurva lonjakan non-linear laju pembatalan keranjang terhadap `stress_from_financial_decisions` (melonjak dari **`4,71%`** pada level stres `1` menjadi **`77,03%`** pada level stres `10`). |
 | **7** | **`model_roc_pr_curves.png`** | `src/compare_models.py` | Kurva ROC dan Precision-Recall komparatif 6 model pada `200.277` data uji (`LR_Tuned 0,9906`, `GBT_Tuned 0,9906`, `DT_Champion_d10 0,9904`, `RF_Tuned 0,9894`, `DT_Default_d7 0,9773`, `DT_Shallow_d3 0,9651`). |
 | **8** | **`dt_pruning_depth_curve.png`** | `src/tune_tree.py` | Kurva validasi 72 konfigurasi Decision Tree (`maxDepth 2..12`) yang memperlihatkan plateau performa pada `maxDepth 7..10` dan degradasi *overfitting* serta ledakan `3.431` node pada `maxDepth=12, minInst=1`. |
-| **9** | **`pyspark_scaling_benchmark.png`** | `src/compare_models.py` | Benchmark skalabilitas waktu pelatihan PySpark terhadap ukuran baris (`20%–100%` Train Set / `160k`–`800k` baris) dan jumlah *executor threads* (`local[1]` `20,68s` $\rightarrow$ `local[2]` `9,01s`, speedup **`2,30x`**). |
-| **10** | **`kmeans_persona_clusters.png`** | `src/clustering.py` | Evaluasi Silhouette Score & WSSSE K-Means (`K=2..5`, Silhouette terbaik `0,3921` pada `K=2`) beserta profil 3 Persona Pelanggan operasional (`K=3`). |
+| **9** | **`pyspark_scaling_benchmark.png`** | `src/compare_models.py` | Benchmark skalabilitas waktu pelatihan PySpark terhadap ukuran baris (`20%–100%` Train Set / `160k`–`800k` baris) dan jumlah *executor threads* (`local[1]` `17,97s` $\rightarrow$ `local[2]` `8,29s`, speedup **`2,17x`**; `local[4]` `8,20s`, speedup **`2,19x`**). |
+| **10** | **`kmeans_persona_clusters.png`** | `src/clustering.py` | Evaluasi Silhouette Score & WSSSE K-Means 4 fitur psikologis (`K=2..5`, Silhouette terbaik `0,7370` pada `K=2`, `0,6309` pada `K=3`) beserta profil 3 Persona Pelanggan operasional (`K=3`). |
 | **11** | **`shap_summary_plot.png`** | `src/explainability_shap.py` | Distribusi nilai **TreeSHAP** dan Mean $|\text{SHAP}|$ yang membuktikan arah dorongan positif `impulse_buying_score` dan `stress_from_financial_decisions` serta kontribusi `overall_stress_level` dan `impulse_purchases_per_month` pada ensemble pohon. |
 | **12** | **`permutation_vs_gini_importance.png`** | `src/explainability_shap.py` | Komparasi 4 metode atribusi fitur (*Single-Tree Gini*, *Ensemble RF Gini*, *Standardized LR Weight*, dan *Permutation AUC Drop*) yang membongkar fenomena *Greedy Collinear Feature Masking*. |
 
@@ -26,11 +26,11 @@ Folder `reports/` menyimpan seluruh keluaran visual beresolusi publikasi (**300 
 ## 📁 2. Direktori Metrik Terstruktur (`reports/metrics/`)
 
 Seluruh angka evaluasi disimpan secara otomatis dalam format JSON dan CSV agar 100% dapat diaudit dan direproduksi:
-- **`preprocessing_summary.json`**: Statistik ukuran CSV (`233,60 MB`) vs Snappy Parquet (`37,96 MB`, penghematan `83,75%`), benchmark I/O (`15,39x`), dan distribusi target biner.
+- **`preprocessing_summary.json`**: Statistik ukuran CSV (`233,60 MB`) vs Snappy Parquet (`37,96 MB`, penghematan `83,75%`), benchmark I/O (`15,39x` pada pemindaian prapemrosesan awal; `11,96x` pada median benchmark `compare_models.py`), dan distribusi target biner.
 - **`eda_summary.json` & `schema_and_correlation_audit.csv`**: Audit skema 60 kolom mentah, korelasi Pearson terhadap target, dan statistik per kuartil impulsif.
 - **`feature_metadata.json`**: Daftar `57` fitur prediktor (`43` numerik + `14` kategorikal), dimensi `features_lr` (`132`), dan jumlah baris split (`799.723` Train / `200.277` Test).
-- **`baseline_dt_metrics.json`**: Metrik model baseline `maxDepth=5` (`11` node, Test ROC-AUC `0,9318`, Akurasi `94,09%`).
-- **`dt_tuning_grid.csv` & `dt_champion_summary.json`**: Hasil 72 konfigurasi grid validasi, tabel ablasi 7 model (`M0..M4`), dan metrik Champion `M2` (`maxDepth=10, minInst=20, gini`).
+- **`baseline_dt_metrics.json`**: Metrik model baseline `maxDepth=5` (`11` node, Test ROC-AUC `0,9655`, PR-AUC `0,9534`, Akurasi `94,09%`, Waktu Latih `21,70s`).
+- **`dt_tuning_grid.csv` & `dt_champion_summary.json`**: Hasil 72 konfigurasi grid validasi murni PySpark (`D10_M20_GIN` #1 pre-pruned: `419` val nodes, Val ROC-AUC `0,9897`), tabel ablasi 7 model (`M0..M4`), dan metrik Champion `M2` (`473` full nodes, Test ROC-AUC `0,9904`, `7,24s`).
 - **`rules_and_fidelity.json` & `decision_tree_rules.txt`**: Pohon keputusan yang telah diterjemahkan ke nama fitur asli (`impulse_buying_score`, `stress_from_financial_decisions`, dst.) beserta analisis **Surrogate Fidelity `98,28%`** (`DT_Shallow_d3` 4 daun vs `DT_Champion_d10` 473 node).
 - **`model_comparison_summary.json`, `model_comparison.csv`, `mcnemar_tests.csv`, `bootstrap_auc_deltas.csv`**: Benchmark 6 model, 5-fold CV, uji McNemar berpasangan, dan selang kepercayaan Bootstrap 95%.
 - **`sensitivity_and_negative_control.csv`**: Uji sensitivitas threshold (`35%`, `40%`, `45%`) dan uji kontrol negatif `checkout_abandonments_per_month >= 5` ($\text{AUC} \approx 0,50$).

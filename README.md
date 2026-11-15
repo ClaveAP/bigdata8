@@ -27,8 +27,8 @@ Untuk presentasi ke dosen atau uji coba langsung tanpa instalasi rumit, reposito
   6. `customer_persona_comparison.png` — Profil High Abandonment (`7,68` impulsif, `7,59` stres) vs Low Abandonment (`2,26` impulsif, `2,35` stres) dengan pengeluaran bulanan setara (`$2.496,58` vs `$2.501,02`).
   7. `model_roc_pr_curves.png` — Kurva ROC & Precision-Recall komparatif 6 model.
   8. `dt_pruning_depth_curve.png` — Kurva validasi 72 konfigurasi (`maxDepth 2..12`) & bukti *overfitting* pada pohon tanpa pruning (`3.431` node).
-  9. `pyspark_scaling_benchmark.png` — Benchmark skalabilitas baris (`20%–100%` Train Set / `160k–800k` baris) & CPU core (`2,30x` speedup).
-  10. `kmeans_persona_clusters.png` — Segmentasi K-Means (`K=2..5`, Silhouette terbaik `0,3921`) & 3 Persona Pelanggan.
+  9. `pyspark_scaling_benchmark.png` — Benchmark skalabilitas baris (`20%–100%` Train Set / `160k–800k` baris) & CPU core (`2,17x` speedup di `local[2]`, saturasi `2,19x` di `local[4]`).
+  10. `kmeans_persona_clusters.png` — Segmentasi K-Means 4 fitur psikologis (`K=2..5`, Silhouette terbaik `0,7370` pada `K=2`, `0,6309` pada `K=3`) & 3 Persona Pelanggan.
   11. `shap_summary_plot.png` — Distribusi **TreeSHAP** pada data uji.
   12. `permutation_vs_gini_importance.png` — Komparasi *Single-Tree Gini*, *Ensemble RF Gini*, *LR Standardized Weight*, dan *Permutation Importance* untuk membongkar *Greedy Collinear Feature Masking*.
 
@@ -41,15 +41,15 @@ Seluruh model dilatih menggunakan protokol **Split-Before-Fit (`seed=42`)** dan 
 
 | No | Model Algoritma | Kompleksitas Struktur | Test ROC-AUC (95% CI) | Test PR-AUC | Test Akurasi | F1-Weighted | Waktu Latih | Peran Evaluasi |
 | :-: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| 1 | **`LR_Tuned` (OHE + Scaled)** | 132 bobot linier | **`0,9906`** (`[0,9902, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9410`** | 18,26 s | Pembanding Linier |
-| 2 | **`GBT_Tuned` (`maxIter=20, d=5`)** | 20 pohon (958 node) | **`0,9906`** (`[0,9901, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9409`** | 76,01 s | Pembanding Boosting |
-| 3 | **`DT_Champion_d10` (`d=10, min=20, gini`)** | **1 pohon (473 node)** | **`0,9904`** (`[0,9900, 0,9910]`) | **`0,9905`** | **`93,99%`** | **`0,9399`** | **14,42 s** | **🏆 CHAMPION MODEL** |
-| 4 | **`RF_Tuned` (`40 pohon, d=10`)** | 40 pohon (24.944 node) | `0,9894` (`[0,9888, 0,9900]`) | `0,9900` | `93,92%` | `0,9392` | 354,79 s | Pembanding Bagging |
-| 5 | **`DT_Default_d7` (`d=7, min=20, gini`)** | 1 pohon (41 node) | `0,9773` (`[0,9763, 0,9782]`) | `0,9643` | `94,09%` | `0,9409` | 8,34 s | Baseline Menengah |
-| 6 | **`DT_Shallow_d3` (`d=3, min=20, gini`)** | **1 pohon (7 node / 4 daun)** | `0,9651` (`[0,9639, 0,9664]`) | `0,9524` | `94,06%` | `0,9406` | 8,80 s | **Surrogate Rule Engine (`98,28%` Fidelitas)** |
+| 1 | **`LR_Tuned` (OHE + Scaled)** | 132 bobot linier | **`0,9906`** (`[0,9902, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9410`** | 16,71 s | Pembanding Linier |
+| 2 | **`GBT_Tuned` (`maxIter=20, d=5`)** | 20 pohon (958 node) | **`0,9906`** (`[0,9901, 0,9912]`) | **`0,9912`** | **`94,10%`** | **`0,9409`** | 67,12 s | Pembanding Boosting |
+| 3 | **`DT_Champion_d10` (`d=10, min=20, gini`)** | **1 pohon (473 node)** | **`0,9904`** (`[0,9900, 0,9910]`) | **`0,9905`** | **`93,99%`** | **`0,9399`** | **7,24 s** | **🏆 CHAMPION MODEL** |
+| 4 | **`RF_Tuned` (`40 pohon, d=10`)** | 40 pohon (24.944 node) | `0,9894` (`[0,9888, 0,9900]`) | `0,9900` | `93,92%` | `0,9392` | 158,94 s | Pembanding Bagging |
+| 5 | **`DT_Default_d7` (`d=7, min=20, gini`)** | 1 pohon (41 node) | `0,9773` (`[0,9761, 0,9788]`) | `0,9643` | `94,09%` | `0,9409` | 7,05 s | Baseline Menengah |
+| 6 | **`DT_Shallow_d3` (`d=3, min=20, gini`)** | **1 pohon (7 node / 4 daun)** | `0,9651` (`[0,9629, 0,9665]`) | `0,9524` | `94,06%` | `0,9406` | 5,99 s | **Surrogate Rule Engine (`98,28%` Fidelitas)** |
 
 > **Mengapa `DT_Champion_d10` (bersama Surrogate `DT_Shallow_d3`) Menjadi Pilihan Terbaik?**  
-> 1. **Kinerja Setara Model Kompleks ($\Delta\text{ROC-AUC}$ Hanya `0,00024`)**: Selisih ROC-AUC antara `LR_Tuned` (`0,9906`) / `GBT_Tuned` (`0,9906`) dan `DT_Champion_d10` (`0,9904`) hanya **`0,024%`**, bahkan `DT_Champion_d10` mengungguli `RF_Tuned` (`0,9894`, `24.944` node) dengan waktu latih **`24,6x` lebih cepat** (`14,42s` vs `354,79s`).  
+> 1. **Kinerja Setara Model Kompleks ($\Delta\text{ROC-AUC}$ Hanya `0,00024`)**: Selisih ROC-AUC antara `LR_Tuned` (`0,9906`) / `GBT_Tuned` (`0,9906`) dan `DT_Champion_d10` (`0,9904`) hanya **`0,024%`**, bahkan `DT_Champion_d10` mengungguli `RF_Tuned` (`0,9894`, `24.944` node) dengan waktu latih **`21,97x` lebih cepat** (`7,24s` vs `158,94s`) dan **`9,28x` lebih cepat** daripada `GBT_Tuned` (`67,12s`).  
 > 2. **100% *White-Box* & Aturan 4-Daun Berfidelitas `98,28%`**: Pohon dangkal `DT_Shallow_d3` yang hanya terdiri dari **4 daun aturan (`IF-THEN`)** menyamai **`98,28%` (`196.825 / 200.277`)** keputusan `DT_Champion_d10` dengan akurasi **`94,06%`**.
 
 ### 2. Temuan Explainable AI (SHAP, Permutation Importance, & Kolinearitas)

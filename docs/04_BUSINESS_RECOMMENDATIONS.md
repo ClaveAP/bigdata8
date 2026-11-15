@@ -80,12 +80,12 @@ Aturan percabangan pohon tersebut menghasilkan **3 Tier Operasional** yang dapat
 
 ### B. Segmentasi Unsupervised PySpark K-Means Clustering (`src/clustering.py`)
 
-Evaluasi *K-Means Clustering* pada 10 fitur perilaku dan psikologis terstandarisasi ($Z$-score) di seluruh `1.000.000` pengguna menunjukkan:
-- **Struktur Alami Terbaik ($k=2$, *Silhouette Score* = `0,3921`, WSSSE = `7.306.470,89`)**: Memisahkan populasi secara simetris menjadi **Klaster Belanja Terencana (`50,11%`, rata-rata pembatalan `18,91%`)** dan **Klaster Impulsif-Cemas (`49,89%`, rata-rata pembatalan `61,60%`)**.
-- **Segmentasi Operasional 3-Persona ($k=3$, *Silhouette Score* = `0,2653`, WSSSE = `6.911.854,61`)**:
-  1. **Persona A — *Mindful & Low-Stress Shoppers*** (`469.105` pengguna / **`46,91%`**): Skor impulsif `2,13`, stres finansial `2,16`, rata-rata `cart_abandonment_rate` = **`17,57%`** (hanya `5,18%` berisiko tinggi).
-  2. **Persona B — *High-Spend Impulsive Shoppers*** (`264.941` pengguna / **`26,49%`**): Skor impulsif `7,52`, stres finansial `7,49`, pengeluaran bulanan tertinggi (`$2.506,10`), rata-rata `cart_abandonment_rate` = **`60,08%`** (`90,45%` berisiko tinggi).
-  3. **Persona C — *Conversion-Active Impulsive Browsers*** (`265.954` pengguna / **`26,60%`**): Skor impulsif `7,55`, stres finansial `7,53`, konversi historis `50,20%`, rata-rata `cart_abandonment_rate` = **`60,36%`** (`90,82%` berisiko tinggi).
+Evaluasi *K-Means Clustering* pada 4 fitur psikologis terstandarisasi ($Z$-score) disertai agregasi 6 variabel perilaku belanja di seluruh `1.000.000` pengguna menunjukkan:
+- **Struktur Alami Terbaik ($k=2$, *Silhouette Score* = `0,7370`, WSSSE = `1.306.480,58`)**: Memisahkan populasi secara simetris menjadi **Klaster Belanja Terencana (`50,11%`, rata-rata pembatalan `18,91%`)** dan **Klaster Impulsif-Cemas (`49,89%`, rata-rata pembatalan `61,60%`)**.
+- **Segmentasi Risiko 3-Persona ($k=3$, *Silhouette Score* = `0,6309`, WSSSE = `823.094,13`)**:
+  1. **Persona A — *Mindful & Low-Stress Shoppers (Risiko Rendah)*** (`351.847` pengguna / **`35,18%`**): Skor impulsif `1,49`, stres finansial `1,53`, pengeluaran bulanan `$2.499,91`, rata-rata `cart_abandonment_rate` = **`12,69%`** (hanya `0,35%` berisiko tinggi).
+  2. **Persona B — *Threshold-Zone Hesitant Shoppers (Risiko Ambang Moderat)*** (`324.476` pengguna / **`32,45%`**): Skor impulsif `5,15`, stres finansial `5,15`, pengeluaran bulanan `$2.499,45`, rata-rata `cart_abandonment_rate` = **`41,22%`** (`55,68%` berisiko tinggi).
+  3. **Persona C — *High-Stress Impulsive Abandoners (Risiko Kritis)*** (`323.677` pengguna / **`32,37%`**): Skor impulsif `8,65`, stres finansial `8,61`, pengeluaran bulanan `$2.496,87`, rata-rata `cart_abandonment_rate` = **`69,11%`** (`99,97%` berisiko tinggi).
 
 ---
 
