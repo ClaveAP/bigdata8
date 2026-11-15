@@ -43,6 +43,8 @@
   "best_silhouette_k": 2,
   "best_silhouette_score": 0.736992,
   "selected_operational_k": 3,
+  "k_selection_rationale": "k=2 menghasilkan Silhouette Score tertinggi (0.7370) karena struktur distribusi biner psikologis (rendah vs tinggi); k=3 (Silhouette 0.6309) dipilih untuk kebutuhan operasional guna mengisolasi segmen transisi 'Threshold-Zone Hesitant Shoppers' (Persona B, rata-rata cart_abandonment_rate 41.22% di sekitar ambang batas 40%) di antara segmen risiko rendah (Persona A, 12.69%) dan kritis (Persona C, 69.11%).",
+  "methodological_note": "Karena K-Means dijalankan menggunakan 4 fitur psikologis utama yang secara langsung menentukan variabel target cart_abandonment_rate (sementara 53 fitur lainnya merupakan derau independen), pemisahan tingkat pembatalan antar-klaster yang rapi merupakan proyeksi matematis yang diharapkan untuk keperluan stratifikasi risiko operasional, bukan klaim penemuan (discovery) pola kausal tak-terawasi yang independen.",
   "personas_k3": [
     {
       "cluster_id": 0,

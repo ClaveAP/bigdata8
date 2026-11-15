@@ -39,6 +39,24 @@ DESCRIPTIVE_FEATURES = [
 ]
 
 
+def build_clustering_notes() -> dict:
+    """Menyusun alasan pemilihan k=3 operasional dan catatan metodologis bahwa clustering memakai fitur penentu target."""
+    return {
+        "k_selection_rationale": (
+            "k=2 menghasilkan Silhouette Score tertinggi (0.7370) karena struktur distribusi biner psikologis "
+            "(rendah vs tinggi); k=3 (Silhouette 0.6309) dipilih untuk kebutuhan operasional guna mengisolasi segmen "
+            "transisi 'Threshold-Zone Hesitant Shoppers' (Persona B, rata-rata cart_abandonment_rate 41.22% di "
+            "sekitar ambang batas 40%) di antara segmen risiko rendah (Persona A, 12.69%) dan kritis (Persona C, 69.11%)."
+        ),
+        "methodological_note": (
+            "Karena K-Means dijalankan menggunakan 4 fitur psikologis utama yang secara langsung menentukan variabel "
+            "target cart_abandonment_rate (sementara 53 fitur lainnya merupakan derau independen), pemisahan tingkat "
+            "pembatalan antar-klaster yang rapi merupakan proyeksi matematis yang diharapkan untuk keperluan stratifikasi "
+            "risiko operasional, bukan klaim penemuan (discovery) pola kausal tak-terawasi yang independen."
+        ),
+    }
+
+
 def run_clustering():
     spark = get_spark_session(app_name="EcommerceKMeansSegmentation")
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -271,6 +289,7 @@ def run_clustering():
         "best_silhouette_k": int(best_sil_row["k"]),
         "best_silhouette_score": float(best_sil_row["silhouette_score"]),
         "selected_operational_k": selected_k,
+        **build_clustering_notes(),
         "personas_k3": profile_pdf.to_dict(orient="records"),
         "personas_k2": profile_k2_pdf.to_dict(orient="records"),
     }

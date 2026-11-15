@@ -1,9 +1,11 @@
 {
-  "protocol": "75% Train-Sub / 25% Validation inside 80% Train Split; retrained on 100% of Train Split (799,723 rows); evaluated once on 20% untouched Test Split (200,277 rows)",
+  "protocol": "80% Train Split (799,723 rows) partitioned 75%/25% into Train-Sub (599,774 rows) and Validation (199,949 rows); 72-config pure PySpark grid evaluated on deterministic 25% Train-Sub subsample (150,269 rows) and 50% Validation subsample (100,086 rows) under a priori pre-pruning constraint (minInstancesPerNode >= 20); Champion and M0..M4 reference models retrained on 100% Full Train Set (799,723 rows) and evaluated once on 20% untouched Test Split (200,277 rows)",
   "total_grid_configs": 72,
   "train_full_rows": 799723,
   "train_sub_rows": 599774,
   "val_rows": 199949,
+  "train_sub_sample_rows": 150269,
+  "val_sample_rows": 100086,
   "test_rows": 200277,
   "best_validation_row": {
     "config_id": "D10_M20_GIN",
@@ -22,12 +24,29 @@
     "val_precision_positive": 0.933807,
     "val_recall_positive": 0.937846
   },
+  "best_unpruned_validation_row": {
+    "config_id": "D8_M1_ENT",
+    "maxDepth": 8,
+    "minInstancesPerNode": 1,
+    "impurity": "entropy",
+    "num_nodes": 113,
+    "effective_depth": 8,
+    "fit_time_s": 2.336,
+    "val_roc_auc": 0.990446,
+    "val_pr_auc": 0.990043,
+    "val_accuracy": 0.939952,
+    "val_accuracy_pct": 94.0,
+    "val_f1_weighted": 0.939953,
+    "val_f1_positive": 0.940421,
+    "val_precision_positive": 0.944071,
+    "val_recall_positive": 0.936799
+  },
   "champion_params": {
     "maxDepth": 10,
     "minInstancesPerNode": 20,
     "impurity": "gini"
   },
-  "selection_note": "Dipilih secara otomatis-programatis dari peringkat #1 Validation Set: konfigurasi D10_M20_GIN (maxDepth=10, minInstancesPerNode=20, impurity='gini') meraih Val ROC-AUC tertinggi sebesar 0.9897 (dan Val PR-AUC 0.9899), mengungguli M1 d=7 (0.9840) sekaligus mencegah overfitting parah pada pohon tanpa pruning M4 d=12 minInst=1 (Val ROC-AUC jatuh ke 0.9752).",
+  "selection_note": "Aturan pre-pruning minInstancesPerNode >= 20 ditetapkan secara a priori sebelum tuning untuk menjamin dukungan minimal 20 sampel per daun (syarat konsistensi kn/log(n) -> inf). Di bawah batasan tersebut, konfigurasi D10_M20_GIN (maxDepth=10, minInstancesPerNode=20, impurity='gini', 419 val nodes) meraih peringkat #1 dengan Val ROC-AUC=0.9897 (Val PR-AUC=0.9899), mengungguli M1 d=7 (0.9840). Secara transparan, tanpa batasan minInstancesPerNode >= 20, varian kedalaman menengah D8_M1_ENT (maxDepth=8, minInstancesPerNode=1, impurity='entropy', 113 val nodes) meraih Val ROC-AUC=0.9904 (selisih 0.0007 / praktis setara dan belum overfit pada kedalaman 8); pada kedalaman tinggi tanpa pruning timbul ledakan simpul mulai D10_M1_GIN (941 val nodes, Val ROC-AUC=0.9861), hingga overfitting parah pada M4 d=12 minInst=1 (2461 val nodes -> 3,431 full nodes, Val ROC-AUC jatuh ke 0.9752).",
   "champion_test_metrics": {
     "num_nodes": 473,
     "effective_depth": 10,

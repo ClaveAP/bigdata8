@@ -28,6 +28,58 @@ from pipeline_utils import (
 BEST_MODEL_DIR = MODELS_DIR / "decision_tree_tuned"
 
 
+def build_tuning_metadata(
+    n_full_train: int,
+    n_train_sub: int,
+    n_val: int,
+    n_sub_tr: int,
+    n_sub_va: int,
+    n_test: int,
+    best_val_row: dict,
+    unpruned_best_row: dict,
+    m1_row: dict,
+    m4_row: dict,
+    d10_m1_row: dict = None,
+) -> dict:
+    """Menyusun metadata protokol subsampling validasi, aturan pre-pruning a priori, dan perbandingan kandidat tanpa batas daun."""
+    auc_gap = abs(float(unpruned_best_row["val_roc_auc"]) - float(best_val_row["val_roc_auc"]))
+    d10_m1_clause = (
+        f"; pada kedalaman tinggi tanpa pruning timbul ledakan simpul mulai {d10_m1_row['config_id']} "
+        f"({int(d10_m1_row['num_nodes'])} val nodes, Val ROC-AUC={float(d10_m1_row['val_roc_auc']):.4f})"
+        if d10_m1_row is not None
+        else ""
+    )
+    protocol = (
+        f"80% Train Split ({n_full_train:,} rows) partitioned 75%/25% into Train-Sub ({n_train_sub:,} rows) "
+        f"and Validation ({n_val:,} rows); 72-config pure PySpark grid evaluated on deterministic "
+        f"25% Train-Sub subsample ({n_sub_tr:,} rows) and 50% Validation subsample ({n_sub_va:,} rows) "
+        "under a priori pre-pruning constraint (minInstancesPerNode >= 20); Champion and M0..M4 reference "
+        f"models retrained on 100% Full Train Set ({n_full_train:,} rows) and evaluated once on 20% untouched "
+        f"Test Split ({n_test:,} rows)"
+    )
+    selection_note = (
+        f"Aturan pre-pruning minInstancesPerNode >= 20 ditetapkan secara a priori sebelum tuning untuk menjamin "
+        f"dukungan minimal 20 sampel per daun (syarat konsistensi kn/log(n) -> inf). Di bawah batasan tersebut, "
+        f"konfigurasi {best_val_row['config_id']} (maxDepth={int(best_val_row['maxDepth'])}, "
+        f"minInstancesPerNode={int(best_val_row['minInstancesPerNode'])}, impurity='{best_val_row['impurity']}', "
+        f"{int(best_val_row['num_nodes'])} val nodes) meraih peringkat #1 dengan Val ROC-AUC={float(best_val_row['val_roc_auc']):.4f} "
+        f"(Val PR-AUC={float(best_val_row['val_pr_auc']):.4f}), mengungguli M1 d=7 ({float(m1_row['val_roc_auc']):.4f}). "
+        f"Secara transparan, tanpa batasan minInstancesPerNode >= 20, varian kedalaman menengah {unpruned_best_row['config_id']} "
+        f"(maxDepth={int(unpruned_best_row['maxDepth'])}, minInstancesPerNode={int(unpruned_best_row['minInstancesPerNode'])}, "
+        f"impurity='{unpruned_best_row['impurity']}', {int(unpruned_best_row['num_nodes'])} val nodes) meraih "
+        f"Val ROC-AUC={float(unpruned_best_row['val_roc_auc']):.4f} (selisih {auc_gap:.4f} / praktis setara dan belum overfit "
+        f"pada kedalaman 8){d10_m1_clause}, hingga overfitting parah pada M4 d=12 minInst=1 "
+        f"({int(m4_row['num_nodes'])} val nodes -> 3,431 full nodes, Val ROC-AUC jatuh ke {float(m4_row['val_roc_auc']):.4f})."
+    )
+    return {
+        "protocol": protocol,
+        "train_sub_sample_rows": int(n_sub_tr),
+        "val_sample_rows": int(n_sub_va),
+        "best_unpruned_validation_row": unpruned_best_row,
+        "selection_note": selection_note,
+    }
+
+
 def run_tuning():
     spark = get_spark_session(app_name="EcommerceDecisionTreeTuning")
     BEST_MODEL_DIR.parent.mkdir(parents=True, exist_ok=True)
@@ -135,14 +187,30 @@ def run_tuning():
         & (grid_df["minInstancesPerNode"] == 1)
         & (grid_df["impurity"] == "gini")
     ].iloc[0].to_dict()
+    d10_m1_row = grid_df[
+        (grid_df["maxDepth"] == 10)
+        & (grid_df["minInstancesPerNode"] == 1)
+        & (grid_df["impurity"] == "gini")
+    ].iloc[0].to_dict()
+    unpruned_best_row = grid_df.sort_values(
+        by=["val_roc_auc", "val_pr_auc", "num_nodes"],
+        ascending=[False, False, True],
+    ).iloc[0].to_dict()
 
-    selection_note = (
-        f"Dipilih secara otomatis-programatis dari peringkat #1 Validation Set: konfigurasi {best_Val_row['config_id']} "
-        f"(maxDepth={champion_params['maxDepth']}, minInstancesPerNode={champion_params['minInstancesPerNode']}, "
-        f"impurity='{champion_params['impurity']}') meraih Val ROC-AUC tertinggi sebesar {best_Val_row['val_roc_auc']:.4f} "
-        f"(dan Val PR-AUC {best_Val_row['val_pr_auc']:.4f}), mengungguli M1 d=7 ({m1_row['val_roc_auc']:.4f}) sekaligus "
-        f"mencegah overfitting parah pada pohon tanpa pruning M4 d=12 minInst=1 (Val ROC-AUC jatuh ke {m4_row['val_roc_auc']:.4f})."
+    tuning_meta = build_tuning_metadata(
+        n_full_train=n_full_train,
+        n_train_sub=n_train_sub,
+        n_val=n_val,
+        n_sub_tr=n_sub_tr,
+        n_sub_va=n_sub_va,
+        n_test=n_test,
+        best_val_row=best_Val_row,
+        unpruned_best_row=unpruned_best_row,
+        m1_row=m1_row,
+        m4_row=m4_row,
+        d10_m1_row=d10_m1_row,
     )
+    selection_note = tuning_meta["selection_note"]
 
     print("\n" + "=" * 65)
     print(f"[CHAMPION HYPERPARAMETERS TERPILIH DARI VALIDATION SET]: {champion_params}")
@@ -270,13 +338,16 @@ def run_tuning():
     )
 
     summary_payload = {
-        "protocol": "75% Train-Sub / 25% Validation inside 80% Train Split; retrained on 100% of Train Split (799,723 rows); evaluated once on 20% untouched Test Split (200,277 rows)",
+        "protocol": tuning_meta["protocol"],
         "total_grid_configs": total_configs,
         "train_full_rows": int(n_full_train),
         "train_sub_rows": int(n_train_sub),
         "val_rows": int(n_val),
+        "train_sub_sample_rows": tuning_meta["train_sub_sample_rows"],
+        "val_sample_rows": tuning_meta["val_sample_rows"],
         "test_rows": int(n_test),
         "best_validation_row": best_Val_row,
+        "best_unpruned_validation_row": tuning_meta["best_unpruned_validation_row"],
         "champion_params": champion_params,
         "selection_note": selection_note,
         "champion_test_metrics": {

@@ -8,7 +8,7 @@ Memenuhi Rule 4 AGENTS.md & Desain Eksperimen Jurnal JIKO (E8):
      Random Forest (Feature Bagging), Logistic Regression, dan SHAP Ensemble.
 2. Menghitung Permutation Importance (Delta ROC-AUC, 5 ulangan) pada sampel data uji untuk
    Decision Tree, Random Forest, dan Logistic Regression, termasuk Joint-Cluster Permutation.
-3. Menghitung nilai SHAP (TreeSHAP / Shapley Attribution) pada data uji dan menghasilkan visualisasi:
+3. Menghitung nilai Exact Interventional Coalition Shapley (2^4 = 16 koalisi untuk 4 fitur utama) & Marginal Shapley Attribution pada data uji dan menghasilkan visualisasi:
    - `reports/shap_summary_plot.png`
    - `reports/permutation_vs_gini_importance.png`
    - `reports/metrics/permutation_importance.csv`
