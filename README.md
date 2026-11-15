@@ -49,7 +49,7 @@ Seluruh model dilatih menggunakan protokol **Split-Before-Fit (`seed=42`)** dan 
 | 6 | **`DT_Shallow_d3` (`d=3, min=20, gini`)** | **1 pohon (7 node / 4 daun)** | `0,9651` (`[0,9629, 0,9665]`) | `0,9524` | `94,06%` | `0,9406` | 5,99 s | **Surrogate Rule Engine (`98,28%` Fidelitas)** |
 
 > **Mengapa `DT_Champion_d10` (bersama Surrogate `DT_Shallow_d3`) Menjadi Pilihan Terbaik?**  
-> 1. **Kinerja Setara Model Kompleks ($\Delta\text{ROC-AUC}$ Hanya `0,00024`)**: Selisih ROC-AUC antara `LR_Tuned` (`0,9906`) / `GBT_Tuned` (`0,9906`) dan `DT_Champion_d10` (`0,9904`) hanya **`0,024%`**, bahkan `DT_Champion_d10` mengungguli `RF_Tuned` (`0,9894`, `24.944` node) dengan waktu latih **`21,97x` lebih cepat** (`7,24s` vs `158,94s`) dan **`9,28x` lebih cepat** daripada `GBT_Tuned` (`67,12s`).  
+> 1. **Kinerja Setara Model Kompleks ($\Delta\text{ROC-AUC}$ Hanya `0,00024`)**: Selisih ROC-AUC antara `LR_Tuned` (`0,9906`) / `GBT_Tuned` (`0,9906`) dan `DT_Champion_d10` (`0,9904`) hanya **`0,024%`**, dan `DT_Champion_d10` setara secara praktis dengan `RF_Tuned` (Test `0,9894`, 5-Fold CV `0,9894` vs `0,9883`; `24.944` node) dengan waktu latih **`21,97x` lebih cepat** (`7,24s` vs `158,94s`) dan **`9,28x` lebih cepat** daripada `GBT_Tuned` (`67,12s`).  
 > 2. **100% *White-Box* & Aturan 4-Daun Berfidelitas `98,28%`**: Pohon dangkal `DT_Shallow_d3` yang hanya terdiri dari **4 daun aturan (`IF-THEN`)** menyamai **`98,28%` (`196.825 / 200.277`)** keputusan `DT_Champion_d10` dengan akurasi **`94,06%`**.
 
 ### 2. Temuan Explainable AI (SHAP, Permutation Importance, & Kolinearitas)

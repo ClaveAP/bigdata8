@@ -58,8 +58,10 @@ def build_tuning_metadata(
         f"Test Split ({n_test:,} rows)"
     )
     selection_note = (
-        f"Aturan pre-pruning minInstancesPerNode >= 20 ditetapkan secara a priori sebelum tuning untuk menjamin "
-        f"dukungan minimal 20 sampel per daun (syarat konsistensi kn/log(n) -> inf). Di bawah batasan tersebut, "
+        f"Aturan pre-pruning minInstancesPerNode >= 20 ditetapkan secara a priori sebelum tuning sebagai batas praktis "
+        f"agar setiap daun didukung minimal 20 sampel, sehingga estimasi probabilitas daun tidak bertumpu pada segelintir "
+        f"sampel dan pohon tidak menghafal derau (heuristik praktis, bukan pemenuhan syarat konsistensi asimtotik "
+        f"k_n/log(n) -> inf yang menuntut ukuran daun minimum tumbuh seiring n). Di bawah batasan tersebut, "
         f"konfigurasi {best_val_row['config_id']} (maxDepth={int(best_val_row['maxDepth'])}, "
         f"minInstancesPerNode={int(best_val_row['minInstancesPerNode'])}, impurity='{best_val_row['impurity']}', "
         f"{int(best_val_row['num_nodes'])} val nodes) meraih peringkat #1 dengan Val ROC-AUC={float(best_val_row['val_roc_auc']):.4f} "

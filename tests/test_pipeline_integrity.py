@@ -161,6 +161,9 @@ class TestPipelineIntegrity(unittest.TestCase):
             self.assertNotIn("4.951 pengguna", content, f"Angka FN lama 4.951 ditemukan di {doc_path.name}")
             self.assertNotIn("5 negara utama", content, f"Klaim salah '5 negara utama' ditemukan di {doc_path.name}")
             self.assertNotIn("treeshap", content.lower(), f"Klaim metode keliru 'TreeSHAP' ditemukan di {doc_path.name}")
+            self.assertNotIn("\\lfloor\\sqrt{57}\\rfloor = 7", content, f"Spark membulatkan sqrt(57) ke atas (=8), bukan 7: {doc_path.name}")
+            self.assertNotIn("58,30%", content, f"Peluang lama 58,30% (mtry=7) ditemukan di {doc_path.name}")
+            self.assertNotIn("mengalahkan `RF_Tuned`", content, f"Klaim DT mengalahkan RF bertentangan dengan 5-Fold CV: {doc_path.name}")
 
     def test_06_audit_remediation_invariants(self):
         """Pastikan seluruh 72 grid murni PySpark bebas hardcode/SklearnDT, Val ROC-AUC M2 tertinggi, node konsisten, & K-Means/CV/Bootstrap utuh."""
@@ -174,6 +177,8 @@ class TestPipelineIntegrity(unittest.TestCase):
         self.assertIn("100,086", champ_summary["protocol"])
         self.assertIn("D8_M1_ENT", champ_summary["selection_note"])
         self.assertIn("0.0007", champ_summary["selection_note"])
+        self.assertNotIn("syarat konsistensi kn/log(n) -> inf)", champ_summary["selection_note"], "Klaim keliru: minInst=20 tetap tidak memenuhi syarat kn/log(n) -> inf")
+        self.assertIn("heuristik praktis", champ_summary["selection_note"])
         self.assertEqual(champ_summary["best_unpruned_validation_row"]["config_id"], "D8_M1_ENT")
 
         shap_src = (BASE_DIR / "src" / "explainability_shap.py").read_text(encoding="utf-8")
