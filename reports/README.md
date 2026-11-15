@@ -18,7 +18,7 @@ Folder `reports/` menyimpan seluruh keluaran visual beresolusi publikasi (**300 
 | **8** | **`dt_pruning_depth_curve.png`** | `src/tune_tree.py` | Kurva validasi 72 konfigurasi Decision Tree (`maxDepth 2..12`) yang memperlihatkan plateau performa pada `maxDepth 7..10` dan degradasi *overfitting* serta ledakan `3.431` node pada `maxDepth=12, minInst=1`. |
 | **9** | **`pyspark_scaling_benchmark.png`** | `src/compare_models.py` | Benchmark skalabilitas waktu pelatihan PySpark terhadap ukuran baris (`20%–100%` Train Set / `160k`–`800k` baris) dan jumlah *executor threads* (`local[1]` `17,97s` $\rightarrow$ `local[2]` `8,29s`, speedup **`2,17x`**; `local[4]` `8,20s`, speedup **`2,19x`**). |
 | **10** | **`kmeans_persona_clusters.png`** | `src/clustering.py` | Evaluasi Silhouette Score & WSSSE K-Means 4 fitur psikologis (`K=2..5`, Silhouette terbaik `0,7370` pada `K=2`, `0,6309` pada `K=3`) beserta profil 3 Persona Pelanggan operasional (`K=3`). |
-| **11** | **`shap_summary_plot.png`** | `src/explainability_shap.py` | Distribusi nilai **TreeSHAP** dan Mean $|\text{SHAP}|$ yang membuktikan arah dorongan positif `impulse_buying_score` dan `stress_from_financial_decisions` serta kontribusi `overall_stress_level` dan `impulse_purchases_per_month` pada ensemble pohon. |
+| **11** | **`shap_summary_plot.png`** | `src/explainability_shap.py` | Distribusi nilai **Exact Coalition Shapley (SHAP)** dan Mean $|\text{SHAP}|$ yang membuktikan arah dorongan positif `impulse_buying_score` dan `stress_from_financial_decisions` serta kontribusi `overall_stress_level` dan `impulse_purchases_per_month` pada ensemble pohon. |
 | **12** | **`permutation_vs_gini_importance.png`** | `src/explainability_shap.py` | Komparasi 4 metode atribusi fitur (*Single-Tree Gini*, *Ensemble RF Gini*, *Standardized LR Weight*, dan *Permutation AUC Drop*) yang membongkar fenomena *Greedy Collinear Feature Masking*. |
 
 ---
@@ -36,7 +36,7 @@ Seluruh angka evaluasi disimpan secara otomatis dalam format JSON dan CSV agar 1
 - **`sensitivity_and_negative_control.csv`**: Uji sensitivitas threshold (`35%`, `40%`, `45%`) dan uji kontrol negatif `checkout_abandonments_per_month >= 5` ($\text{AUC} \approx 0,50$).
 - **`scaling_rows.csv` & `scaling_cores.csv`**: Hasil benchmark skalabilitas baris dan paralelisme CPU PySpark.
 - **`kmeans_segmentation.json`**: Metrik Silhouette/WSSSE `K=2..5` dan profil segmen persona pelanggan.
-- **`explainability_shap_permutation.json` & `permutation_importance.csv`**: Tabel atribusi lintas-metode, TreeSHAP, dan *joint cluster permutation*.
+- **`explainability_shap_permutation.json` & `permutation_importance.csv`**: Tabel atribusi lintas-metode, Exact Coalition Shapley (SHAP), dan *joint cluster permutation*.
 
 ---
 

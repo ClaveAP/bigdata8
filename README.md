@@ -29,7 +29,7 @@ Untuk presentasi ke dosen atau uji coba langsung tanpa instalasi rumit, reposito
   8. `dt_pruning_depth_curve.png` — Kurva validasi 72 konfigurasi (`maxDepth 2..12`) & bukti *overfitting* pada pohon tanpa pruning (`3.431` node).
   9. `pyspark_scaling_benchmark.png` — Benchmark skalabilitas baris (`20%–100%` Train Set / `160k–800k` baris) & CPU core (`2,17x` speedup di `local[2]`, saturasi `2,19x` di `local[4]`).
   10. `kmeans_persona_clusters.png` — Segmentasi K-Means 4 fitur psikologis (`K=2..5`, Silhouette terbaik `0,7370` pada `K=2`, `0,6309` pada `K=3`) & 3 Persona Pelanggan.
-  11. `shap_summary_plot.png` — Distribusi **TreeSHAP** pada data uji.
+  11. `shap_summary_plot.png` — Distribusi **Exact Coalition Shapley (SHAP)** pada data uji.
   12. `permutation_vs_gini_importance.png` — Komparasi *Single-Tree Gini*, *Ensemble RF Gini*, *LR Standardized Weight*, dan *Permutation Importance* untuk membongkar *Greedy Collinear Feature Masking*.
 
 ---
@@ -37,7 +37,7 @@ Untuk presentasi ke dosen atau uji coba langsung tanpa instalasi rumit, reposito
 ## 🚀 Ringkasan Performa Model & Temuan Kunci
 
 ### 1. Benchmark Komparatif 6 Model (PySpark MLlib pada `N = 200.277` Test Set)
-Seluruh model dilatih menggunakan protokol **Split-Before-Fit (`seed=42`)** dan pemilihan hyperparameter pada **Validation Split (`199.949` baris)** sebelum diuji satu kali pada **Test Set (`200.277` baris)**:
+Seluruh model dilatih menggunakan protokol **Split-Before-Fit (`seed=42`)** dan pemilihan hyperparameter berbatasan *a priori* (`minInstancesPerNode >= 20`) pada **Validation Split (`75%/25%` internal; sub-sampel grid `150.269`/`100.086` baris)** sebelum diuji satu kali pada **Test Set (`200.277` baris)**:
 
 | No | Model Algoritma | Kompleksitas Struktur | Test ROC-AUC (95% CI) | Test PR-AUC | Test Akurasi | F1-Weighted | Waktu Latih | Peran Evaluasi |
 | :-: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
@@ -54,7 +54,7 @@ Seluruh model dilatih menggunakan protokol **Split-Before-Fit (`seed=42`)** dan 
 
 ### 2. Temuan Explainable AI (SHAP, Permutation Importance, & Kolinearitas)
 - Pada pohon tunggal `DT_Champion_d10`, penurunan impuritas Gini terkonsentrasi pada `impulse_buying_score` (**`95,00%`**) dan `stress_from_financial_decisions` (**`4,72%`**).
-- Melalui audit **TreeSHAP**, **Ensemble RF Gini**, dan **Joint Cluster Permutation** (`src/explainability_shap.py`), dibuktikan bahwa `overall_stress_level` ($r=+0,8635$, RF Gini `17,08%`) dan `impulse_purchases_per_month` ($r=+0,8501$, RF Gini `14,04%`) juga membawa sinyal kuat namun tertutup oleh efek **Greedy Collinear Feature Masking** pada pohon tunggal. Ketika ke-4 fitur psikologis ini diacak bersama, ROC-AUC seluruh model jatuh **`~0,48` poin menuju `~0,50` (acak)**.
+- Melalui audit **Exact Coalition Shapley (SHAP)**, **Ensemble RF Gini**, dan **Joint Cluster Permutation** (`src/explainability_shap.py`), dibuktikan bahwa `overall_stress_level` ($r=+0,8635$, RF Gini `17,08%`) dan `impulse_purchases_per_month` ($r=+0,8501$, RF Gini `14,04%`) juga membawa sinyal kuat namun tertutup oleh efek **Greedy Collinear Feature Masking** pada pohon tunggal. Ketika ke-4 fitur psikologis ini diacak bersama, ROC-AUC seluruh model jatuh **`~0,48` poin menuju `~0,50` (acak)**.
 
 ---
 

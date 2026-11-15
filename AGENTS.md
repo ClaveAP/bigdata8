@@ -69,7 +69,7 @@ Saat menyusun, mencari referensi, atau meninjau draf jurnal ilmiah pada reposito
 - `src/tune_tree.py`: Skrip 72-konfigurasi grid tuning pada Validation Split & ablasi terkontrol (`M0..M4`).
 - `src/extract_rules_insights.py`: Penerjemahan aturan IF-THEN ke nama kolom asli & analisis *surrogate fidelity*.
 - `src/clustering.py`: Skrip PySpark K-Means clustering (`K=2..5`) untuk segmentasi persona pengguna.
-- `src/explainability_shap.py`: Analisis TreeSHAP, Permutation Importance lintas model, & *joint collinear cluster permutation*.
+- `src/explainability_shap.py`: Analisis Exact Interventional Coalition Shapley (SHAP 4D eksak + Marginal), Permutation Importance lintas model, & *joint collinear cluster permutation*.
 - `src/compare_models.py`: Benchmark komparatif 6 model (`LR`, `GBT`, `DT_d10`, `RF`, `DT_d7`, `DT_d3`), uji McNemar, Bootstrap CI, sensitivitas threshold, kontrol negatif, & skalabilitas komputasi PySpark.
 - `src/export_looker_data.py`: Generator 5 berkas CSV Data Mart Looker Studio.
 - `src/export_report_plots.py`: Generator grafik laporan 300 DPI & dashboard HTML mandiri.
