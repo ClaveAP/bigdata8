@@ -164,6 +164,7 @@ class TestPipelineIntegrity(unittest.TestCase):
             self.assertNotIn("\\lfloor\\sqrt{57}\\rfloor = 7", content, f"Spark membulatkan sqrt(57) ke atas (=8), bukan 7: {doc_path.name}")
             self.assertNotIn("58,30%", content, f"Peluang lama 58,30% (mtry=7) ditemukan di {doc_path.name}")
             self.assertNotIn("mengalahkan `RF_Tuned`", content, f"Klaim DT mengalahkan RF bertentangan dengan 5-Fold CV: {doc_path.name}")
+            self.assertNotIn("15,39x", content, f"Speedup I/O 15,39x tidak tersimpan di metrik mana pun (pakai 11,96x): {doc_path.name}")
 
     def test_06_audit_remediation_invariants(self):
         """Pastikan seluruh 72 grid murni PySpark bebas hardcode/SklearnDT, Val ROC-AUC M2 tertinggi, node konsisten, & K-Means/CV/Bootstrap utuh."""
@@ -220,6 +221,26 @@ class TestPipelineIntegrity(unittest.TestCase):
         for m_key, m_obj in mc_data["models"].items():
             self.assertIsNotNone(m_obj["cv5_metrics"]["cv5_roc_auc_mean"], f"CV5 kosong pada {m_key}")
 
+
+    def test_07_dashboard_html_synced_with_metrics(self):
+        """Dashboard HTML 3 tab harus dibangun ulang dari reports/metrics tanpa selisih."""
+        import importlib
+        import sys
+
+        sys.path.insert(0, str(BASE_DIR / "src"))
+        builder = importlib.import_module("build_dashboard_html")
+        html_path = BASE_DIR / "reports" / "dashboard_visualisasi.html"
+        committed = html_path.read_text(encoding="utf-8")
+        for tab_id in ("p-data", "p-model", "p-xai"):
+            self.assertIn(f'id="{tab_id}"', committed, f"Tab {tab_id} tidak ditemukan di dashboard")
+        self.assertNotIn("cdn.jsdelivr", committed, "Dashboard harus bisa dibuka offline (tanpa CDN)")
+
+        data = builder.collect_data()
+        expected = builder.TEMPLATE.replace("__DATA__", json.dumps(data, ensure_ascii=False, separators=(",", ":")))
+        self.assertEqual(committed, expected, "dashboard_visualisasi.html tidak sinkron; jalankan python src/build_dashboard_html.py")
+        models = {m["key"]: m for m in data["models"]}
+        self.assertAlmostEqual(models["DT_Champion_d10"]["roc"], 0.990413, places=6)
+        self.assertEqual(data["dataset"]["io_speedup"], 11.96)
 
 if __name__ == "__main__":
     unittest.main()

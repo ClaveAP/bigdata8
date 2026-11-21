@@ -77,7 +77,7 @@ Seluruh angka di bawah ini diambil langsung dari `reports/metrics/*.json` (Singl
 
 ### 4.1 Karakteristik Dataset, Pra-pemrosesan Parquet, & Pencegahan Kebocoran (`E0`)
 - **Populasi**: `1.000.000` baris $\times$ `60` kolom mentah (`0` *missing values*).
-- **Efisiensi Penyimpanan Kolumnar**: Konversi CSV (`233,60 MB`) ke Apache Parquet ber-kompresi Snappy (`37,96 MB`) memangkas ukuran penyimpanan sebesar **`83,75%`** dan mempercepat waktu baca + agregasi penuh dari **`10,847 detik` menjadi `0,705 detik` (`15,39x` *speedup*)**.
+- **Efisiensi Penyimpanan Kolumnar**: Konversi CSV (`233,60 MB`) ke Apache Parquet ber-kompresi Snappy (`37,96 MB`) memangkas ukuran penyimpanan sebesar **`83,75%`** dan mempercepat waktu baca + agregasi penuh dari **`29,871 detik` menjadi `2,498 detik` (`11,96x` *speedup*, median 3 kali)**.
 - **Ruang Fitur (`57` Prediktor Independen)**: `43` fitur numerik (termasuk `days_since_last_purchase` dari `last_purchase_date`) + `14` fitur kategorikal (`10` negara, `4` gender, `3` perangkat, `6` metode bayar, `8` kategori produk, dll.).
   - Vektor `features` (Model Pohon): `57` dimensi (`StringIndexer`).
   - Vektor `features_lr` (Regresi Logistik): `132` dimensi (`OneHotEncoder` + `StandardScaler(withMean=False, withStd=True)`).

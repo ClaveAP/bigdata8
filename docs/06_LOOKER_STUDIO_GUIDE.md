@@ -53,3 +53,14 @@ Seluruh berkas CSV dihasilkan secara deterministik oleh [`src/export_looker_data
 - **Sumber Data**: `looker_model_feature_importance.csv`
 - **Komponen Visual**:
   - **Horizontal Bar Chart**: Dimensi `feature_name`, Metrik `percentage_contribution` (`impulse_buying_score` dan `stress_from_financial_decisions` mendominasi $>99\%$ *Gini importance* pada pohon keputusan tunggal).
+
+---
+
+## ✅ Hasil Akhir Dashboard
+
+Ekspor PDF dashboard yang sudah jadi disimpan di [`reports/dashboard/BigData_Dashboard.pdf`](../reports/dashboard/BigData_Dashboard.pdf). Implementasi akhirnya sedikit berbeda dari blueprint di atas:
+- **Bagian 4** memakai satu sumbu Y saja: `avg_cart_abandonment_rate` (agregasi Rata-rata) terhadap `stress_from_financial_decisions` yang diurutkan menaik.
+- **Bagian 5** berupa grafik batang horizontal *native* dari Google Sheet hasil impor `looker_model_feature_importance.csv` (metrik `percentage_contribution`), bukan gambar statis, sehingga angkanya selalu mengikuti data mart terbaru.
+- Semua metrik pada CSV yang sudah teragregasi memakai agregasi **Rata-rata**, bukan Jumlah.
+
+**Catatan impor CSV ke Google Sheets.** Jika lokal spreadsheet Indonesia, angka berdesimal titik bisa salah terbaca. Contohnya `16.09` menjadi tanggal 16 September dan `0.950036` menjadi `950036`. Setel lokal spreadsheet ke *Amerika Serikat* (File → Setelan) sebelum mengimpor CSV, lalu pastikan tipe kolom angka di sumber data Looker adalah **Numerik → Angka**, bukan Teks.

@@ -67,7 +67,7 @@ Skrip `src/export_looker_data.py` menghasilkan 5 berkas CSV Data Mart terverifik
 4. **`looker_demografi.csv`** (`120` baris): Dimensi silang **10 negara**, **3 perangkat**, dan **4 kategori gender**.
 5. **`looker_metode_bayar.csv`** (`48` baris): Dimensi silang **6 metode bayar** dan **8 kategori produk**.
 
-Panduan langkah demi langkah tersedia di [`docs/06_LOOKER_STUDIO_GUIDE.md`](docs/06_LOOKER_STUDIO_GUIDE.md), dan dashboard mandiri siap pakai dapat dibuka langsung di [`reports/dashboard_visualisasi.html`](reports/dashboard_visualisasi.html).
+Panduan langkah demi langkah tersedia di [`docs/06_LOOKER_STUDIO_GUIDE.md`](docs/06_LOOKER_STUDIO_GUIDE.md), dan dashboard mandiri siap pakai dapat dibuka langsung di [`reports/dashboard_visualisasi.html`](reports/dashboard_visualisasi.html). Dashboard HTML ini terdiri atas 3 tab: **Data & Pipeline** (konteks data sintetis), **Evaluasi Model** (kurva ROC/PR, trade-off waktu latih, CV vs uji, McNemar/bootstrap, heatmap 72 konfigurasi tuning, ablasi, uji validitas, skalabilitas), dan **Interpretabilitas & Pengembangan** (pohon surrogate, simulator aturan, atribusi fitur, permutasi bersama, saran penelitian lanjutan). File dibangun ulang dari `reports/metrics/` oleh `python src/build_dashboard_html.py` dan bisa dibuka offline. Ekspor PDF dashboard Google Looker Studio versi final tersedia di [`reports/dashboard/BigData_Dashboard.pdf`](reports/dashboard/BigData_Dashboard.pdf).
 
 ---
 
@@ -96,7 +96,7 @@ python src/export_looker_data.py
 python src/export_report_plots.py
 python src/generate_showcase_notebook.py
 
-# 4. Jalankan pengujian otomatis integritas pipeline (6 test suites)
+# 4. Jalankan pengujian otomatis integritas pipeline (7 test suites)
 python -m unittest discover -s tests -v
 ```
 
@@ -107,7 +107,7 @@ python -m unittest discover -s tests -v
   - 📘 **[`PANDUAN_LENGKAP_PROYEK_DAN_SIDANG.md`](docs/PANDUAN_LENGKAP_PROYEK_DAN_SIDANG.md)**: Panduan utama presentasi, bedah arsitektur, dan simulasi tanya-jawab sidang dosen.
   - [`00_PROJECT_CHARTER.md`](docs/00_PROJECT_CHARTER.md): Kontrak proyek, hipotesis bisnis, & ruang lingkup.
   - [`01_DATA_DICTIONARY.md`](docs/01_DATA_DICTIONARY.md): Kamus lengkap 60 kolom mentah + 2 kolom turunan (`62` kolom total).
-  - [`02_DATA_PIPELINE_LOG.md`](docs/02_DATA_PIPELINE_LOG.md): Log teknis Snappy Parquet (`83,75%` kompresi, `15,39x` speedup I/O) & protokol *Split-Before-Fit*.
+  - [`02_DATA_PIPELINE_LOG.md`](docs/02_DATA_PIPELINE_LOG.md): Log teknis Snappy Parquet (`83,75%` kompresi, `11,96x` speedup I/O) & protokol *Split-Before-Fit*.
   - [`03_MODEL_EXPERIMENTS.md`](docs/03_MODEL_EXPERIMENTS.md): Hasil 72-config grid tuning, ablasi `M0..M4`, benchmark 6 model, uji McNemar, SHAP, & K-Means.
   - [`04_BUSINESS_RECOMMENDATIONS.md`](docs/04_BUSINESS_RECOMMENDATIONS.md): Aturan IF-THEN pohon asli (`<= 4,5`), 3 Tier Operasional, & matriks intervensi bisnis.
   - [`05_TIMELINE_TRACKER.md`](docs/05_TIMELINE_TRACKER.md): Pelacak progres 18 aktivitas proyek.
@@ -117,7 +117,7 @@ python -m unittest discover -s tests -v
   - [`09_VERIFIED_REFERENCES_JIKO.md`](docs/09_VERIFIED_REFERENCES_JIKO.md): Bedah *full-text* & sitasi IEEE 18 referensi jurnal Sinta/Scopus (`2022–2026`).
   - [`10_MANUSCRIPT_DRAFT_JIKO.md`](docs/10_MANUSCRIPT_DRAFT_JIKO.md): Naskah lengkap publikasi jurnal ilmiah JIKO Sinta 4.
 - `src/`: Modul produksi PySpark modular.
-- `reports/`: 12 grafik PNG (300 DPI), `reports/metrics/*.json|*.csv`, `reports/looker_data/*.csv`, `decision_tree_rules.txt`, & `dashboard_visualisasi.html`.
+- `reports/`: 12 grafik PNG (300 DPI), `reports/metrics/*.json|*.csv`, `reports/looker_data/*.csv`, `decision_tree_rules.txt`, `dashboard_visualisasi.html`, & `dashboard/BigData_Dashboard.pdf` (ekspor dashboard Looker Studio).
 - `tests/`: Suite pengujian otomatis `test_pipeline_integrity.py`.
 
 ---

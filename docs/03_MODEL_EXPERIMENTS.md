@@ -161,4 +161,4 @@ Skrip: [`src/compare_models.py`](file:///Users/admin/code/code-kuliah/bigdata-pj
 - **`local[1]` (1 Thread)**: `17,966 detik` (Baseline `1,00x`, Throughput `44.513 baris/detik`).
 - **`local[2]` (2 Thread)**: `8,293 detik` (**Speedup `2,17x`**, Throughput `96.433 baris/detik`).
 - **`local[4]` (4 Thread / 2 Physical Cores HyperThreading)**: `8,198 detik` (**Speedup `2,19x`**, Throughput `97.551 baris/detik` — saturasi natural pada perangkat keras 2-core fisik / 4-thread logis).
-- **Benchmark I/O Storage Berulang (`compare_models.py`)**: Pembacaan + agregasi median CSV (`29,871s`) vs Snappy Parquet (`2,498s`) mencatat percepatan **`11,96x`** (melengkapi pemindaian awal `15,39x` pada prapemrosesan dengan penghematan disk **`83,75%`**).
+- **Benchmark I/O Storage Berulang (`compare_models.py`)**: Pembacaan + agregasi median CSV (`29,871s`) vs Snappy Parquet (`2,498s`) mencatat percepatan **`11,96x`** dengan penghematan disk **`83,75%`**; angka ini satu-satunya hasil benchmark I/O yang tersimpan di `reports/metrics/model_comparison_summary.json`.

@@ -47,3 +47,5 @@ spark-warehouse/
 # Documents & raw college assignments
 *.docx
 *.pdf
+# Pengecualian: ekspor PDF dashboard Looker Studio ikut di-commit
+!reports/dashboard/*.pdf

@@ -1,6 +1,6 @@
 # Katalog Artefak, Grafik Resolusi Tinggi, & Metrik Evaluasi (`reports/README.md`)
 
-Folder `reports/` menyimpan seluruh keluaran visual beresolusi publikasi (**300 DPI**), artefak metrik JSON/CSV terverifikasi (`reports/metrics/`), ekstraksi aturan bisnis pohon keputusan (`decision_tree_rules.txt`), data mart Business Intelligence (`reports/looker_data/`), serta dashboard eksekutif interaktif (`dashboard_visualisasi.html`) dari analisis pembatalan keranjang (*cart/checkout abandonment*) berbasis **1.000.000 baris data pengguna e-commerce**.
+Folder `reports/` menyimpan seluruh keluaran visual beresolusi publikasi (**300 DPI**), artefak metrik JSON/CSV terverifikasi (`reports/metrics/`), ekstraksi aturan bisnis pohon keputusan (`decision_tree_rules.txt`), data mart Business Intelligence (`reports/looker_data/`), serta dashboard interaktif 3 tab (`dashboard_visualisasi.html`: Data & Pipeline, Evaluasi Model, Interpretabilitas & Pengembangan; dibangun oleh `src/build_dashboard_html.py`, bisa dibuka offline) dari analisis pembatalan keranjang (*cart/checkout abandonment*) berbasis **1.000.000 baris data pengguna e-commerce**.
 
 ---
 
@@ -26,7 +26,7 @@ Folder `reports/` menyimpan seluruh keluaran visual beresolusi publikasi (**300 
 ## 📁 2. Direktori Metrik Terstruktur (`reports/metrics/`)
 
 Seluruh angka evaluasi disimpan secara otomatis dalam format JSON dan CSV agar 100% dapat diaudit dan direproduksi:
-- **`preprocessing_summary.json`**: Statistik ukuran CSV (`233,60 MB`) vs Snappy Parquet (`37,96 MB`, penghematan `83,75%`), benchmark I/O (`15,39x` pada pemindaian prapemrosesan awal; `11,96x` pada median benchmark `compare_models.py`), dan distribusi target biner.
+- **`preprocessing_summary.json`**: Statistik ukuran CSV (`233,60 MB`) vs Snappy Parquet (`37,96 MB`, penghematan `83,75%`), sedangkan benchmark I/O (`11,96x`, median 3 kali) tersimpan di `model_comparison_summary.json` hasil `compare_models.py`, dan distribusi target biner.
 - **`eda_summary.json` & `schema_and_correlation_audit.csv`**: Audit skema 60 kolom mentah, korelasi Pearson terhadap target, dan statistik per kuartil impulsif.
 - **`feature_metadata.json`**: Daftar `57` fitur prediktor (`43` numerik + `14` kategorikal), dimensi `features_lr` (`132`), dan jumlah baris split (`799.723` Train / `200.277` Test).
 - **`baseline_dt_metrics.json`**: Metrik model baseline `maxDepth=5` (`11` node, Test ROC-AUC `0,9655`, PR-AUC `0,9534`, Akurasi `94,09%`, Waktu Latih `21,70s`).
@@ -48,6 +48,9 @@ Berisi 5 file CSV agregasi terstruktur untuk **Google Looker Studio**, **Tableau
 3. **`looker_metode_bayar.csv`** (`48` baris): Analisis silang `preferred_payment_method` $\times$ `income_bracket`.
 4. **`looker_stres_impulse.csv`** (`11` baris): Kurva `stress_from_financial_decisions` (skala `0–10`) terhadap skor impulsif dan laju pembatalan.
 5. **`looker_model_feature_importance.csv`** (`10` baris): Bobot kepentingan fitur Champion Decision Tree dalam skala persentase.
+
+### Ekspor Dashboard Looker Studio (`reports/dashboard/`)
+- **`BigData_Dashboard.pdf`**: Ekspor PDF (1 halaman) dashboard Google Looker Studio *"Analisis Cart Abandonment E-Commerce"* yang dibangun dari 5 data mart di atas. Isinya: 4 scorecard KPI (`1.000.000` user, cart abandonment `40,21%`, pengeluaran bulanan `$2.498,78`, AOV `$255,03`), sebaran perangkat dan negara, kurva stres finansial vs cart abandonment (`4,71%` $\rightarrow$ `77,03%`), metode pembayaran, serta Top 10 feature importance Decision Tree (`impulse_buying_score` `95,00%`, `stress_from_financial_decisions` `4,72%`).
 
 ---
 

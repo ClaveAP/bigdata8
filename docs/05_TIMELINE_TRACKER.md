@@ -24,7 +24,7 @@
 | **1** | Penyusunan Desain Teknis & Alur Data (Worksheet 4) | Perencanaan & Desain | Tinggi | **Selesai** | W6 | Fondasi arsitektur proyek & Project Charter |
 | **2** | Setup Lingkungan & Ingestion Dataset E-Commerce | Infrastruktur & Ingestion | Tinggi | **Selesai** | W6 - W7 | Dataset `1.000.000` baris (`233,60 MB`) & PySpark 4.3.0 aktif |
 | **3** | Eksplorasi Data Awal (EDA) Sesi vs Abandonment | Exploratory Data Analysis | Sedang | **Selesai** | W6 - W7 | Audit korelasi 60 kolom (`schema_and_correlation_audit.csv`) & plot 300 DPI |
-| **4** | Pembersihan Data Skala Besar & Konversi Parquet | Data Preprocessing | Tinggi | **Selesai** | W7 - W8 | `62` kolom terproses di Snappy Parquet (`37,96 MB`, hemat `83,75%`, I/O `15,39x` lebih cepat) |
+| **4** | Pembersihan Data Skala Besar & Konversi Parquet | Data Preprocessing | Tinggi | **Selesai** | W7 - W8 | `62` kolom terproses di Snappy Parquet (`37,96 MB`, hemat `83,75%`, I/O `11,96x` lebih cepat) |
 | **5** | Feature Engineering: Label Risiko Abandonment | Feature Engineering | Tinggi | **Selesai** | W8 | Target biner `is_high_abandonment` (`cart_abandonment_rate >= 40%`: `50,55%` vs `49,45%`) |
 | **6** | Encoding Variabel Kategorikal & Vektorisasi Dual | Feature Engineering | Sedang | **Selesai** | W8 | Split-Before-Fit (`seed=42`): `57` fitur (`features` pohon) & `132` dimensi (`features_lr` OHE+Scaled) |
 | **7** | Pembagian Dataset (Train-Validation-Test Split) | Model Preparation | Sedang | **Selesai** | W8 - W9 | `799.723` Train (`599.774` Train-Sub + `199.949` Val) vs `200.277` Test |
